@@ -9,9 +9,28 @@ class Usuario:
         self._email = email
         self._telefone = telefone
 
+    def criarUsuario(self, id, nome, cpf, email, telefone):
+        u = Usuario(id, nome, cpf, email, telefone)
+        self.lista.append(u)
+        return u
+
+    def listarUsuario(self):
+        for x in self.lista:
+            print(x.id)
+            print(x.nome)
+            print(x.cpf)
+            print(x.email)
+            print(x.telefone)
+        #print('id:', self._id)
+        #print('nome:', self._nome)
+        #print('cpf:', self._cpf)
+        #print('email:', self._email)
+        #print('telefone:', self._telefone)
+
     @property
     def id(self):
         return self._id
+
     @id.setter
     def id(self, id):
         self._id = id
@@ -47,21 +66,3 @@ class Usuario:
     @telefone.setter
     def telefone(self, telefone):
         self._telefone = telefone
-
-    def criar(self, id, nome, cpf, email, telefone):
-        u = Usuario(id, nome, cpf, email, telefone)
-        self.lista.append(u)
-        return u
-
-    def listar(self):
-        for x in self.lista:
-            print(x.id)
-            print(x.nome)
-            print(x.cpf)
-            print(x.email)
-            print(x.telefone)
-        #print('id:', self._id)
-        #print('nome:', self._nome)
-        #print('cpf:', self._cpf)
-        #print('email:', self._email)
-        #print('telefone:', self._telefone)
