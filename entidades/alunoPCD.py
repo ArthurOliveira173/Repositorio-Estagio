@@ -13,6 +13,7 @@ class AlunoPCD(Usuario):
         self._deficiencia = deficiencia
         self._data_nascimento = data_nascimento
 
+    #Getters & Setters
     @property
     def matricula(self):
         return self._matricula
@@ -60,3 +61,11 @@ class AlunoPCD(Usuario):
     @data_nascimento.setter
     def data_nascimento(self, data_nascimento):
         self._data_nascimento = data_nascimento
+
+    def criarAlunoPCD(id, nome, cpf, email, telefone, matricula, curso,
+                      disciplinas, periodo, deficiencia, data_nascimento):
+
+        aluno = AlunoPCD(id, nome, cpf, email, telefone, matricula, curso,
+                      disciplinas, periodo, deficiencia, data_nascimento)
+
+        return aluno
