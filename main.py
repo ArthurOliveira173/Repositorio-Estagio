@@ -1,6 +1,12 @@
-from entidades.usuario import Usuario
-from dao.usuarioDao import UsuarioDao
+from entidades.alunoPCD import AlunoPCD
+from entidades.interprete import Interprete
+aluno = AlunoPCD(1, "nome", "cpf", "email", "telefone", "matricula", "curso",
+                 "disciplinas", "periodo", "deficiencia", "data_nascimento")
 
-u = Usuario.criar(Usuario , 1, "guilherme", "97927391726", "gui@gmail.com", "992876767")
-u.listar()
+print(f'{aluno} wrwerv wer {aluno.id}')
 
+interprete = Interprete(2, "n1", "cpf", "email", "telefone")
+
+print(interprete.nome)
+interprete.alteraNome("Correto....")
+print(interprete.nome)
