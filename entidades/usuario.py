@@ -15,12 +15,12 @@ class Usuario:
         return u
 
     def listarUsuario(self):
-        for x in self.lista:
-            print(x.id)
-            print(x.nome)
-            print(x.cpf)
-            print(x.email)
-            print(x.telefone)
+        for u in self.lista:
+            print("id:", u.id)
+            print("nome:", u.nome)
+            print("cpf:", u.cpf)
+            print("email:", u.email)
+            print("telefone:", u.telefone)
         #print('id:', self._id)
         #print('nome:', self._nome)
         #print('cpf:', self._cpf)
