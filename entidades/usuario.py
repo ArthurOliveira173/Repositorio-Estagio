@@ -27,6 +27,7 @@ class Usuario:
         #print('email:', self._email)
         #print('telefone:', self._telefone)
 
+    #Getters & Setters
     @property
     def id(self):
         return self._id

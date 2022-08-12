@@ -3,13 +3,14 @@ from usuario import Usuario
 class AlunoPCD(Usuario):
     def __init__(self, id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento):
         Usuario.__init__(self, id, nome, cpf, email, telefone)
-        self.matricula = matricula
-        self.curso = curso
-        self.disciplinas = disciplinas
-        self.periodo = periodo
-        self.deficiencia = deficiencia
-        self.data_nascimento = data_nascimento
+        self._matricula = matricula
+        self._curso = curso
+        self._disciplinas = disciplinas
+        self._periodo = periodo
+        self._deficiencia = deficiencia
+        self._data_nascimento = data_nascimento
 
+    #Getters & Setters
     @property
     def matricula(self):
         return self._matricula
@@ -58,7 +59,7 @@ class AlunoPCD(Usuario):
     def data_nascimento(self, data_nascimento):
         self._data_nascimento = data_nascimento
 
-    def criarAlunoPCD(self, id, nome, cpf, email, telefone, matricula, curso,
+    def criarAlunoPCD(id, nome, cpf, email, telefone, matricula, curso,
                       disciplinas, periodo, deficiencia, data_nascimento):
 
         aluno = AlunoPCD(id, nome, cpf, email, telefone, matricula, curso,
@@ -66,7 +67,7 @@ class AlunoPCD(Usuario):
 
         return aluno
 
-a = AlunoPCD.criarAlunoPCD(AlunoPCD, 2, "sasd", "sasd", "sasd", "sasd", "sasd", "sasd", "sasd", "sasd", "sasd", "sasd")
+a = AlunoPCD.criarAlunoPCD(2, "bid", "sasd", "sasd", "sasd", "sasd", "sasd", "sasd", "sasd", "aaaa", "sasd")
 print(a.deficiencia)
 print(a.id)
 print(a.nome)
