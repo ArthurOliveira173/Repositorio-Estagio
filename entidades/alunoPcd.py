@@ -1,7 +1,7 @@
 from entidades.usuario import Usuario
 
 
-class AlunoPCD(Usuario):
+class AlunoPcd(Usuario):
 
     def __init__(self, id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia,
                  data_nascimento):
@@ -62,10 +62,10 @@ class AlunoPCD(Usuario):
     def data_nascimento(self, data_nascimento):
         self._data_nascimento = data_nascimento
 
-    def criarAlunoPCD(id, nome, cpf, email, telefone, matricula, curso,
+    def criarAlunoPcd(id, nome, cpf, email, telefone, matricula, curso,
                       disciplinas, periodo, deficiencia, data_nascimento):
 
-        aluno = AlunoPCD(id, nome, cpf, email, telefone, matricula, curso,
+        aluno = AlunoPcd(id, nome, cpf, email, telefone, matricula, curso,
                       disciplinas, periodo, deficiencia, data_nascimento)
 
         return aluno
