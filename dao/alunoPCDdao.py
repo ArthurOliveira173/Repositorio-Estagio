@@ -8,29 +8,30 @@ class AlunoDao:
     def __init__(self):
         pass
 
-    @property
-    def conexao(self):
-        return self._conexao
-
-    @conexao.setter
-    def conexao(self, conexao):
-        self._conexao = conexao
-
-    def AdicionarAlunoPcd(self):
-
+    def AdicionarAlunoPcd(self, vetorAtributos):
         cursor = self._conexao.cursor()
-
-        sql = "INSERT INTO aluno_pcd (alu_id, alu_nome, alu_cpf, alu_sexo, alu_email, alu_telefone, alu_matricula, alu_deficiencias, alu_Periodo_Academico, alu_data_nascimento) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (4, "John", "asd", "M", "asd", "asd", "asd", "asd", "asd", "2000-08-08")
+        sql = "INSERT INTO aluno_pcd (alu_id, alu_nome, alu_cpf, alu_email, alu_telefone, alu_matricula, alu_deficiencias, alu_Periodo_Academico, alu_data_nascimento) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = vetorAtributos
         cursor.execute(sql, val)
 
         self._conexao.commit()
 
+    def listarTudoAlunoPcd(self):
+        cursor = self._conexao.cursor()
+        cursor.execute("SELECT * FROM aluno_pcd")
+        resultSet = cursor.fetchall()
+
+        for aluno in resultSet:
+            print(aluno)
+
+    def listarAlunoPcd(self, atributo, valor):
+        cursor = self._conexao.cursor()
+        sql = "SELECT * FROM aluno_pcd WHERE {0} = '{1}'".format(atributo, valor)
+        cursor.execute(sql)
+        resultSet = cursor.fetchall()
+
+        for aluno in resultSet:
+            print(aluno)
+
     def removeAlunoPcd(self, alunoPcd):
         self._alunosPcd.remove(alunoPcd)
-
-    def listar(self):
-        for aluno in self._alunosPcd:
-            print(f'Nome: {aluno.nome}')
-            print(f'Matricula: {aluno.matricula}')
-            print(f'Cpf: {aluno.cpf}')

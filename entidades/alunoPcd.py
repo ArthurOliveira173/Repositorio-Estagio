@@ -2,9 +2,8 @@ from entidades.usuario import Usuario
 
 
 class AlunoPcd(Usuario):
-
-    def __init__(self, id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia,
-                 data_nascimento):
+    _alunos = []
+    def __init__(self, id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento):
         super().__init__(id, nome, cpf, email, telefone)
         self._matricula = matricula
         self._curso = curso
@@ -14,6 +13,11 @@ class AlunoPcd(Usuario):
         self._data_nascimento = data_nascimento
 
     #Getters & Setters
+
+    def getAlunosLista(self):
+        lista = self._alunos[:]
+        return lista
+
     @property
     def matricula(self):
         return self._matricula
@@ -62,10 +66,6 @@ class AlunoPcd(Usuario):
     def data_nascimento(self, data_nascimento):
         self._data_nascimento = data_nascimento
 
-    def criarAlunoPcd(id, nome, cpf, email, telefone, matricula, curso,
-                      disciplinas, periodo, deficiencia, data_nascimento):
-
-        aluno = AlunoPcd(id, nome, cpf, email, telefone, matricula, curso,
-                      disciplinas, periodo, deficiencia, data_nascimento)
-
-        return aluno
+    def CriarAlunoPcd(id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento):
+        aluno = AlunoPcd(id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento)
+        AlunoPcd._alunos.append(aluno)

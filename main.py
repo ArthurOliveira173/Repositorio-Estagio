@@ -1,31 +1,19 @@
 from entidades.alunoPcd import AlunoPcd
-from entidades.interprete import Interprete
 from dao.alunoPCDdao import AlunoDao
-from entidades.avisos import Avisos
-from conexao.conexaoBD import ConexaoBD
 
-#cnx = ConexaoBD.criarConexao("root", "tesi1")
 alunoDao = AlunoDao()
-alunoDao.AdicionarAlunoPcd()
 
-# alunosDao = AlunoDao()
+#aluno1 = (6, "John", "asd", "M", "asd", "asd", "asd", "asd", "asd", "2000-08-08")
+#alunoDao.AdicionarAlunoPcd(aluno1)
+#alunoDao.listarTudoAlunoPcd()
+#alunoDao.listarAlunoPcd("alu_id", 3)
 
-aluno = AlunoPcd(1, "carlos", "333.444.111-00", "email", "telefone", "20220400006", "S.I",
-                 "disciplinas", "periodo", "deficiencia", "data_nascimento")
+aluno = AlunoPcd.CriarAlunoPcd(1, "carlos", "333.444.111-00", "email", "telefone", "20220400006", "S.I",
+                  "disciplinas", "periodo", "deficiencia", "data_nascimento")
 
-aluno2 = AlunoPcd(2, "manoel", "333.444.111-00", "email", "telefone", "20220400006", "S.I",
-                 "disciplinas", "periodo", "deficiencia", "data_nascimento")
+aluno2 = AlunoPcd.CriarAlunoPcd(2, "manoel", "333.444.111-00", "email", "telefone", "20220400006", "S.I",
+                  "disciplinas", "periodo", "deficiencia", "data_nascimento")
 
-
-
-# avisos = Avisos(2, "casa", "porta janela", "28-05-2021", 1)
-#
-# print("id do aviso:", avisos.id)
-#
-# alunosDao.AdicionarAlunoPcd(aluno)
-# alunosDao.AdicionarAlunoPcd(aluno2)
-# alunosDao.removeAlunoPcd(aluno)
-#
-# alunosDao.listar()
-interprete = Interprete(2, "n1", "cpf", "email", "telefone")
-
+lista = AlunoPcd.getAlunosLista(AlunoPcd)
+for aluno in lista:
+    print(aluno.nome)
