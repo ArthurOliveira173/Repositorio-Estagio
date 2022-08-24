@@ -3,7 +3,7 @@ from conexao.conexaoBD import ConexaoBD
 import mysql.connector
 
 class AlunoDao:
-    _conexao = ConexaoBD.criarConexao("root", "tesi1")
+    _conexao = ConexaoBD.criarConexao("root", "bruno")
     def __init__(self):
         pass
 

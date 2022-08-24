@@ -1,4 +1,5 @@
 from entidades.alunoPcd import AlunoPcd
+from entidades.Curso import Cursos
 from dao.alunoDao import AlunoDao
 
 # alunoDao = AlunoDao()
@@ -10,11 +11,10 @@ from dao.alunoDao import AlunoDao
 # for aluno in lista:
 #     print(aluno)
 
+curso1 = Cursos.CriarCurso(1, "Libras", 8)
 
-aluno = AlunoPcd.CriarAlunoPcd(11, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
-                               "deficiencia", "periodo", "2000-08-08")
-aluno2 = AlunoPcd.CriarAlunoPcd(12, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
-                                "deficiencia", "periodo", "2020-12-09")
-lista = AlunoPcd.getAlunosLista(AlunoPcd)
-for aluno in lista:
-    print(aluno.nome)
+
+# aluno = AlunoPcd.CriarAlunoPcd(11, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
+#                                "deficiencia", "periodo", "2000-08-08")
+# aluno2 = AlunoPcd.CriarAlunoPcd(12, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
+#                                 "deficiencia", "periodo", "2020-12-09")
