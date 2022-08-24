@@ -1,10 +1,11 @@
 
 class Usuario:
 
-    def __init__(self, id, nome, cpf, email, telefone):
+    def __init__(self, id, nome, cpf, sexo, email, telefone):
         self._id = id
         self._nome = nome
         self._cpf = cpf
+        self._sexo = sexo
         self._email = email
         self._telefone = telefone
 
@@ -31,6 +32,14 @@ class Usuario:
     @cpf.setter
     def cpf(self, cpf):
         self._cpf = cpf
+
+    @property
+    def sexo(self):
+        return self._sexo
+
+    @sexo.setter
+    def sexo(self, sexo):
+        self._sexo = sexo
 
     @property
     def email(self):

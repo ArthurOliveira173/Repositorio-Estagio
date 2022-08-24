@@ -1,19 +1,20 @@
 from entidades.alunoPcd import AlunoPcd
-from dao.alunoPCDdao import AlunoDao
+from dao.alunoDao import AlunoDao
 
-alunoDao = AlunoDao()
+# alunoDao = AlunoDao()
+# aluno1 = (8, "John", "asd", "M", "asd", "asd", "asd", "asd", "asd", "2000-08-08")
+# alunoDao.AdicionarAlunoPcd(aluno1)
 
-#aluno1 = (6, "John", "asd", "M", "asd", "asd", "asd", "asd", "asd", "2000-08-08")
-#alunoDao.AdicionarAlunoPcd(aluno1)
-#alunoDao.listarTudoAlunoPcd()
-#alunoDao.listarAlunoPcd("alu_id", 3)
+# lista = alunoDao.listarTudoAlunoPcd()
+# lista = alunoDao.listarAlunoPcd("alu_id", 3)
+# for aluno in lista:
+#     print(aluno)
 
-aluno = AlunoPcd.CriarAlunoPcd(1, "carlos", "333.444.111-00", "email", "telefone", "20220400006", "S.I",
-                  "disciplinas", "periodo", "deficiencia", "data_nascimento")
 
-aluno2 = AlunoPcd.CriarAlunoPcd(2, "manoel", "333.444.111-00", "email", "telefone", "20220400006", "S.I",
-                  "disciplinas", "periodo", "deficiencia", "data_nascimento")
-
+aluno = AlunoPcd.CriarAlunoPcd(11, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
+                               "deficiencia", "periodo", "2000-08-08")
+aluno2 = AlunoPcd.CriarAlunoPcd(12, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
+                                "deficiencia", "periodo", "2020-12-09")
 lista = AlunoPcd.getAlunosLista(AlunoPcd)
 for aluno in lista:
     print(aluno.nome)

@@ -1,13 +1,15 @@
 from entidades.usuario import Usuario
+from dao.alunoDao import AlunoDao
 
 
 class AlunoPcd(Usuario):
     _alunos = []
-    def __init__(self, id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento):
-        super().__init__(id, nome, cpf, email, telefone)
+    def __init__(self, id, nome, cpf, sexo, email, telefone, matricula, deficiencia, periodo, data_nascimento):
+        #faltando curso e disciplinas
+        super().__init__(id, nome, cpf, sexo, email, telefone)
         self._matricula = matricula
-        self._curso = curso
-        self._disciplinas = disciplinas
+        #self._curso = curso
+        #self._disciplinas = disciplinas
         self._periodo = periodo
         self._deficiencia = deficiencia
         self._data_nascimento = data_nascimento
@@ -66,6 +68,13 @@ class AlunoPcd(Usuario):
     def data_nascimento(self, data_nascimento):
         self._data_nascimento = data_nascimento
 
-    def CriarAlunoPcd(id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento):
-        aluno = AlunoPcd(id, nome, cpf, email, telefone, matricula, curso, disciplinas, periodo, deficiencia, data_nascimento)
-        AlunoPcd._alunos.append(aluno)
+    def CriarAlunoPcd(id, nome, cpf, sexo, email, telefone, matricula, periodo, deficiencia, data_nascimento):
+        #faltando curso e disciplinas
+        vetorAtributo = (id, nome, cpf, sexo, email, telefone, matricula, periodo, deficiencia, data_nascimento)
+        AlunoDao.AdicionarAlunoPcd(AlunoDao, vetorAtributo)
+
+    # def PreencherAlunos(self):
+    #     resultSet = AlunoDao.listarTudoAlunoPcd()
+    #     implementar resultset
+    #     aluno = AlunoPcd(id, nome, cpf, sexo, email, telefone, matricula, periodo, deficiencia, data_nascimento)
+    #     AlunoPcd._alunos.append(aluno)

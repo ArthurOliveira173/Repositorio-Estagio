@@ -1,8 +1,9 @@
 class Cursos:
 
-    def __init__(self, id, nome):
+    def __init__(self, id, nome, quant_periodos):
         self._id = id
         self._nome = nome
+        self._quant_periodos = quant_periodos
 
     @property
     def id(self):
@@ -19,3 +20,11 @@ class Cursos:
     @nome.setter
     def nome(self, nome):
         self._nome = nome
+
+    @property
+    def quant_periodos(self):
+        return self._quant_periodos
+
+    @quant_periodos.setter
+    def quant_periodos(self, quant_periodos):
+        self._quant_periodos = quant_periodos
