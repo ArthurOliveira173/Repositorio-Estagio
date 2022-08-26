@@ -1,4 +1,3 @@
-from dao import avisosDao
 from dao.alunoDao import AlunoDao
 from dao.avisosDao import AvisosDao
 from entidades.alunoPcd import AlunoPcd
@@ -41,4 +40,3 @@ for aviso in lista2:
     print(aviso)
 
 avisosdao.removerAviso("avi_id", 1)
-

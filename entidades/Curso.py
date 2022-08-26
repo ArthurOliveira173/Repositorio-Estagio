@@ -1,3 +1,4 @@
+from dao.cursoDao import CursoDao
 class Cursos:
 
     def __init__(self, id, nome, quant_periodos):
@@ -28,3 +29,7 @@ class Cursos:
     @quant_periodos.setter
     def quant_periodos(self, quant_periodos):
         self._quant_periodos = quant_periodos
+
+    def CriarCurso(id, nome, quant_periodos):
+        vetorAtributo = (id, nome, quant_periodos)
+        CursoDao.AdicionarCurso(CursoDao, vetorAtributo)

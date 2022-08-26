@@ -4,6 +4,7 @@ import mysql.connector
 
 class AlunoDao:
     _conexao = ConexaoBD.criarConexao("root", "root123$")
+
     def __init__(self):
         pass
 
