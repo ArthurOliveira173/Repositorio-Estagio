@@ -2,6 +2,7 @@ from conexao.conexaoBD import ConexaoBD
 
 class AlunoDao:
     _conexao = ConexaoBD.criarConexao("root", "tesi1")
+
     def __init__(self):
         pass
 
