@@ -1,5 +1,5 @@
 from dao.cursoDao import CursoDao
-class Cursos:
+class Curso:
 
     def __init__(self, id, nome, quant_periodos):
         self._id = id
