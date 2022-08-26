@@ -1,9 +1,8 @@
 from conexao.conexaoBD import ConexaoBD
 
-import mysql.connector
-
 class AlunoDao:
-    _conexao = ConexaoBD.criarConexao("root", "bruno")
+    _conexao = ConexaoBD.criarConexao("root", "tesi1")
+
     def __init__(self):
         pass
 
@@ -34,5 +33,11 @@ class AlunoDao:
         # for aluno in resultSet:
         #     print(aluno)
 
-    def removeAlunoPcd(self, alunoPcd):
-        self._alunosPcd.remove(alunoPcd)
+    def removerAlunoPcd(atributo, valor):
+        cursor = AlunoDao._conexao.cursor()
+        sql = "DELETE FROM aluno_pcd WHERE {0} = '{1}'".format(atributo, valor)
+        cursor.execute(sql)
+
+        AlunoDao._conexao.commit()
+
+        print(cursor.rowcount, "linha(s) deletadas")
