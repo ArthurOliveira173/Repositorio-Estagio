@@ -3,25 +3,16 @@ use estagio;
 
 #CRIAÇÃO DE TABELAS
 
-create table if not exists AVISOS (
-	avi_id int not null,
-    avi_titulo varchar(255) not null,
-    avi_descricao varchar(255),
-    avi_data datetime not null,
-    avi_arquivos blob,
-    primary key(avi_id)
-);
-
 create table if not exists CURSOS (
 	cur_id int not null,
-    cur_descricao varchar(255) not null,
+    cur_nome varchar(255) not null,
     cur_quant_periodos int not null,
     primary key(cur_id)
 );
 
 create table if not exists DISCIPLINAS (
 	dis_id int not null,
-    dis_descricao varchar(255) not null,
+    dis_nome varchar(255) not null,
     dis_cur_id int,
     primary key(dis_id),
     foreign key(dis_cur_id) references CURSOS(cur_id)
@@ -45,7 +36,7 @@ create table if not exists ALUNO_PCD (
     foreign key(alu_dis_id) references DISCIPLINAS(dis_id)
 );
 
-create table if not exists MONITOR_TUTOR (
+create table if not exists MONITOR (
 	mon_id int not null,
     mon_nome varchar(255) not null,
     mon_cpf char(11) not null,
@@ -61,6 +52,24 @@ create table if not exists MONITOR_TUTOR (
     primary key(mon_id),
     foreign key(mon_cur_id) references CURSOS(cur_id),
     foreign key(mon_alu_id) references ALUNO_PCD(alu_id)
+);
+
+create table if not exists TUTOR (
+	tut_id int not null,
+    tut_nome varchar(255) not null,
+    tut_cpf char(11) not null,
+    tut_sexo char(1) not null,
+    tut_email varchar(255) not null,
+    tut_telefone varchar(255) not null,
+    tut_matricula char(11) not null,
+    tut_cur_id int,
+    tut_periodo_academico varchar(255) not null,
+    tut_tipo enum('Monitor','Tutor') not null,
+    tut_arquivos blob,
+    tut_alu_id int,
+    primary key(tut_id),
+    foreign key(tut_cur_id) references CURSOS(cur_id),
+    foreign key(tut_alu_id) references ALUNO_PCD(alu_id)
 );
 
 create table if not exists INTERPRETE (
@@ -81,10 +90,35 @@ create table if not exists ADMINISTRADOR (
     primary key(adm_id)
 );
 
+create table if not exists AVISOS (
+	avi_id int not null,
+    avi_titulo varchar(255) not null,
+    avi_descricao varchar(255),
+    avi_data datetime not null,
+    avi_arquivos blob,
+    avi_adm_id int,
+    primary key(avi_id),
+    foreign key(avi_adm_id) references ADMINISTRADOR(adm_id)
+);
+
 create table if not exists FEEDBACK (
 	fee_id int not null,
-    fee_titulo varchar(255),
-    fee_descrição varchar(255),
-    fee_data datetime,
+    fee_titulo varchar(255) not null,
+    fee_descrição varchar(255) not null,
+    fee_data datetime not null,
+    fee_remetente json,
     primary key(fee_id)
+);
+
+create table if not exists ACOMPANHAMENTO (
+	aco_id int not null,
+    aco_semestre char(6),
+    aco_alu_id int,
+    aco_mon_id int,
+    aco_tut_id int,
+    aco_int_id Json,
+    primary key(aco_id),
+    foreign key(aco_alu_id) references ALUNO_PCD(alu_id),
+    foreign key(aco_mon_id) references MONITOR(mon_id),
+    foreign key(aco_tut_id) references TUTOR(tut_id)
 );
