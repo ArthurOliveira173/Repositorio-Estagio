@@ -1,4 +1,5 @@
 class Feedback:
+    _feedback = []
     def __init__(self, id, titulo, descricao, data):
         self._id = id
         self._titulo = titulo
@@ -6,6 +7,10 @@ class Feedback:
         self._data = data
 
     #Getters & Setters
+    def getFeedbackLista(self):
+        lista = self._feedback[:]
+        return lista
+    
     @property
     def id(self):
         return self._id
