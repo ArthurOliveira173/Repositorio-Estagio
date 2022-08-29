@@ -7,7 +7,7 @@ class FeedbackDao:
 
     def AdicionarFeedback(self, vetorAtributos):
         cursor = self._conexao.cursor()
-        sql = "INSERT INTO feedback (fee_id, fee_titulo, fee_descricao, fee_data) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO feedback (fee_id, fee_titulo, fee_descrição, fee_data) VALUES (%s, %s, %s, %s)"
         val = vetorAtributos
         cursor.execute(sql, val)
 
@@ -19,8 +19,8 @@ class FeedbackDao:
         resultSet = cursor.fetchall()
 
         return resultSet
-        # for disciplina in resultSet:
-        #     print(disciplina)
+        # for feedback in resultSet:
+        #     print(feedback)
 
     def listarFeedback(self, atributo, valor):
         cursor = self._conexao.cursor()
@@ -29,8 +29,8 @@ class FeedbackDao:
         resultSet = cursor.fetchall()
 
         return resultSet
-        # for disciplina in resultSet:
-        #     print(disciplina)
+        # for feedback in resultSet:
+        #     print(feedback)
 
     def removerFeedback(atributo, valor):
         cursor = FeedbackDao._conexao.cursor()

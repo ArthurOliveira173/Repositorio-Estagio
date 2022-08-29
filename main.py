@@ -1,9 +1,11 @@
 from entidades.alunoPcd import AlunoPcd
 from entidades.curso import Curso
 from entidades.disciplina import Disciplina
+from entidades.feedback import Feedback
 from dao.alunoDao import AlunoDao
 from dao.cursoDao import CursoDao
 from dao.disciplinaDao import DisciplinaDao
+from dao.feedbackDao import FeedbackDao
 
 # #======================================================================================================================#
 # # CURSO
@@ -65,4 +67,24 @@ from dao.disciplinaDao import DisciplinaDao
 #     print(disciplina)
 # print()
 # for disciplina in lista2:
-#     print(disciplina)
+#     print
+
+#======================================================================================================================#
+# FEEDBACK
+#======================================================================================================================#
+# feedbackDao = FeedbackDao()
+#
+# feedback1 = Feedback.CriarFeedback(1, "Título 1", "descricao 1", "2000-08-20")
+# feedback2 = Feedback.CriarFeedback(2, "Título 2", "descricao 2", "2000-12-01")
+# feedback3 = Feedback.CriarFeedback(3, "Título 3", "descricao 3", "2001-09-08")
+# feedback4 = Feedback.CriarFeedback(4, "Título 4", "descricao 4", "2001-09-02")
+#
+# FeedbackDao.removerFeedback("fee_id", 4)
+#
+# lista = feedbackDao.listarTudoFeedback()
+# lista2 = feedbackDao.listarFeedback("fee_id", 3)
+# for feedback in lista:
+#     print(feedback)
+# print()
+# for feedback in lista2:
+#     print(feedback)

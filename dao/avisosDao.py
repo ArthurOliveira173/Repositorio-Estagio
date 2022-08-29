@@ -1,7 +1,7 @@
 from conexao.conexaoBD import ConexaoBD
 
 class AvisosDao:
-    _conexao = ConexaoBD.criarConexao('root', 'root123$')
+    _conexao = ConexaoBD.criarConexao('root', 'tesi1')
 
     def __int__(self):
         pass
