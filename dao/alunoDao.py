@@ -33,11 +33,18 @@ class AlunoDao:
         # for aluno in resultSet:
         #     print(aluno)
 
-    def removerAlunoPcd(atributo, valor):
-        cursor = AlunoDao._conexao.cursor()
+    def alterarAlunoPcd(self, atributo, valor, linha_id):
+        cursor = self._conexao.cursor()
+        sql = "UPDATE aluno_pcd SET {0} = '{1}' WHERE alu_id = {2}".format(atributo, valor, linha_id)
+        cursor.execute(sql)
+        self._conexao.commit()
+
+        print(cursor.rowcount, "linha(s) afetadas")
+
+    def removerAlunoPcd(self, atributo, valor):
+        cursor = self._conexao.cursor()
         sql = "DELETE FROM aluno_pcd WHERE {0} = '{1}'".format(atributo, valor)
         cursor.execute(sql)
-
-        AlunoDao._conexao.commit()
+        self._conexao.commit()
 
         print(cursor.rowcount, "linha(s) deletadas")

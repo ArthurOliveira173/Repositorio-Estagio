@@ -1,12 +1,11 @@
 from dao.avisosDao import AvisosDao
 class Avisos:
     _avisos = []
-    def __init__(self, id, titulo, descricao, data, tipo):
+    def __init__(self, id, titulo, descricao, data):
         self._id = id
         self._titulo = titulo
         self._descricao = descricao
         self._data = data
-        self._tipo = tipo
 
     def getListaAvisos(self):
         lista = self._avisos[:]
@@ -51,7 +50,6 @@ class Avisos:
     def tipo(self, tipo):
         self._tipo = tipo
 
-    def CriarAviso(id, titulo, descricao, data, tipo):
-        #faltando curso e disciplinas
-        vetorAtributo = (id, titulo, descricao, data, tipo)
+    def CriarAviso(id, titulo, descricao, data):
+        vetorAtributo = (id, titulo, descricao, data)
         AvisosDao.adicionarAviso(AvisosDao, vetorAtributo)
