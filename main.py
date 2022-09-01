@@ -1,14 +1,43 @@
 from entidades.alunoPcd import AlunoPcd
+from entidades.avisos import Avisos
 from entidades.curso import Curso
 from entidades.disciplina import Disciplina
 from entidades.feedback import Feedback
-from entidades.avisos import Avisos
+from entidades.interprete import Interprete
 from dao.alunoDao import AlunoDao
+from dao.avisosDao import AvisosDao
 from dao.cursoDao import CursoDao
 from dao.disciplinaDao import DisciplinaDao
 from dao.feedbackDao import FeedbackDao
-from dao.avisosDao import AvisosDao
+from dao.interpreteDao import InterpreteDao
 
+#======================================================================================================================#
+# ALUNO
+#======================================================================================================================#
+# alunoDao = AlunoDao()
+#
+# alunoDao.AdicionarAlunoPcd((1, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
+#                                 "deficiencia", "periodo", "2000-08-08"))
+# alunoDao.AdicionarAlunoPcd((2, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
+#                                  "deficiencia", "periodo", "2020-12-09"))
+# alunoDao.AdicionarAlunoPcd((3, "Maria", "33344411100", "F", "email", "telefone", "20220400006",
+#                                "deficiencia", "periodo", "2000-08-08"))
+# alunoDao.AdicionarAlunoPcd((4, "Beatriz", "33344411100", "F", "email", "telefone", "20220400006",
+#                                  "deficiencia", "periodo", "2020-12-09"))
+#
+# alunoDao.alterarAlunoPcd('alu_nome', "Ana", 3)
+# alunoDao.alterarAlunoPcd("alu_data_nascimento", "1999-05-20", 2)
+#
+# alunoDao.removerAlunoPcd("alu_id", 4)
+#
+# lista = alunoDao.listarTudoAlunoPcd()
+# lista2 = alunoDao.listarAlunoPcd("alu_id", 3)
+# for aluno in lista:
+#     print(aluno)
+# print()
+# for aluno in lista2:
+#     print(aluno)
+#
 #======================================================================================================================#
 # AVISO
 #======================================================================================================================#
@@ -52,33 +81,6 @@ from dao.avisosDao import AvisosDao
 # for curso in lista2:
 #     print(curso)
 #
-#======================================================================================================================#
-# ALUNO
-#======================================================================================================================#
-# alunoDao = AlunoDao()
-#
-# alunoDao.AdicionarAlunoPcd((7, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
-#                                 "deficiencia", "periodo", "2000-08-08"))
-# alunoDao.AdicionarAlunoPcd((8, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
-#                                  "deficiencia", "periodo", "2020-12-09"))
-# alunoDao.AdicionarAlunoPcd((9, "Maria", "33344411100", "F", "email", "telefone", "20220400006",
-#                                "deficiencia", "periodo", "2000-08-08"))
-# alunoDao.AdicionarAlunoPcd((10, "Beatriz", "33344411100", "F", "email", "telefone", "20220400006",
-#                                  "deficiencia", "periodo", "2020-12-09"))
-#
-# alunoDao.alterarAlunoPcd('alu_nome', "Ana", 6)
-# alunoDao.alterarAlunoPcd("alu_data_nascimento", "1999-05-20", 5)
-#
-# alunoDao.removerAlunoPcd("alu_id", 7)
-#
-# lista = alunoDao.listarTudoAlunoPcd()
-# lista2 = alunoDao.listarAlunoPcd("alu_id", 6)
-# for aluno in lista:
-#     print(aluno)
-# print()
-# for aluno in lista2:
-#     print(aluno)
-#
 # #======================================================================================================================#
 # # DISCIPLINA
 # #======================================================================================================================#
@@ -118,3 +120,26 @@ from dao.avisosDao import AvisosDao
 # print()
 # for feedback in lista2:
 #     print(feedback)
+#
+#======================================================================================================================#
+# INTERPRETE
+#======================================================================================================================#
+interpreteDao = InterpreteDao()
+
+interpreteDao.AdicionarInterprete((1, "Guilherme", "33344411100", "M", "email", "telefone"))
+interpreteDao.AdicionarInterprete((2, "Luiza", "33344411100", "F", "email", "telefone"))
+interpreteDao.AdicionarInterprete((3, "Bruno", "33344411100", "F", "email", "telefone"))
+interpreteDao.AdicionarInterprete((4, "Helena", "33344411100", "F", "email", "telefone"))
+
+interpreteDao.alterarInterprete('int_nome', "Tania", 3)
+interpreteDao.alterarInterprete("int_telefone", "68995572829", 2)
+
+interpreteDao.removerInterprete("int_id", 4)
+
+lista = interpreteDao.listarTudoInterprete()
+lista2 = interpreteDao.listarInterprete("int_id", 3)
+for interprete in lista:
+    print(interprete)
+print()
+for interprete in lista2:
+    print(interprete)
