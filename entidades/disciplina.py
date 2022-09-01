@@ -21,7 +21,3 @@ class Disciplina:
     @nome.setter
     def nome(self, nome):
         self._nome = nome
-
-    def CriarDisciplina(id, nome):
-        vetorAtributo = (id, nome)
-        DisciplinaDao.AdicionarDisciplina(DisciplinaDao, vetorAtributo)

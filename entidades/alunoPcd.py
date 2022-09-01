@@ -68,11 +68,6 @@ class AlunoPcd(Usuario):
     def data_nascimento(self, data_nascimento):
         self._data_nascimento = data_nascimento
 
-    def CriarAlunoPcd(id, nome, cpf, sexo, email, telefone, matricula, periodo, deficiencia, data_nascimento):
-        #faltando curso e disciplinas
-        vetorAtributo = (id, nome, cpf, sexo, email, telefone, matricula, periodo, deficiencia, data_nascimento)
-        AlunoDao.AdicionarAlunoPcd(AlunoDao, vetorAtributo)
-
     # def PreencherAlunos(self):
     #     resultSet = AlunoDao.listarTudoAlunoPcd()
     #     implementar resultset

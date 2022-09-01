@@ -49,7 +49,3 @@ class Avisos:
     @tipo.setter
     def tipo(self, tipo):
         self._tipo = tipo
-
-    def CriarAviso(id, titulo, descricao, data):
-        vetorAtributo = (id, titulo, descricao, data)
-        AvisosDao.adicionarAviso(AvisosDao, vetorAtributo)

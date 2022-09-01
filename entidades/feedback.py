@@ -43,7 +43,3 @@ class Feedback:
     @data.setter
     def data(self, data):
         self._data = data
-
-    def CriarFeedback(id, titulo, descricao, data):
-        vetorAtributo = (id, titulo, descricao, data)
-        FeedbackDao.AdicionarFeedback(FeedbackDao, vetorAtributo)

@@ -10,37 +10,37 @@ from dao.feedbackDao import FeedbackDao
 from dao.avisosDao import AvisosDao
 
 #======================================================================================================================#
-# ALUNO
+# AVISO
 #======================================================================================================================#
-avisoDao = AvisosDao()
-
-aviso1 = Avisos.CriarAviso(1, "Titulo 1", "Descricao 1", "2020-08-01")
-aviso2 = Avisos.CriarAviso(2, "Titulo 2", "Descricao 2", "2021-08-20")
-aviso3 = Avisos.CriarAviso(3, "Titulo 3", "Descricao 3", "2021-11-23")
-aviso4 = Avisos.CriarAviso(4, "Titulo 4", "Descricao 4", "2022-03-04")
-
-avisoDao.alterarAviso('avi_titulo', "Titulo 3 alterado", 3)
-avisoDao.alterarAviso("avi_descricao", "Descricao 2 alterada", 2)
-
-avisoDao.removerAviso("avi_id", 4)
-
-lista = avisoDao.listarTudoAvisos()
-lista2 = avisoDao.listarAvisos("avi_id", 3)
-for aviso in lista:
-    print(aviso)
-print()
-for aviso in lista2:
-    print(aviso)
-
+# avisoDao = AvisosDao()
+#
+# avisoDao.adicionarAviso((1, "Titulo 1", "Descricao 1", "2020-08-01"))
+# avisoDao.adicionarAviso((2, "Titulo 2", "Descricao 2", "2021-08-20"))
+# avisoDao.adicionarAviso((3, "Titulo 3", "Descricao 3", "2021-11-23"))
+# avisoDao.adicionarAviso((4, "Titulo 4", "Descricao 4", "2022-03-04"))
+#
+# avisoDao.alterarAviso('avi_titulo', "Titulo 3 alterado", 3)
+# avisoDao.alterarAviso("avi_descricao", "Descricao 2 alterada", 2)
+#
+# avisoDao.removerAviso("avi_id", 4)
+#
+# lista = avisoDao.listarTudoAvisos()
+# lista2 = avisoDao.listarAvisos("avi_id", 3)
+# for aviso in lista:
+#     print(aviso)
+# print()
+# for aviso in lista2:
+#     print(aviso)
+#
 # #======================================================================================================================#
 # # CURSO
 # #======================================================================================================================#
 # cursoDao = CursoDao()
 #
-# # curso1 = Curso.CriarCurso(1, "Nome curso", 8)
-# # curso1 = Curso.CriarCurso(2, "Nome curso2", 8)
-# # curso1 = Curso.CriarCurso(3, "Nome curso3", 8)
-# # curso1 = Curso.CriarCurso(4, "Nome curso4", 8)
+# cursoDao.AdicionarCurso((1, "Nome curso", 8))
+# cursoDao.AdicionarCurso((2, "Nome curso2", 8))
+# cursoDao.AdicionarCurso((3, "Nome curso3", 8))
+# cursoDao.AdicionarCurso((4, "Nome curso4", 8))
 #
 # CursoDao.removerCurso("cur_id", 4)
 #
@@ -51,30 +51,28 @@ for aviso in lista2:
 # print()
 # for curso in lista2:
 #     print(curso)
-
+#
 #======================================================================================================================#
 # ALUNO
 #======================================================================================================================#
-alunoDao = AlunoDao()
-###### aluno1 = (8, "John", "asd", "M", "asd", "asd", "asd", "asd", "asd", "2000-08-08")
-###### alunoDao.AdicionarAlunoPcd(aluno1)
+# alunoDao = AlunoDao()
 #
-# aluno = AlunoPcd.CriarAlunoPcd(1, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
-#                                "deficiencia", "periodo", "2000-08-08")
-# aluno2 = AlunoPcd.CriarAlunoPcd(2, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
-#                                  "deficiencia", "periodo", "2020-12-09")
-# aluno3 = AlunoPcd.CriarAlunoPcd(3, "Maria", "33344411100", "F", "email", "telefone", "20220400006",
-#                                "deficiencia", "periodo", "2000-08-08")
-# aluno4 = AlunoPcd.CriarAlunoPcd(4, "Beatriz", "33344411100", "F", "email", "telefone", "20220400006",
-#                                  "deficiencia", "periodo", "2020-12-09")
+# alunoDao.AdicionarAlunoPcd((7, "carlos", "33344411100", "M", "email", "telefone", "20220400006",
+#                                 "deficiencia", "periodo", "2000-08-08"))
+# alunoDao.AdicionarAlunoPcd((8, "manoel", "33344411100", "M", "email", "telefone", "20220400006",
+#                                  "deficiencia", "periodo", "2020-12-09"))
+# alunoDao.AdicionarAlunoPcd((9, "Maria", "33344411100", "F", "email", "telefone", "20220400006",
+#                                "deficiencia", "periodo", "2000-08-08"))
+# alunoDao.AdicionarAlunoPcd((10, "Beatriz", "33344411100", "F", "email", "telefone", "20220400006",
+#                                  "deficiencia", "periodo", "2020-12-09"))
 #
-# alunoDao.alterarAlunoPcd('alu_nome', "Ana", 3)
-# alunoDao.alterarAlunoPcd("alu_data_nascimento", "1999-05-20", 2)
+# alunoDao.alterarAlunoPcd('alu_nome', "Ana", 6)
+# alunoDao.alterarAlunoPcd("alu_data_nascimento", "1999-05-20", 5)
 #
-# alunoDao.removerAlunoPcd("alu_id", 4)
+# alunoDao.removerAlunoPcd("alu_id", 7)
 #
 # lista = alunoDao.listarTudoAlunoPcd()
-# lista2 = alunoDao.listarAlunoPcd("alu_id", 3)
+# lista2 = alunoDao.listarAlunoPcd("alu_id", 6)
 # for aluno in lista:
 #     print(aluno)
 # print()
@@ -86,10 +84,10 @@ alunoDao = AlunoDao()
 # #======================================================================================================================#
 # disciplinaDao = DisciplinaDao()
 #
-# disciplina1 = Disciplina.CriarDisciplina(1, "Nome disciplina")
-# disciplina2 = Disciplina.CriarDisciplina(2, "Nome disciplina2")
-# disciplina3 = Disciplina.CriarDisciplina(3, "Nome disciplina3")
-# disciplina4 = Disciplina.CriarDisciplina(4, "Nome disciplina4")
+# disciplinaDao.AdicionarDisciplina((1, "Nome disciplina"))
+# disciplinaDao.AdicionarDisciplina((2, "Nome disciplina2"))
+# disciplinaDao.AdicionarDisciplina((3, "Nome disciplina3"))
+# disciplinaDao.AdicionarDisciplina((4, "Nome disciplina4"))
 #
 # DisciplinaDao.removerDisciplina("dis_id", 4)
 #
@@ -99,17 +97,17 @@ alunoDao = AlunoDao()
 #     print(disciplina)
 # print()
 # for disciplina in lista2:
-#     print
-
+#     print(disciplina)
+#
 #======================================================================================================================#
 # FEEDBACK
 #======================================================================================================================#
 # feedbackDao = FeedbackDao()
 #
-# feedback1 = Feedback.CriarFeedback(1, "Título 1", "descricao 1", "2000-08-20")
-# feedback2 = Feedback.CriarFeedback(2, "Título 2", "descricao 2", "2000-12-01")
-# feedback3 = Feedback.CriarFeedback(3, "Título 3", "descricao 3", "2001-09-08")
-# feedback4 = Feedback.CriarFeedback(4, "Título 4", "descricao 4", "2001-09-02")
+# feedbackDao.AdicionarFeedback((1, "Título 1", "descricao 1", "2000-08-20"))
+# feedbackDao.AdicionarFeedback((2, "Título 2", "descricao 2", "2000-12-01"))
+# feedbackDao.AdicionarFeedback((3, "Título 3", "descricao 3", "2001-09-08"))
+# feedbackDao.AdicionarFeedback((4, "Título 4", "descricao 4", "2001-09-02"))
 #
 # FeedbackDao.removerFeedback("fee_id", 4)
 #

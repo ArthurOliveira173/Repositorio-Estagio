@@ -1,7 +1,9 @@
 from conexao.conexaoBD import ConexaoBD
 
 class DisciplinaDao:
-    _conexao = ConexaoBD.criarConexao("root", "tesi1")
+    _conexaoBD = ConexaoBD()
+    _conexao = _conexaoBD.criarConexao()
+
     def __init__(self):
         pass
 
