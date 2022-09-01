@@ -1,4 +1,3 @@
-from dao.avisosDao import AvisosDao
 class Avisos:
     _avisos = []
     def __init__(self, id, titulo, descricao, data):

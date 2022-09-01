@@ -1,7 +1,5 @@
 from entidades.usuario import Usuario
 from dao.alunoDao import AlunoDao
-
-
 class AlunoPcd(Usuario):
     _alunos = []
     def __init__(self, id, nome, cpf, sexo, email, telefone, matricula, deficiencia, periodo, data_nascimento):

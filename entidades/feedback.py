@@ -1,6 +1,5 @@
-from dao.feedbackDao import FeedbackDao
 class Feedback:
-    _feedback = []
+    _feedbacks = []
     def __init__(self, id, titulo, descricao, data):
         self._id = id
         self._titulo = titulo
@@ -9,7 +8,7 @@ class Feedback:
 
     #Getters & Setters
     def getFeedbackLista(self):
-        lista = self._feedback[:]
+        lista = self._feedbacks[:]
         return lista
     
     @property

@@ -2,6 +2,7 @@ from usuario import Usuario
 from enums.moniTutoEnum import MoniTutoEnum
 
 class MonitorTutor(Usuario):
+    _MonitorTutores = []
     def __init__(self, id, nome, cpf, email, telefone, matricula, curso, periodo, tipo):
         super().__init__(id, nome, cpf, email, telefone)
         self._matricula = matricula

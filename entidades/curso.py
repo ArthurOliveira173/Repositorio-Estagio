@@ -1,4 +1,3 @@
-from dao.cursoDao import CursoDao
 class Curso:
 
     def __init__(self, id, nome, quant_periodos):

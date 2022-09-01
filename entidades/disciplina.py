@@ -1,5 +1,3 @@
-from dao.disciplinaDao import DisciplinaDao
-
 class Disciplina:
 
     def __init__(self, id, nome):

@@ -1,7 +1,10 @@
 from entidades.usuario import Usuario
 
-class Interprete(Usuario):
-    pass
+class AlunoPcd(Usuario):
+    _interpretes = []
+    def __init__(self, id, nome, cpf, sexo, email, telefone):
+        super().__init__(id, nome, cpf, sexo, email, telefone)
 
-    def alteraNome(self, nome):
-        self.nome = nome
+    def getInterpretesLista(self):
+        lista = self._interpretes[:]
+        return lista
