@@ -34,7 +34,7 @@ class DisciplinaDao:
         # for disciplina in resultSet:
         #     print(disciplina)
 
-    def removerDisciplina(atributo, valor):
+    def removerDisciplina(self, atributo, valor):
         cursor = DisciplinaDao._conexao.cursor()
         sql = "DELETE FROM disciplinas WHERE {0} = '{1}'".format(atributo, valor)
         cursor.execute(sql)

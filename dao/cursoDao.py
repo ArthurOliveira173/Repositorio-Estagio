@@ -9,7 +9,7 @@ class CursoDao:
 
     def AdicionarCurso(self, vetorAtributos):
         cursor = self._conexao.cursor()
-        sql = "INSERT INTO cursos (cur_id, cur_nome, cur_quant_periodos) VALUES (%s, %s, %s)"
+        sql = "INSERT INTO cursos (cur_id, cur_nome, cur_quant_periodos, cur_horario) VALUES (%s, %s, %s, %s)"
         val = vetorAtributos
         cursor.execute(sql, val)
 
@@ -34,7 +34,7 @@ class CursoDao:
         # for curso in resultSet:
         #     print(curso)
 
-    def removerCurso(atributo, valor):
+    def removerCurso(self, atributo, valor):
         cursor = CursoDao._conexao.cursor()
         sql = "DELETE FROM cursos WHERE {0} = '{1}'".format(atributo, valor)
         cursor.execute(sql)

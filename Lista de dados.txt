@@ -1,0 +1,20 @@
+# CCET
+cursoDao.AdicionarCurso((1, "Sistemas de Informação", 8, 4))
+cursoDao.AdicionarCurso((2, "Engenharia Civil", 10, 4))
+cursoDao.AdicionarCurso((3, "Engenharia Elétrica", 10, 4))
+cursoDao.AdicionarCurso((4, "Matemática", 8, 2))
+
+# CELA
+cursoDao.AdicionarCurso((5, "Artes Cênicas: Teatro", 8, 2))
+cursoDao.AdicionarCurso((6, "Letras: Espanhol", 8, 3))
+cursoDao.AdicionarCurso((7, "Letras: Francês", 8, 2))
+cursoDao.AdicionarCurso((8, "Letras: Inglês", 8, 2))
+cursoDao.AdicionarCurso((9, "Letras: Libras - Língua Portuguesa", 8, 2))
+cursoDao.AdicionarCurso((10, "Letras: Português", 8, 2))
+cursoDao.AdicionarCurso(11, "Música", 8, 3))
+cursoDao.AdicionarCurso(12, "Pedagogia", 8, 2))
+
+cursoDao.AdicionarCurso((13, "Nome curso", 8, 1))
+cursoDao.AdicionarCurso((14, "Nome curso", 8, 1))
+cursoDao.AdicionarCurso((15, "Nome curso", 8, 1))
+cursoDao.AdicionarCurso((16, "Nome curso", 8, 1))
