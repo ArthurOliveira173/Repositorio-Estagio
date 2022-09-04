@@ -34,7 +34,7 @@ class FeedbackDao:
         # for feedback in resultSet:
         #     print(feedback)
 
-    def removerFeedback(atributo, valor):
+    def removerFeedback(self, atributo, valor):
         cursor = FeedbackDao._conexao.cursor()
         sql = "DELETE FROM feedback WHERE {0} = '{1}'".format(atributo, valor)
         cursor.execute(sql)
