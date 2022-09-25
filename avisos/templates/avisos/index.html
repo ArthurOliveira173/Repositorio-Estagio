@@ -1,43 +1,17 @@
 {% extends 'base.html' %}
 
 {%block conteudo%}
-<h1 class="mt-5">Minha agenda</h1>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Sobrenome</th>
-              <th>Telefone</th>
-              <th>Categoria</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <a href="#"> João</a>
-              </td>
-              <td>Miranda</td>
-              <td>35 9 5555-5555</td>
-              <td>Família</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#"> Leandro</a>
-              </td>
-              <td>Moreira</td>
-              <td>35 9 8888-5555</td>
-              <td>Família</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#"> Fátima</a>
-              </td>
-              <td>Oliveira</td>
-              <td>35 9 9999-4352</td>
-              <td>Conhecidos</td>
-            </tr>
-          </tbody>
-        </table>
+<body>
+    <div class="bottomnav">
+        <div id-="wrapper" class="nav nav-pills flex-column flex-sm-row">
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">Perfil</a>
+            <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Avisos</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">Feedback</a>
+            <a class="flex-sm-fill text-sm-center nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Relatórios</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">Ajuda</a>
+        </div>
+    </div>
+    <h1 class="mt-5">Visualização</h1>
+</body>
 
 {%endblock%}
