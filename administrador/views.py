@@ -4,4 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse('PÁGINA - 1 (ADMINISTRADOR)')
+    return render(request, 'administrador/index.html')
+
+def homologar(request):
+    return render(request, 'administrador/homologar.html')

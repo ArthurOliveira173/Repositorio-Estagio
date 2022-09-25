@@ -1,4 +1,5 @@
+from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse('PÁGINA - 1 (MONITOR - TUTOR)')
+    return render(request, 'monitor_tutor/index.html')

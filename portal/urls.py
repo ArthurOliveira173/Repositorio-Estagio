@@ -21,7 +21,7 @@ from . import views
 urlpatterns = [
     path('', include('avisos.urls')),
     path('interpretes/', include('interpretes.urls')),
-    path('alunos', include('alunos.urls')),
-    path('administrador', include('administrador.urls')),
-    path('monitor_tutor', include('monitor_tutor.urls')),
+    path('alunos/', include('alunos.urls')),
+    path('administrador/', include('administrador.urls')),
+    path('monitor_tutor/', include('monitor_tutor.urls')),
 ]
