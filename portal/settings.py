@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'alunos.apps.AlunosConfig',
     'administrador.apps.AdministradorConfig',
     'monitor_tutor.apps.MonitorTutorConfig',
+    'sistema.apps.SistemaConfig',
 ]
 
 MIDDLEWARE = [
