@@ -14,6 +14,7 @@ class User(AbstractUser):
     cpf = models.CharField(max_length=20)
     sexo = models.CharField(max_length=1)
     email = models.CharField(max_length=255)
+
 class AlunoPcd(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     alu_telefone = models.CharField(max_length=255)
