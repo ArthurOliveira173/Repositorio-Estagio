@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'administrador.apps.AdministradorConfig',
     'monitor_tutor.apps.MonitorTutorConfig',
     'sistema.apps.SistemaConfig',
+    'contas.apps.ContasConfig'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'estagio',
         'USER': 'root',
-        'PASSWORD': 'root123$',
+        'PASSWORD': 'tesi1',
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -131,3 +132,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'templates/static')
 ]
+
+AUTH_USER_MODEL = 'contas.User'

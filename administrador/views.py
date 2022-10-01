@@ -8,3 +8,13 @@ def index(request):
 
 def homologar(request):
     return render(request, 'administrador/homologar.html')
+
+def adminAlunos(request):
+    return render(request, 'administrador/alunos.html')
+
+def adminMonitorTutor(request):
+    return render(request, 'administrador/monitorTutor.html')
+
+def adminInterpretes(request):
+    return render(request, 'administrador/interpretes.html')
+
