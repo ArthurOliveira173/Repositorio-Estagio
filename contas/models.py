@@ -28,10 +28,9 @@ class AlunoPcd(models.Model):
         return self.nome
 
 class Administrador(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, db_column='adm_id', on_delete=models.CASCADE, primary_key=True)
     nome = models.CharField(db_column='adm_nome', max_length=255)
     cpf = models.CharField(db_column='adm_cpf', max_length=11)
-    sexo = models.CharField(db_column='adm_sexo', max_length=1)
     email = models.CharField(db_column='adm_email', max_length=255)
 
     class Meta:
@@ -41,7 +40,7 @@ class Administrador(models.Model):
         return self.nome
 
 class Interprete(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, db_column='int_id', on_delete=models.CASCADE, primary_key=True)
     nome = models.CharField(db_column='int_nome', max_length=255)
     cpf = models.CharField(db_column='int_cpf', max_length=11)
     sexo = models.CharField(db_column='int_sexo', max_length=1)
@@ -56,7 +55,7 @@ class Interprete(models.Model):
         return self.nome
 
 class Monitor(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(db_column='mon_id', primary_key=True)
     nome = models.CharField(db_column='mon_nome', max_length=255)
     cpf = models.CharField(db_column='mon_cpf', max_length=11)
     sexo = models.CharField(db_column='mon_sexo', max_length=1)
@@ -74,7 +73,7 @@ class Monitor(models.Model):
         return self.nome
 
 class Tutor(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(db_column='tut_id', primary_key=True)
     nome = models.CharField(db_column='tut_nome', max_length=255)
     cpf = models.CharField(db_column='tut_cpf', max_length=11)
     sexo = models.CharField(db_column='tut_sexo', max_length=1)
