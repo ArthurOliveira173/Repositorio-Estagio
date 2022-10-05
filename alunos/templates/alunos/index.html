@@ -1,8 +1,50 @@
-{% extends 'baseGerirAlunos.html' %}
+{% extends 'base.html' %}
 
 {%block conteudo%}
 <body>
     <h1 class="mt-5">Alunos</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Curso</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">Sexo</th>
+          <th scope="col">Deficiencia</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for aluno in alunos %}
+          <tr>
+            <td>
+              <a href="{% url 'aluno' aluno.alu_id %}">{{ aluno.alu_nome }}</a>
+            </td>
+            <td>{{ aluno.alu_cur }}</td>
+            <td>{{ aluno.alu_email }}</td>
+            <td>{{ aluno.alu_telefone }}</td>
+            <td>{{ aluno.alu_sexo }}</td>
+            <td>{{ aluno.alu_deficiencias }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% for pagina in alunos.paginator.page_range %}
+      {% if alunos.number == pagina %}
+        <li
+                class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+        </li>
+      {% else %}
+        <li
+                class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>
 </body>
 
 {%endblock%}

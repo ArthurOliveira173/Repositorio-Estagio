@@ -12,6 +12,11 @@
 
   {% include 'parciais/_nav.html' %}
   <!-- Page Content -->
+    {% if messages %}
+      {% for message in messages %}
+        {{ message }} {{ message.tags }}
+      {% endfor %}
+    {% endif %}
   {%block conteudo%}
   {%endblock%}
 

@@ -1,41 +1,26 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import login, logout,authenticate
 from django.views.generic import CreateView
 from .models import AlunoPcd
-from .forms import AlunoForms
+from django.core.paginator import Paginator
 # Create your views here.
 def index(request):
-    return render(request, 'alunos/index.html')
+    alunos = AlunoPcd.objects.all()
+    paginator = Paginator(alunos, 10)
 
-class forms(CreateView):
+    page = request.GET.get('p')
+    alunos = paginator.get_page(page)
 
-    model = AlunoPcd
-    form_class = AlunoForms
+    return render(request, 'alunos/index.html', {
+     'alunos' : alunos
+    })
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('alunos/index.html')
+def aluno(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    return render(request, 'alunos/aluno.html', {
+        'aluno' : aluno
+    })
 
-def login_user(request):
-    if request.method=='POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None :
-                login(request,user)
-                return redirect('alunos/index.html')
-            else:
-                messages.error(request,"Invalid username or password")
-        else:
-            messages.error(request,"Invalid username or password")
-    return render(request, 'alunos/login.html',context={'form':AuthenticationForm()})
-
-def logout_user(request):
-    logout(request)
-    return redirect('alunos/login.html')
