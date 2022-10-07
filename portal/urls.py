@@ -19,8 +19,10 @@ from django.conf.urls import include
 from . import views
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('contas/', include('contas.urls')),
+    path('accounts/', include('accounts.urls')),
     path('avisos/', include('avisos.urls')),
     path('interpretes/', include('interpretes.urls')),
     path('alunos/', include('alunos.urls')),

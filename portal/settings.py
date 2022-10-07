@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'administrador.apps.AdministradorConfig',
     'monitor_tutor.apps.MonitorTutorConfig',
     'sistema.apps.SistemaConfig',
-    'contas.apps.ContasConfig'
+    'contas.apps.ContasConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,15 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'contas.User'
+
+#MENSAGENS
+# https://getbootstrap.com/docs/4.0/components/alerts/
+from django.contrib.messages import constants
+
+MESSAGE_TAGS = {
+    constants.ERROR: 'alert-danger',
+    constants.WARNING: 'alert-warning',
+    constants.DEBUG: 'alert-info',
+    constants.SUCCESS: 'alert-success',
+    constants.INFO: 'alert-info',
+}

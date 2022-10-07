@@ -1,0 +1,17 @@
+{% extends 'baseAvisos.html' %}
+
+{%block conteudo%}
+<body>
+    <h1 class="mt-5">{{ aviso.avi_titulo }}</h1>
+    <dl>
+      <dt>Descrição</dt>
+      <dd>{{ aviso.avi_descricao }}</dd>
+
+      <dt>Data</dt>
+      <dd>{{ aviso.avi_data|date:'d/m/Y H:i:s' }}</dd>
+
+      <dt>Arquivo</dt>
+      <dd>{{ aviso.avi_arquivos }}</dd>
+    </dl>
+
+{%endblock%}

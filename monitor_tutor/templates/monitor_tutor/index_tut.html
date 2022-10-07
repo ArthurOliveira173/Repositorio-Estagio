@@ -1,0 +1,53 @@
+{% extends 'baseGerirMonitorTutor.html' %}
+
+{%block conteudo%}
+<body>
+    <h1 class="mt-5">Tutores</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Curso</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">CPF</th>
+          <th scope="col">Sexo</th>
+          <th scope="col">ALUNO</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for tutor in tutores %}
+          <tr>
+            <td>
+              <a href="{% url 'tutor' tutor.tut_id %}">{{ tutor.tut_nome }}</a>
+            </td>
+            <td>{{ tutor.tut_cur }}</td>
+            <td>{{ tutor.tut_email }}</td>
+            <td>{{ tutor.tut_telefone }}</td>
+            <td>{{ tutor.tut_cpf }}</td>
+            <td>{{ tutor.tut_sexo }}</td>
+            <td>{{ tutor.tut_aluno_pcd }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% for pagina in tutores.paginator.page_range %}
+      {% if tutores.number == pagina %}
+        <li
+                class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+        </li>
+      {% else %}
+        <li
+                class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>
+</body>
+
+{%endblock%}
