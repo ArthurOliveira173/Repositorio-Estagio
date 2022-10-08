@@ -10,3 +10,7 @@ class Avisos(models.Model):
     avi_mostrar = models.BooleanField(default=True)
     def __str__(self):
         return self.avi_titulo
+
+    class Meta:
+        managed = False
+        db_table = 'avisos'

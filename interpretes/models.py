@@ -3,12 +3,12 @@ from django.db import models
 # Create your models here.
 
 class Interprete(models.Model):
-    int_id = models.IntegerField(primary_key=True)
-    int_nome = models.CharField(max_length=255)
-    int_cpf = models.CharField(max_length=11)
-    int_sexo = models.CharField(max_length=1)
-    int_email = models.CharField(max_length=255)
-    int_telefone = models.CharField(max_length=255)
+    int_id = models.IntegerField(db_column='int_id', primary_key=True)
+    int_nome = models.CharField(db_column='int_nome', max_length=255)
+    int_cpf = models.CharField(db_column='int_cpf', max_length=11)
+    int_sexo = models.CharField(db_column='int_sexo', max_length=1)
+    int_email = models.CharField(db_column='int_email', max_length=255)
+    int_telefone = models.CharField(db_column='int_telefone', max_length=255)
 
     class Meta:
         managed = False

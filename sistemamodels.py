@@ -117,10 +117,6 @@ class ContasUser(models.Model):
     is_interprete = models.IntegerField()
     is_monitor = models.IntegerField()
     is_tutor = models.IntegerField()
-    nome = models.CharField(max_length=80)
-    cpf = models.CharField(max_length=20)
-    sexo = models.CharField(max_length=1)
-    email = models.CharField(max_length=255)
 
     class Meta:
         managed = False
