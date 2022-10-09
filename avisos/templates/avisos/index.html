@@ -2,6 +2,43 @@
 
 {%block conteudo%}
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Style the search field */
+  form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+  }
+
+  /* Style the submit button */
+  form.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+  }
+
+  form.example button:hover {
+    background: #0b7dda;
+  }
+
+  /* Clear floats */
+  form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
   .stretched-link::after {
     position: absolute;
     top: 0;
@@ -19,8 +56,10 @@
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
       <div class="d-flex align-items-center">
         <a class="btn btn-secondary" style="margin-right: 30px" href="/administrador" role="button">Voltar</a>
-        <form class="w-100 me-3" style="margin-right: 50px">
-          <input type="search" class="form-control" placeholder="Pesquise alunos aqui" aria-label="Search">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <form class="example" action="action_page.php">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
         </form>
       </div>
     </div>
@@ -54,7 +93,7 @@
                         </div>
                       </div>
                     </div>
-                    <a href="#" class="stretched-link"></a>
+                    <a href="{% url 'aviso' aviso.avi_id %}" class="stretched-link">{{ aviso.avi_titulo }}</a>
                   </div>
                 </div>
               </div>
