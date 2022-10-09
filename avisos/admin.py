@@ -8,6 +8,6 @@ class AvisosAdmin(admin.ModelAdmin):
     list_filter = ('avi_id', 'avi_titulo', 'avi_data')
     list_per_page = 10
     search_fields = ('avi_titulo',)
-    list_editable = ('avi_descricao',)
+    list_editable = ('avi_descricao', 'avi_mostrar')
 
 admin.site.register(Avisos, AvisosAdmin)
