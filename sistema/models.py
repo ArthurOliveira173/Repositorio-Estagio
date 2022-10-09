@@ -3,16 +3,17 @@ from django.utils import timezone
 
 class Cursos(models.Model):
 
-    class Turno(models.TextChoices):
-        MANHA = "Manha"
-        Tarde = "Tarde"
-        NOITE = "Noite"
-        INTEGRAL = "Integral"
+    Turno = (
+        ('manha', 'Manha'),
+        ('tarde', 'Tarde'),
+        ('noite', 'Noite'),
+        ('integral', 'Integral'),
+    )
 
     cur_id = models.IntegerField(db_column="cur_id", primary_key=True)
     cur_nome = models.CharField(db_column="cur_nome", max_length=255)
     cur_quant_periodos = models.IntegerField(db_column="cur_quant_periodos")
-    cur_horario = models.CharField(db_column="cur_horario", max_length=8, choices=Turno.choices, default=Turno.MANHA)
+    cur_horario = models.CharField(db_column="cur_horario", max_length=8, choices=Turno, default='manha')
 
     class Meta:
         managed = False
