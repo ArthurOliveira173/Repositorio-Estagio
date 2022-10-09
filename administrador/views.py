@@ -2,7 +2,7 @@ import sys
 
 from django.shortcuts import render
 from django.apps import apps
-alunoModel = apps.get_model("contas", "AlunoPcd")
+alunoModel = apps.get_model("alunos", "AlunoPcd")
 
 
 # Create your views here.
