@@ -26,7 +26,7 @@ def adicionar(request):
 
     context = {}
     if request.POST:
-        form = AvisosForm(request.POST, request.FILES or None)
+        form = AvisosForm(request.POST, request.FILES)
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()

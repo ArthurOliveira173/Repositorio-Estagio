@@ -20,6 +20,5 @@ class AvisosForm(ModelForm):
             'avi_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Descricao'}),
             'avi_data': forms.DateInput(attrs={'class':'form-control'}),
             'avi_arquivos': forms.FileInput(attrs={'class':'form-control'}),
-            'avi_administrador': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Admin'}),
             'avi_mostrar': forms.CheckboxInput(attrs={'class':'form-control'}),
         }
