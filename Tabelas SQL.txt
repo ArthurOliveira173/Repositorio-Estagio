@@ -4,7 +4,7 @@ use estagio;
 #CRIAÇÃO DE TABELAS
 
 create table if not exists CURSOS (
-	cur_id int not null,
+	cur_id int not null auto_increment,
     cur_nome varchar(255) not null,
     cur_quant_periodos int not null,
     cur_horario enum('Manhã','Tarde','Noite','Integral') not null,
@@ -12,7 +12,7 @@ create table if not exists CURSOS (
 );
 
 create table if not exists DISCIPLINAS (
-	dis_id int not null,
+	dis_id int not null auto_increment,
     dis_nome varchar(255) not null,
     dis_curso int,
     primary key(dis_id),
@@ -20,7 +20,7 @@ create table if not exists DISCIPLINAS (
 );
 
 create table if not exists ALUNO_PCD (
-	alu_id int not null,
+	alu_id int not null auto_increment,
     alu_nome varchar(255) not null,
     alu_cpf char(11) not null,
     alu_sexo char(1) not null,
@@ -36,7 +36,7 @@ create table if not exists ALUNO_PCD (
 );
 
 create table if not exists MONITOR (
-	mon_id int not null,
+	mon_id int not null auto_increment,
     mon_nome varchar(255) not null,
     mon_cpf char(11) not null,
     mon_sexo char(1) not null,
@@ -54,7 +54,7 @@ create table if not exists MONITOR (
 );
 
 create table if not exists TUTOR (
-	tut_id int not null,
+	tut_id int not null auto_increment,
     tut_nome varchar(255) not null,
     tut_cpf char(11) not null,
     tut_sexo char(1) not null,
@@ -72,7 +72,7 @@ create table if not exists TUTOR (
 );
 
 create table if not exists ADMINISTRADOR (
-	adm_id int not null,
+	adm_id int not null auto_increment,
     adm_nome varchar(255) not null,
     adm_cpf char(11) not null,
     adm_email varchar(255) not null,
@@ -80,11 +80,11 @@ create table if not exists ADMINISTRADOR (
 );
 
 create table if not exists AVISOS (
-	avi_id int not null,
+	avi_id int not null auto_increment,
     avi_titulo varchar(255) not null,
     avi_descricao varchar(255),
     avi_data datetime not null,
-    avi_arquivos blob,
+    avi_arquivos text,
     avi_administrador int,
     avi_mostrar bool,
     primary key(avi_id),
@@ -92,7 +92,7 @@ create table if not exists AVISOS (
 );
 
 create table if not exists ACOMPANHAMENTO (
-	aco_id int not null,
+	aco_id int not null auto_increment,
     aco_semestre char(6),
     aco_aluno_pcd int,
     aco_monitor int,
@@ -104,7 +104,7 @@ create table if not exists ACOMPANHAMENTO (
 );
 
 create table if not exists INTERPRETE (
-	int_id int not null,
+	int_id int not null auto_increment,
     int_nome varchar(255) not null,
     int_cpf char(11) not null,
     int_sexo char(1) not null,
@@ -116,7 +116,7 @@ create table if not exists INTERPRETE (
 );
 
 create table if not exists ACOPANHAMENTO_DISCIPLINA (
-	AsDis_id int not null,
+	AsDis_id int not null auto_increment,
     AsDis_disciplina int,
     AsDis_acompanhamento int,
     primary key(AsDis_id),
@@ -125,7 +125,7 @@ create table if not exists ACOPANHAMENTO_DISCIPLINA (
 );
 
 create table if not exists INTERPRETACAO (
-	AsInt_id int not null,
+	AsInt_id int not null auto_increment,
     AsInt_inicio date not null,
     AsInt_fim date,
     AsInt_interprete int,
@@ -136,7 +136,7 @@ create table if not exists INTERPRETACAO (
 );
 
 create table if not exists MONITORIA (
-	AsMon_id int not null,
+	AsMon_id int not null auto_increment,
     AsMon_inicio date not null,
     AsMon_fim date,
     AsMon_monitor int,
@@ -147,7 +147,7 @@ create table if not exists MONITORIA (
 );
 
 create table if not exists TUTORIA (
-	AsTut_id int not null,
+	AsTut_id int not null auto_increment,
     AsTut_inicio date not null,
     AsTut_fim date,
     AsTut_tutor int,
@@ -158,7 +158,7 @@ create table if not exists TUTORIA (
 );
 
 create table if not exists FEEDBACK (
-	fee_id int not null,
+	fee_id int not null auto_increment,
     fee_titulo varchar(255) not null,
     fee_descrição varchar(255) not null,
     fee_data datetime not null,
