@@ -1,8 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from .models import Avisos
-from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
+from .forms import AvisosForm
+
+# def handle_uploaded_file(f):
+#     with open('avisos/uploads/'+f.name, 'wb+') as destination:
+#         for chunk in f.chunks():
+#             destination.write(chunk)
 def index(request):
     avisos = Avisos.objects.order_by('-avi_id').filter(
         avi_mostrar = True
@@ -12,8 +18,30 @@ def index(request):
     page = request.GET.get('p')
     avisos = paginator.get_page(page)
     return render(request, 'avisos/index.html', {
-        'avisos' : avisos
+        'avisos': avisos
     })
+
+def adicionar(request):
+    submitted = False
+
+    context = {}
+    if request.POST:
+        form = AvisosForm(request.POST, request.FILES or None)
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES["avi_arquivos"])
+            form.save()
+            return HttpResponseRedirect('adicionar?submitted=True')
+        else:
+            form = AvisosForm()
+            form.save()
+            return HttpResponseRedirect('adicionar?submitted=True')
+    else:
+        form = AvisosForm()
+        if 'submitted' in request.GET:
+            submitted = True
+    context['form'] = form
+    context['submitted'] = submitted
+    return render(request, 'avisos/adicionar.html', context)
 
 def aviso(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)

@@ -14,7 +14,7 @@ class AlunoForms(UserCreationForm):
     nome = forms.CharField(required=True)
     cpf = forms.CharField(required=True)
     sexo = forms.CharField(required=True)
-    email = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
     telefone = forms.CharField(required=True)
     matricula = forms.CharField(required=True)
     deficiencias = forms.CharField(required=True)
@@ -46,7 +46,7 @@ class AdministradorForms(UserCreationForm):
     nome = forms.CharField(required=True)
     cpf = forms.CharField(required=True)
     sexo = forms.CharField(required=True)
-    email = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -69,7 +69,7 @@ class MonitorForms(UserCreationForm):
     nome = forms.CharField(required=True)
     cpf = forms.CharField(required=True)
     sexo = forms.CharField(required=True)
-    email = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
     telefone = forms.CharField(required=True)
     matricula = forms.CharField(required=True)
     periodo_academico = forms.CharField(required=True)  # Field name made lowercase.
@@ -99,7 +99,7 @@ class TutorForms(UserCreationForm):
     nome = forms.CharField(required=True)
     cpf = forms.CharField(required=True)
     sexo = forms.CharField(required=True)
-    email = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
     telefone = forms.CharField(required=True)
     matricula = forms.CharField(required=True)
     periodo_academico = forms.CharField(required=True)  # Field name made lowercase.
@@ -129,7 +129,7 @@ class InterpreteForms(UserCreationForm):
     nome = forms.CharField(required=True)
     cpf = forms.CharField(required=True)
     sexo = forms.CharField(required=True)
-    email = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
     int_telefone = forms.CharField(required=True)
     class Meta(UserCreationForm.Meta):
         model = User

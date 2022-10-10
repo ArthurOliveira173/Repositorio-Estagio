@@ -38,11 +38,11 @@ from sistema.models import Cursos, Disciplinas
 # Create your models here.
 
 class AlunoPcd(models.Model):
-    alu_id = models.IntegerField(db_column='alu_id', primary_key=True)
+    alu_id = models.AutoField(db_column='alu_id', primary_key=True)
     alu_nome = models.CharField(db_column='alu_nome', max_length=255)
     alu_cpf = models.CharField(db_column='alu_cpf', max_length=11)
     alu_sexo = models.CharField(db_column='alu_sexo', max_length=1)
-    alu_email = models.CharField(db_column='alu_email', max_length=255)
+    alu_email = models.EmailField(db_column='alu_email', max_length=255)
     alu_telefone = models.CharField(db_column='alu_telefone', max_length=255)
     alu_matricula = models.CharField(db_column='alu_matricula', max_length=11)
     alu_deficiencias = models.CharField(db_column='alu_deficiencias', max_length=255, blank=True, null=True)

@@ -2,10 +2,10 @@ from django.db import models
 
 # Create your models here.
 class Administrador(models.Model):
-    adm_id = models.IntegerField(primary_key=True)
-    adm_nome = models.CharField(max_length=255)
-    adm_cpf = models.CharField(max_length=11)
-    adm_email = models.CharField(max_length=255)
+    adm_id = models.AutoField(db_column='adm_id', primary_key=True, )
+    adm_nome = models.CharField(db_column='adm_nome', max_length=255)
+    adm_cpf = models.CharField(db_column='adm_cpf', max_length=11)
+    adm_email = models.EmailField(db_column='adm_email', max_length=255)
 
     class Meta:
         managed = False

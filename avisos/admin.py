@@ -3,10 +3,10 @@ from .models import Avisos
 # Register your models here.
 
 class AvisosAdmin(admin.ModelAdmin):
-    list_display = ('avi_id', 'avi_titulo', 'avi_descricao', 'avi_data', 'avi_arquivos', 'avi_administrador', "avi_mostrar")
+    list_display = ('avi_titulo', 'avi_descricao', 'avi_data', 'avi_administrador', "avi_mostrar")
     list_display_links = ('avi_titulo',)
-    list_filter = ('avi_id', 'avi_titulo', 'avi_data')
-    list_per_page = 10
+    list_filter = ('avi_titulo', 'avi_data')
+    list_per_page = 8
     search_fields = ('avi_titulo',)
     list_editable = ('avi_descricao', 'avi_mostrar')
 

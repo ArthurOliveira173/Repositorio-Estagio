@@ -3,7 +3,7 @@ from .models import Interprete
 # Register your models here.
 
 class InterpreteAdmin(admin.ModelAdmin):
-    list_display = ('int_id', 'int_nome', 'int_cpf', 'int_sexo', 'int_email', 'int_telefone')
+    list_display = ('int_nome', 'int_cpf', 'int_sexo', 'int_email', 'int_telefone')
     list_display_links = ('int_email', 'int_cpf')
     list_filter = ('int_nome', 'int_cpf', 'int_sexo')
     list_per_page = 10

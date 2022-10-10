@@ -87,12 +87,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'estagio',
         'USER': 'root',
-        'PASSWORD': 'root123$',
+        'PASSWORD': 'tesi1',
         'HOST':'localhost',
         'PORT':'3306',
     }
 }
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

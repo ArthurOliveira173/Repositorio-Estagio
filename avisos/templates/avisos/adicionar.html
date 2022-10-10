@@ -1,0 +1,31 @@
+{% extends 'baseAvisos.html' %}
+
+{%block conteudo%}
+<style>
+
+</style>
+<body>
+    <br>
+    <div style="margin-left: 250px; margin-right: 250px">
+        <h1 style="text-align: center;">Crie um novo aviso</h1>
+        <br>
+        {% if submitted %}
+            Aviso enviado com sucesso!
+
+        {% else %}
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+                <div style=" float: left; position: relative; left: 50%;">
+                    <input style="margin-bottom: 50px; float: left; position: relative; left: -50%;"
+                           class="btn btn-primary" type="submit" value="Enviar">
+                </div>
+            </form>
+        {% endif %}
+    </div>
+
+</body>
+
+{%endblock%}
