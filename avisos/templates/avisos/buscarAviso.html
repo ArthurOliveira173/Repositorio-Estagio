@@ -1,0 +1,23 @@
+{% extends 'baseAvisos.html' %}
+
+{%block conteudo%}
+<style>
+
+</style>
+<body>
+    <br>
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+      <div class="d-flex align-items-center">
+        <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/administrador" role="button">Voltar</a>
+        <a class="btn btn-primary" style="margin-right: 30px" href="/avisos/adicionarAviso" role="button">Enviar</a>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <form class="d-flex" method="POST" action="{% url 'buscarAviso' %}">
+          {% csrf_token %}
+          <input type="search" placeholder="Busque avisos aqui.." aria-label="Search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+</body>
+
+{%endblock%}

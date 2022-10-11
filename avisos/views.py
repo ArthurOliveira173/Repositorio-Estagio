@@ -21,7 +21,7 @@ def index(request):
         'avisos': avisos
     })
 
-def adicionar(request):
+def adicionarAviso(request):
     submitted = False
 
     context = {}
@@ -30,18 +30,18 @@ def adicionar(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
-            return HttpResponseRedirect('adicionar?submitted=True')
+            return HttpResponseRedirect('adicionarAviso?submitted=True')
         else:
             form = AvisosForm()
             form.save()
-            return HttpResponseRedirect('adicionar?submitted=True')
+            return HttpResponseRedirect('adicionarAviso?submitted=True')
     else:
         form = AvisosForm()
         if 'submitted' in request.GET:
             submitted = True
     context['form'] = form
     context['submitted'] = submitted
-    return render(request, 'avisos/adicionar.html', context)
+    return render(request, 'avisos/adicionarAviso.html', context)
 
 def aviso(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)
@@ -51,4 +51,9 @@ def aviso(request, aviso_id):
 
     return render(request, 'avisos/aviso.html', {
         'aviso' : aviso
+    })
+
+def buscarAviso(request):
+    return render(request, 'avisos/buscarAviso.html', {
+
     })

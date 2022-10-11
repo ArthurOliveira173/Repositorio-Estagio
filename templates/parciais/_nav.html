@@ -1,4 +1,4 @@
-{% load %}
+{% load static %}
 
 <style>
   .topnav {
@@ -50,11 +50,9 @@
 <body>
   <div class="topnav">
     <div id="wrapper">
-        <div id="leftcolumn">
-            <a class="navbar-brand" href="#">
-              <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
-              Sistema Estágio
-            </a>
+        <div id="leftcolumn" align="center">
+            <img src="{% static 'Ufac-brasao.png' %}" alt="" width="30%" height="60%">
+            <h1 style="">Sistema Estágio</h1>
         </div>
         <div id="rightcolumn">
             <nav class="bg-img">
