@@ -68,7 +68,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <form class="d-flex" method="POST" action="{% url 'buscarAviso' %}">
           {% csrf_token %}
-          <input type="search" placeholder="Busque avisos aqui.." aria-label="Search">
+          <input class="form-control me-2" type="search" placeholder="Busque avisos aqui.." aria-label="Search" name="searched">
           <button type="submit"><i class="fa fa-search"></i></button>
         </form>
       </div>

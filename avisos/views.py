@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from .models import Avisos
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 from django.core.paginator import Paginator
 from .forms import AvisosForm
 
@@ -54,6 +55,18 @@ def aviso(request, aviso_id):
     })
 
 def buscarAviso(request):
-    return render(request, 'avisos/buscarAviso.html', {
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            avisos = Avisos.objects.filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+        else:
+            avisos = None
 
-    })
+        return render(request, 'avisos/buscarAviso.html', {
+            'searched': searched,
+            'avisos': avisos
+        })
+    else:
+        return render(request, 'avisos/buscarAviso.html', {
+
+        })
