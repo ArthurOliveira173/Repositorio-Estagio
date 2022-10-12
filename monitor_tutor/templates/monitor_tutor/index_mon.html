@@ -8,10 +8,10 @@
         <tr>
           <th scope="col">Nome</th>
           <th scope="col">Curso</th>
-          <th scope="col">Email</th>
+          <th scope="col">Email Institucional</th>
           <th scope="col">Telefone</th>
           <th scope="col">CPF</th>
-          <th scope="col">Sexo</th>
+          <th scope="col">Genero</th>
 
         </tr>
       </thead>
@@ -22,10 +22,10 @@
               <a href="{% url 'monitor' monitor.mon_id %}">{{ monitor.mon_nome }}</a>
             </td>
             <td>{{ monitor.mon_cur }}</td>
-            <td>{{ monitor.mon_email }}</td>
+            <td>{{ monitor.mon_email_institucional }}</td>
             <td>{{ monitor.mon_telefone }}</td>
             <td>{{ monitor.mon_cpf }}</td>
-            <td>{{ monitor.mon_sexo }}</td>
+            <td>{{ monitor.mon_genero }}</td>
           </tr>
         {% endfor %}
       </tbody>

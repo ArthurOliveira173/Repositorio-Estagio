@@ -1,43 +1,35 @@
-# from django.contrib.auth.forms import UserCreationForm
-# from django.db import transaction
-# from django import forms
-# from .models import AlunoPcd, User
-#
-#
-# class AlunoForms(UserCreationForm):
-#     nome = forms.CharField(required=True)
-#     cpf = forms.CharField(required=True)
-#     sexo = forms.CharField(required=True)
-#     email = forms.CharField(required=True)
-#     alu_telefone = forms.CharField(required=True)
-#     alu_matricula = forms.CharField(required=True)
-#     alu_deficiencias = forms.CharField(required=True)
-#     alu_cur = forms.CharField(required=True)
-#     alu_dis = forms.CharField(required=True)
-#     alu_periodo_academico = forms.CharField(required=True)  # Field name made lowercase.
-#     alu_data_nascimento = forms.DateField(required=True)
-#     class Meta(UserCreationForm.Meta):
-#         model = User
-#
-#     @transaction.atomic
-#     def data_save(self):
-#         usuario = super().save(commit=False)
-#         usuario.nome = self.cleaned_data.get('nome')
-#         usuario.cpf = self.cleaned_data.get('cpf')
-#         usuario.sexo = self.cleaned_data.get('sexo')
-#         usuario.email = self.cleaned_data.get('email')
-#         usuario.is_aluno = True
-#         usuario.save()
-#         aluno = AlunoPcd.objects.create(user=usuario)
-#         aluno.nome = self.cleaned_data.get('alu_telefone')
-#         aluno.nome = self.cleaned_data.get('alu_matricula')
-#         aluno.nome = self.cleaned_data.get('alu_deficiencias')
-#
-#         aluno.nome = self.cleaned_data.get('alu_cur')
-#
-#         aluno.nome = self.cleaned_data.get('alu_dis')
-#         aluno.nome = self.cleaned_data.get('alu_periodo_academico')
-#         aluno.nome = self.cleaned_data.get('alu_data_nascimento')
-#
-#         aluno.save()
-#         return usuario
+from django import forms
+from django.forms import ModelForm
+from alunos.models import AlunoPcd
+
+class AlunosForm(ModelForm):
+
+    class Meta:
+        model = AlunoPcd
+        fields = ('alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
+                  'alu_endereco', 'alu_matricula', 'alu_deficiencias', 'alu_curso', 'alu_periodo_academico')
+        labels = {
+            'alu_nome': 'Digite o nome',
+            'alu_cpf': 'Digite o CPF',
+            'alu_genero': 'Defina o genero',
+            'alu_email_pessoal': 'Digite o email pessoal',
+            'alu_email_institucional': 'Digite o email institucional',
+            'alu_telefone': 'Digite o contato',
+            'alu_endereco': 'Defina o endereco',
+            'alu_matricula': 'Digite a matricula',
+            'alu_deficiencias': 'Cite as deficiencias',
+            'alu_curso': 'Defina o curso',
+            'alu_periodo_academico': 'Defina o periodo academico',
+        }
+        widgets = {
+            'alu_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
+            'alu_cpf': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CPF'}),
+            'alu_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
+            'alu_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
+            'alu_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+            'alu_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
+            'alu_deficiencias': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Deficiencias'}),
+            'alu_curso': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Curso'}),
+            'alu_endereco': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'alu_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
+        }

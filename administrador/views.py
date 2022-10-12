@@ -1,8 +1,9 @@
-import sys
-
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.apps import apps
-alunoModel = apps.get_model("alunos", "AlunoPcd")
+from django.core.paginator import Paginator
+from alunos.models import AlunoPcd
+from alunos.forms import AlunosForm
 
 
 # Create your views here.
@@ -15,11 +16,48 @@ def homologar(request):
     return render(request, 'administrador/homologar.html')
 
 def adminAlunos(request):
-    alunos = alunoModel.objects.all()
-    context = {
+    alunos = AlunoPcd.objects.all()
+
+    paginator = Paginator(alunos, 10)
+    page = request.GET.get('p')
+    alunos = paginator.get_page(page)
+
+    return render(request, 'administrador/alunos.html', {
         'alunos': alunos
-    }
-    return render(request, 'administrador/alunos.html', context)
+    })
+
+def adicionarAluno(request):
+    submitted = False
+
+    context = {}
+    if request.POST:
+        form = AlunosForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('adicionarAluno?submitted=True')
+        else:
+            form = AlunosForm()
+            form.save()
+            return HttpResponseRedirect('adicionarAluno?submitted=True')
+    else:
+        form = AlunosForm()
+        if 'submitted' in request.GET:
+            submitted = True
+    context['form'] = form
+    context['submitted'] = submitted
+    return render(request, 'alunos/adicionarAluno.html', context)
+
+
+def buscarAluno(request):
+    return render(request, 'administrador/alunos.html', {
+
+    })
+
+
+def aluno(request):
+    return render(request, 'administrador/alunos.html', {
+
+    })
 
 def adminMonitorTutor(request):
     return render(request, 'administrador/monitorTutor.html')

@@ -8,8 +8,8 @@
         <tr>
           <th scope="col">Nome</th>
           <th scope="col">CPF</th>
-          <th scope="col">Sexo</th>
-          <th scope="col">E-mail</th>
+          <th scope="col">Genero</th>
+          <th scope="col">Email</th>
           <th scope="col">Telefone</th>
         </tr>
       </thead>
@@ -20,9 +20,9 @@
               <a href="{% url 'interprete' interprete.int_id %}">{{ interprete.int_nome }}</a>
             </td>
             <td>{{ interprete.int_cpf }}</td>
-            <td>{{ interprete.int_sexo}}</td>
-            <td>{{ interprete.int_email}}</td>
-            <td>{{ interprete.int_telefone}}</td>
+            <td>{{ interprete.int_genero }}</td>
+            <td>{{ interprete.int_email }}</td>
+            <td>{{ interprete.int_telefone }}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'administrador.apps.AdministradorConfig',
     'monitor_tutor.apps.MonitorTutorConfig',
     'sistema.apps.SistemaConfig',
-    'contas.apps.ContasConfig',
     'accounts.apps.AccountsConfig',
 ]
 
@@ -137,7 +136,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'templates/static')
 ]
 
-AUTH_USER_MODEL = 'contas.User'
+# AUTH_USER_MODEL = 'contas.User'
 
 #MENSAGENS
 # https://getbootstrap.com/docs/4.0/components/alerts/

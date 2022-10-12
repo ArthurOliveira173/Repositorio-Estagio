@@ -8,10 +8,10 @@
         <tr>
           <th scope="col">Nome</th>
           <th scope="col">Curso</th>
-          <th scope="col">Email</th>
+          <th scope="col">Email Institucional</th>
           <th scope="col">Telefone</th>
           <th scope="col">CPF</th>
-          <th scope="col">Sexo</th>
+          <th scope="col">Genero</th>
 
         </tr>
       </thead>
@@ -22,10 +22,10 @@
               <a href="{% url 'tutor' tutor.tut_id %}">{{ tutor.tut_nome }}</a>
             </td>
             <td>{{ tutor.tut_cur }}</td>
-            <td>{{ tutor.tut_email }}</td>
+            <td>{{ tutor.tut_email_institucional }}</td>
             <td>{{ tutor.tut_telefone }}</td>
             <td>{{ tutor.tut_cpf }}</td>
-            <td>{{ tutor.tut_sexo }}</td>
+            <td>{{ tutor.tut_genero }}</td>
           </tr>
         {% endfor %}
       </tbody>

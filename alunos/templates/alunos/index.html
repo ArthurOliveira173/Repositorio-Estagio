@@ -8,9 +8,9 @@
         <tr>
           <th scope="col">Nome</th>
           <th scope="col">Curso</th>
-          <th scope="col">Email</th>
+          <th scope="col">Email Institucional</th>
           <th scope="col">Telefone</th>
-          <th scope="col">Sexo</th>
+          <th scope="col">Genero</th>
           <th scope="col">Deficiencia</th>
 
         </tr>
@@ -22,9 +22,9 @@
               <a href="{% url 'aluno' aluno.alu_id %}">{{ aluno.alu_nome }}</a>
             </td>
             <td>{{ aluno.alu_cur }}</td>
-            <td>{{ aluno.alu_email }}</td>
+            <td>{{ aluno.alu_email_institucional }}</td>
             <td>{{ aluno.alu_telefone }}</td>
-            <td>{{ aluno.alu_sexo }}</td>
+            <td>{{ aluno.alu_genero }}</td>
             <td>{{ aluno.alu_deficiencias }}</td>
           </tr>
         {% endfor %}
