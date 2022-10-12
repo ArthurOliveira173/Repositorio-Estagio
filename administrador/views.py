@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.apps import apps
 from django.core.paginator import Paginator
+from django.db.models import Q
 from alunos.models import AlunoPcd
 from alunos.forms import AlunosForm
 
@@ -49,9 +50,24 @@ def adicionarAluno(request):
 
 
 def buscarAluno(request):
-    return render(request, 'administrador/alunos.html', {
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            try:
+                alunos = AlunoPcd.objects.filter(Q(alu_nome__icontains=searched) | Q(alu_curso__icontains=searched))
+            except:
+                alunos = AlunoPcd.objects.filter(Q(alu_nome__icontains=searched))
+        else:
+            alunos = None
 
-    })
+        return render(request, 'administrador/buscarAluno.html', {
+            'searched': searched,
+            'alunos': alunos
+        })
+    else:
+        return render(request, 'administrador/buscarAluno.html', {
+
+        })
 
 
 def aluno(request):
