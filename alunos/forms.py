@@ -7,7 +7,7 @@ class AlunosForm(ModelForm):
     class Meta:
         model = AlunoPcd
         fields = ('alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
-                  'alu_endereco', 'alu_matricula', 'alu_deficiencias', 'alu_curso', 'alu_periodo_academico')
+                  'alu_endereco', 'alu_matricula', 'alu_deficiencias', 'alu_curso', 'alu_periodo_academico', 'alu_data_nascimento')
         labels = {
             'alu_nome': 'Digite o nome',
             'alu_cpf': 'Digite o CPF',
@@ -20,6 +20,7 @@ class AlunosForm(ModelForm):
             'alu_deficiencias': 'Cite as deficiencias',
             'alu_curso': 'Defina o curso',
             'alu_periodo_academico': 'Defina o periodo academico',
+            'alu_data_nascimento': 'Defina a data de nascimento',
         }
         widgets = {
             'alu_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
@@ -32,4 +33,5 @@ class AlunosForm(ModelForm):
             'alu_curso': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Curso'}),
             'alu_endereco': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
             'alu_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
+            'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'})
         }

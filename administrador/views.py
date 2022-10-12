@@ -45,7 +45,7 @@ def adicionarAluno(request):
             submitted = True
     context['form'] = form
     context['submitted'] = submitted
-    return render(request, 'alunos/adicionarAluno.html', context)
+    return render(request, 'administrador/adicionarAluno.html', context)
 
 
 def buscarAluno(request):
