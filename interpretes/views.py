@@ -12,6 +12,9 @@ def index(request):
         'interpretes' : interpretes
     })
 
+def intAluno(request):
+    return render(request, 'interpretes/intAluno.html')
+
 def interprete(request, interprete_id):
     interprete = get_object_or_404(Interprete, int_id=interprete_id)
     return render(request, 'interpretes/interprete.html', {

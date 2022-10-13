@@ -12,6 +12,9 @@ def index_mon(request):
         'monitores' : monitores
     })
 
+def monAluno(request):
+    return render(request, 'monitor_tutor/monAluno.html')
+
 def monitor(request, monitor_id):
     monitor = get_object_or_404(Monitor, mon_id=monitor_id)
     return render(request, 'monitor_tutor/monitor.html', {
@@ -27,6 +30,9 @@ def index_tut(request):
     return render(request, 'monitor_tutor/index_tut.html', {
         'tutores' : tutores
     })
+
+def tutAluno(request):
+    return render(request, 'monitor_tutor/tutAluno.html')
 
 def tutor(request, tutor_id):
     tutor = get_object_or_404(Tutor, tut_id=tutor_id)

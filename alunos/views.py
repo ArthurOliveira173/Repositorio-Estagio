@@ -17,6 +17,9 @@ def index(request):
      'alunos' : alunos
     })
 
+def acompanhantes(request):
+    return render(request, 'alunos/acompanhantes.html')
+
 def aluno(request, aluno_id):
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     return render(request, 'alunos/aluno.html', {

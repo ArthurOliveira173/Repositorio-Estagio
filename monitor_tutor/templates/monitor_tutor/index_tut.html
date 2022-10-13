@@ -1,51 +1,78 @@
-{% extends 'baseGerirMonitorTutor.html' %}
+{% extends 'baseGerirTutores.html' %}
 
 {%block conteudo%}
-<body>
-    <h1 class="mt-5">Tutores</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Nome</th>
-          <th scope="col">Curso</th>
-          <th scope="col">Email Institucional</th>
-          <th scope="col">Telefone</th>
-          <th scope="col">CPF</th>
-          <th scope="col">Genero</th>
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-        </tr>
-      </thead>
-      <tbody>
-        {% for tutor in tutores %}
-          <tr>
-            <td>
-              <a href="{% url 'tutor' tutor.tut_id %}">{{ tutor.tut_nome }}</a>
-            </td>
-            <td>{{ tutor.tut_cur }}</td>
-            <td>{{ tutor.tut_email_institucional }}</td>
-            <td>{{ tutor.tut_telefone }}</td>
-            <td>{{ tutor.tut_cpf }}</td>
-            <td>{{ tutor.tut_genero }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    {% for pagina in tutores.paginator.page_range %}
-      {% if tutores.number == pagina %}
-        <li
-                class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
-        </li>
-      {% else %}
-        <li
-                class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-</nav>
+  .stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0,0,0,0);
+  }
+</style>
+<body style="background-color: #f5f7fa">
+    <br>
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+      <div class="d-flex align-items-center">
+        <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/monitor_tutor/tutores" role="button">Voltar</a>
+      </div>
+    </div>
+    <div class="container-fluid" align="center">
+      <section>
+        <div class="row">
+          <div class="col-12 mt-3 mb-1">
+          </div>
+        </div>
+        <div class="row" style="">
+            <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: -10px">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between p-md-1">
+                    <div class="d-flex flex-row">
+                      <div class="align-self-center">
+                          <i class="fas fa-pencil-alt text-info fa-3x me-4"></i>
+                      </div>
+                      <div style="text-align: left; margin-left: 20px">
+                          <h1><i style="color:black;">Visualizacao</i></h1>
+                          <h1><i style="color:black;">de Perfil</i></h1>
+                      </div>
+                    </div>
+                  </div>
+                  <a href="/monitor_tutor/tutores" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row" style="">
+            <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: -10px">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                      <div class="d-flex flex-row">
+                        <div class="align-self-center">
+                          <i class="fas fa-pencil-alt text-info fa-3x me-4"></i>
+                        </div>
+                        <div style="text-align: left; margin-left: 20px">
+                          <h1><i style="color:black;">Visualizacao</i></h1>
+                          <h1><i style="color:black;">de Alunos</i></h1>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="/monitor_tutor/tutAluno" class="stretched-link"></a>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </section>
+    </div>
 </body>
 
 {%endblock%}

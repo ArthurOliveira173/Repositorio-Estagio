@@ -70,10 +70,10 @@ def buscarAluno(request):
         })
 
 
-def aluno(request, aluno_id):
+def admAluno(request, aluno_id):
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
 
-    return render(request, 'administrador/aluno.html', {
+    return render(request, 'administrador/admAluno.html', {
         'aluno': aluno
     })
 
