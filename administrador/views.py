@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, Http404
 from django.apps import apps
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -70,13 +70,18 @@ def buscarAluno(request):
         })
 
 
-def aluno(request):
-    return render(request, 'administrador/alunos.html', {
+def aluno(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
 
+    return render(request, 'administrador/aluno.html', {
+        'aluno': aluno
     })
 
-def adminMonitorTutor(request):
-    return render(request, 'administrador/monitorTutor.html')
+def adminMonitores(request):
+    return render(request, 'administrador/monitores.html')
+
+def adminTutores(request):
+    return render(request, 'administrador/tutores.html')
 
 def adminInterpretes(request):
     return render(request, 'administrador/interpretes.html')
