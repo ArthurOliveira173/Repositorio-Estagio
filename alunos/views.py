@@ -6,14 +6,14 @@ from django.views.generic import CreateView
 from .models import AlunoPcd
 from django.core.paginator import Paginator
 # Create your views here.
-def index(request):
+def aluIndex(request):
     alunos = AlunoPcd.objects.all()
     paginator = Paginator(alunos, 10)
 
     page = request.GET.get('p')
     alunos = paginator.get_page(page)
 
-    return render(request, 'alunos/index.html', {
+    return render(request, 'alunos/aluIndex.html', {
      'alunos' : alunos
     })
 

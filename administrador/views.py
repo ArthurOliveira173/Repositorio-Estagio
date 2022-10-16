@@ -10,8 +10,8 @@ from alunos.forms import AlunosForm
 # Create your views here.
 from django.http import HttpResponse
 
-def index(request):
-    return render(request, 'administrador/index.html')
+def admIndex(request):
+    return render(request, 'administrador/admIndex.html')
 
 def homologar(request):
     return render(request, 'administrador/homologar.html')

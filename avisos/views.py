@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from .models import Avisos
 from django.http import HttpResponseRedirect
@@ -10,7 +10,7 @@ from .forms import AvisosForm
 #     with open('avisos/uploads/'+f.name, 'wb+') as destination:
 #         for chunk in f.chunks():
 #             destination.write(chunk)
-def index(request):
+def aviIndex(request):
     avisos = Avisos.objects.order_by('-avi_id').filter(
         avi_mostrar = True
     )
@@ -18,7 +18,7 @@ def index(request):
 
     page = request.GET.get('p')
     avisos = paginator.get_page(page)
-    return render(request, 'avisos/index.html', {
+    return render(request, 'avisos/aviIndex.html', {
         'avisos': avisos
     })
 
@@ -46,19 +46,33 @@ def adicionarAviso(request):
 
 def aviso(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)
-
     if not aviso.avi_mostrar:
         raise Http404()
 
     return render(request, 'avisos/aviso.html', {
-        'aviso' : aviso
+        'aviso': aviso
+    })
+
+def atualizarAviso(request, aviso_id):
+    aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    if not aviso.avi_mostrar:
+        raise Http404()
+
+    form = AvisosForm(request.POST or None, instance=aviso)
+    if form.is_valid():
+        form.save()
+        return redirect('aviIndex')
+
+    return render(request, 'avisos/atualizarAviso.html', {
+        'aviso': aviso,
+        'form': form
     })
 
 def buscarAviso(request):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
-            avisos = Avisos.objects.filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
         else:
             avisos = None
 
