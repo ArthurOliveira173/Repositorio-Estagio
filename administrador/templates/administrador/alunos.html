@@ -96,7 +96,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <form class="d-flex searchbar" method="POST" action="{% url 'buscarAluno' %}">
           {% csrf_token %}
-          <input class="form" type="search" placeholder="Busque avisos aqui.." aria-label="Search" name="searched">
+          <input class="form" type="search" placeholder="Busque alunos aqui.." aria-label="Search" name="searched">
           <button type="submit"><i class="fa fa-search"></i></button>
         </form>
       </div>
@@ -116,6 +116,7 @@
                             <th scope="col">Email Institucional</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
+                            <th scope="col">Operacoes</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -128,6 +129,10 @@
                               <td>{{ aluno.alu_email_institucional }}</td>
                               <td>{{ aluno.alu_telefone }}</td>
                               <td>{{ aluno.alu_cpf }}</td>
+                              <td>
+                                <a class="btn btn-secondary text-white " href="{% url 'atualizarAluno' aluno.alu_id %}" role="button">Editar</a>
+                                <a class="btn btn-danger text-white" href="{% url 'deletarAluno' aluno.alu_id %}" role="button">Excluir</a>
+                              </td>
                             </tr>
                           {% endfor %}
                         </tbody>

@@ -7,5 +7,6 @@ urlpatterns = [
     path('buscarAviso', views.buscarAviso, name='buscarAviso'),
     path('aviso/<int:aviso_id>', views.aviso, name='aviso'),
     path('atualizarAviso/<int:aviso_id>', views.atualizarAviso, name='atualizarAviso'),
+    path('deletarAviso/<int:aviso_id>', views.deletarAviso, name='deletarAviso'),
 
 ]

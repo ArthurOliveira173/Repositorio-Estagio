@@ -1,8 +1,9 @@
 from django import forms
 from django.forms import ModelForm
-from alunos.models import AlunoPcd
+from .models import AlunoPcd
 
 class AlunosForm(ModelForm):
+    alu_endereco = forms.CheckboxInput()
 
     class Meta:
         model = AlunoPcd
@@ -30,8 +31,13 @@ class AlunosForm(ModelForm):
             'alu_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
             'alu_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
             'alu_deficiencias': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Deficiencias'}),
-            'alu_curso': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Curso'}),
-            'alu_endereco': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'alu_curso': forms.Select(attrs={'class':'form-control', 'placeholder': 'Curso'}),
+            'alu_endereco': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
             'alu_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
             'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super(AlunosForm, self).__init__(*args, **kwargs)
+        self.fields['alu_endereco'].widget.attrs['data-toggle'] = "modal"
+        self.fields['alu_endereco'].widget.attrs['data-target'] = "#exampleModal"

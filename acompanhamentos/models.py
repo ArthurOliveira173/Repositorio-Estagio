@@ -11,6 +11,10 @@ class Acompanhamentos(models.Model):
     aco_inicio = models.DateField(db_column='aco_inicio', default = timezone.now)
     aco_fim = models.DateField(db_column='aco_fim', default = timezone.now)
     aco_aluno_pcd = models.ForeignKey(AlunoPcd, on_delete=models.SET_NULL, db_column='aco_aluno_pcd', blank=True, null=True)
+    aco_disciplinas = models.ManyToManyField(Disciplinas, through='AcompanhamentoDisciplinas')
+    aco_interpretes = models.ManyToManyField(Interprete, through='AcompanhamentoInterpretes')
+    aco_monitores = models.ManyToManyField(Monitor, through='AcompanhamentoMonitores')
+    aco_tutores = models.ManyToManyField(Tutor, through='AcompanhamentoTutores')
     def __str__(self):
         return "{0}: {1}".format(self.aco_aluno_pcd, self.aco_semestre)
 

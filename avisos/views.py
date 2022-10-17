@@ -44,6 +44,23 @@ def adicionarAviso(request):
     context['submitted'] = submitted
     return render(request, 'avisos/adicionarAviso.html', context)
 
+def buscarAviso(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+        else:
+            avisos = None
+
+        return render(request, 'avisos/buscarAviso.html', {
+            'searched': searched,
+            'avisos': avisos
+        })
+    else:
+        return render(request, 'avisos/buscarAviso.html', {
+
+        })
+
 def aviso(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)
     if not aviso.avi_mostrar:
@@ -68,19 +85,7 @@ def atualizarAviso(request, aviso_id):
         'form': form
     })
 
-def buscarAviso(request):
-    if request.POST:
-        searched = request.POST.get('searched')
-        if searched:
-            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
-        else:
-            avisos = None
-
-        return render(request, 'avisos/buscarAviso.html', {
-            'searched': searched,
-            'avisos': avisos
-        })
-    else:
-        return render(request, 'avisos/buscarAviso.html', {
-
-        })
+def deletarAviso(request, aviso_id):
+    aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    aviso.delete()
+    return redirect('aviIndex')

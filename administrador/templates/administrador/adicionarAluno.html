@@ -23,6 +23,25 @@
                 {% csrf_token %}
 
                 {{ form.as_p }}
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          {{ form2.as_p }}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <input class="btn btn-primary" type="submit" value="Salvar">
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div style=" float: left; position: relative; left: 50%;">
                     <input style="margin-bottom: 50px; float: left; position: relative; left: -50%;"
                            class="btn btn-primary" type="submit" value="Enviar">
