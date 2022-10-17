@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from alunos.models import AlunoPcd
-from monitor_tutor.models import Monitor, Tutor
-from interpretes.models import Interprete
+from membros.models import AlunoPcd, Monitor, Tutor, Interprete
 from sistema.models import Disciplinas
 
 class Acompanhamentos(models.Model):

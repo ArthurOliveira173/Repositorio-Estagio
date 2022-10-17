@@ -23,12 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('acompanhamentos/', include('acompanhamentos.urls')),
-    path('administrador/', include('administrador.urls')),
-    path('alunos/', include('alunos.urls')),
     path('avisos/', include('avisos.urls')),
     path('feedbacks/', include('feedbacks.urls')),
-    path('interpretes/', include('interpretes.urls')),
-    path('monitor_tutor/', include('monitor_tutor.urls')),
+    path('membros/', include('membros.urls')),
     path('relatorios/', include('relatorios.urls')),
     path('sistema/', include('sistema.urls')),
 ]

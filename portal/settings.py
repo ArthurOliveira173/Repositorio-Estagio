@@ -40,13 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'acompanhamentos.apps.AcompanhamentosConfig',
     'avisos.apps.AvisosConfig',
-    'interpretes.apps.InterpretesConfig',
-    'alunos.apps.AlunosConfig',
-    'administrador.apps.AdministradorConfig',
-    'monitor_tutor.apps.MonitorTutorConfig',
     'sistema.apps.SistemaConfig',
     'feedbacks.apps.FeedbacksConfig',
     'relatorios.apps.RelatoriosConfig',
+    'membros.apps.MembrosConfig',
     'accounts.apps.AccountsConfig',
 ]
 

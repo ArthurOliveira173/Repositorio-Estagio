@@ -63,7 +63,7 @@ class Laudos(models.Model):
     lau_numero = models.CharField(db_column='lau_numero', max_length=255)
     lau_nome = models.CharField(db_column='lau_nome', max_length=255)
     lau_arquivo = models.FileField(db_column='lau_arquivo', blank=True, null=True)
-    lau_aluno = models.ForeignKey('alunos.AlunoPcd', on_delete=models.DO_NOTHING, db_column='lau_aluno', blank=True, null=True)
+    lau_aluno = models.ForeignKey('membros.AlunoPcd', on_delete=models.DO_NOTHING, db_column='lau_aluno', blank=True, null=True)
 
     class Meta:
         managed = False

@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from administrador.models import Administrador
 from acompanhamentos.models import AcompanhamentoMonitores, AcompanhamentoTutores
 
 class RelatoriosMon(models.Model):

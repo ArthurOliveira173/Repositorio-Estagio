@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from administrador.models import Administrador
+from membros.models import Administrador
 
 class Avisos(models.Model):
     avi_id = models.AutoField(db_column='avi_id', primary_key=True)
