@@ -58,13 +58,9 @@ create table if not exists MONITOR (
     mon_matricula char(11) not null,
     mon_curso int,
     mon_periodo_academico varchar(255) not null,
-    mon_tipo enum('Monitor','Tutor') not null,
-    mon_arquivos blob,
-    mon_aluno_pcd int,
     primary key(mon_id),
     foreign key(mon_endereco) references ENDERECOS(end_id),
-    foreign key(mon_curso) references CURSOS(cur_id),
-    foreign key(mon_aluno_pcd) references ALUNO_PCD(alu_id)
+    foreign key(mon_curso) references CURSOS(cur_id)
 );
 
 create table if not exists TUTOR (
@@ -79,13 +75,9 @@ create table if not exists TUTOR (
     tut_matricula char(11) not null,
     tut_curso int,
     tut_periodo_academico varchar(255) not null,
-    tut_tipo enum('Monitor','Tutor') not null,
-    tut_arquivos blob,
-    tut_aluno_pcd int,
     primary key(tut_id),
     foreign key(tut_endereco) references ENDERECOS(end_id),
-    foreign key(tut_curso) references CURSOS(cur_id),
-    foreign key(tut_aluno_pcd) references ALUNO_PCD(alu_id)
+    foreign key(tut_curso) references CURSOS(cur_id)
 );
 
 create table if not exists ADMINISTRADOR (
@@ -125,7 +117,8 @@ create table if not exists INTERPRETE (
     int_nome varchar(255) not null,
     int_cpf char(11) not null,
     int_genero char(1) not null,
-    int_email varchar(255) not null,
+    int_email_pessoal varchar(255) not null,
+    int_email_institucional varchar(255) not null,
     int_telefone varchar(255) not null,
     primary key(int_id)
 );
