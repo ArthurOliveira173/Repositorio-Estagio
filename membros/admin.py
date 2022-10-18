@@ -11,24 +11,26 @@ class AdministradorAdmin(admin.ModelAdmin):
 
 class AlunoAdmin(admin.ModelAdmin):
     list_display = ('alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional',
-                    'alu_telefone', 'alu_endereco', 'alu_matricula', 'alu_deficiencias',
-                    'alu_curso', 'alu_periodo_academico', 'alu_data_nascimento')
-    list_display_links = ('alu_email_pessoal', 'alu_email_institucional', 'alu_endereco')
+                    'alu_telefone', 'alu_endereco_cep', 'alu_endereco_descricao', 'alu_endereco_cidade', 'alu_matricula',
+                    'alu_deficiencias', 'alu_curso', 'alu_periodo_academico', 'alu_data_nascimento')
+    list_display_links = ('alu_nome', )
     list_filter = ('alu_nome', 'alu_cpf')
     list_per_page = 10
     search_fields = ('alu_nome', 'alu_cpf')
 
 class MonitorAdmin(admin.ModelAdmin):
     list_display = ('mon_nome', 'mon_cpf', 'mon_genero', 'mon_email_pessoal', 'mon_email_institucional',
-                    'mon_telefone', 'mon_endereco', 'mon_matricula', 'mon_curso', 'mon_periodo_academico')
-    list_display_links = ('mon_email_pessoal', 'mon_email_institucional')
+                    'mon_telefone', 'mon_endereco_cep', 'mon_endereco_descricao', 'mon_endereco_cidade',
+                    'mon_matricula', 'mon_curso', 'mon_periodo_academico')
+    list_display_links = ('mon_nome',)
     list_filter = ('mon_nome', 'mon_cpf', 'mon_genero', 'mon_curso')
     list_per_page = 10
     search_fields = ('mon_nome', 'mon_cpf', 'mon_curso')
 
 class TutorAdmin(admin.ModelAdmin):
     list_display = ('tut_nome', 'tut_cpf', 'tut_genero', 'tut_email_pessoal', 'tut_email_institucional',
-                    'tut_telefone', 'tut_endereco', 'tut_matricula', 'tut_curso', 'tut_periodo_academico')
+                    'tut_telefone', 'tut_endereco_cep', 'tut_endereco_descricao', 'tut_endereco_cidade',
+                    'tut_matricula', 'tut_curso', 'tut_periodo_academico')
     list_display_links = ('tut_email_pessoal', 'tut_email_institucional')
     list_filter = ('tut_nome', 'tut_cpf', 'tut_genero', 'tut_curso')
     list_per_page = 10

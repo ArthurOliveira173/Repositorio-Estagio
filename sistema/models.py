@@ -1,10 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-Cidades = (
-    ('RB', 'Rio Branco'),
-    ('CS', 'Cruzeiro do Sul'),
-)
 Turnos = (
     ('manha', 'Manha'),
     ('tarde', 'Tarde'),
@@ -15,20 +11,6 @@ LaudoStatus = (
     ('ativo', 'Ativo'),
     ('inativo', 'Inativo'),
 )
-
-class Enderecos(models.Model):
-
-    end_id = models.AutoField(db_column='end_id', primary_key=True)
-    end_cep = models.CharField(db_column='end_cep', max_length=8)
-    end_descricao = models.CharField(db_column='end_descricao', max_length=255)
-    end_cidade = models.CharField(db_column='end_cidade', max_length=100, choices=Cidades, default='RB')
-
-    class Meta:
-        managed = False
-        db_table = 'enderecos'
-
-    def __str__(self):
-        return "{0}, {1}".format(self.end_descricao, self.end_cidade)
 
 class Cursos(models.Model):
 

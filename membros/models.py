@@ -1,9 +1,13 @@
 from django.db import models
-from sistema.models import Cursos, Enderecos
+from sistema.models import Cursos
 
 generos = (
     ('M', 'Masculino'),
     ('F', 'Feminino'),
+)
+cidades = (
+    ('RB', 'Rio Branco'),
+    ('CS', 'Cruzeiro do Sul'),
 )
 
 # Create your models here.
@@ -28,10 +32,12 @@ class AlunoPcd(models.Model):
     alu_email_pessoal = models.EmailField(db_column='alu_email_pessoal', max_length=255)
     alu_email_institucional = models.EmailField(db_column='alu_email_institucional', max_length=255)
     alu_telefone = models.CharField(db_column='alu_telefone', max_length=255)
-    alu_endereco = models.ForeignKey(Enderecos, models.DO_NOTHING, db_column='alu_endereco', blank=True, null=True)
+    alu_endereco_cep = models.CharField(db_column='alu_endereco_cep', max_length=255)
+    alu_endereco_descricao = models.CharField(db_column='alu_endereco_descricao', max_length=255)
+    alu_endereco_cidade = models.CharField(db_column='alu_endereco_cidade', max_length=255, choices=cidades)
     alu_matricula = models.CharField(db_column='alu_matricula', max_length=11)
     alu_deficiencias = models.CharField(db_column='alu_deficiencias', max_length=255, blank=True, null=True)
-    alu_curso = models.ForeignKey(Cursos, models.DO_NOTHING, db_column='alu_curso', blank=True, null=True)
+    alu_curso = models.ForeignKey(Cursos, on_delete=models.PROTECT, db_column='alu_curso', blank=True, null=True)
     alu_periodo_academico = models.CharField(db_column='alu_periodo_academico', max_length=255)  # Field name made lowercase.
     alu_data_nascimento = models.DateField(db_column='alu_data_nascimento')
 
@@ -50,7 +56,9 @@ class Monitor(models.Model):
     mon_email_pessoal = models.EmailField(db_column='mon_email_pessoal', max_length=255)
     mon_email_institucional = models.EmailField(db_column='mon_email_institucional', max_length=255)
     mon_telefone = models.CharField(db_column='mon_telefone', max_length=255)
-    mon_endereco = models.ForeignKey(Enderecos, models.DO_NOTHING, db_column='mon_endereco', blank=True, null=True)
+    mon_endereco_cep = models.CharField(db_column='mon_endereco_cep', max_length=255)
+    mon_endereco_descricao = models.CharField(db_column='mon_endereco_descricao', max_length=255)
+    mon_endereco_cidade = models.CharField(db_column='mon_endereco_cidade', max_length=255, choices=cidades)
     mon_matricula = models.CharField(db_column='mon_matricula', max_length=11)
     mon_curso = models.ForeignKey(Cursos, models.DO_NOTHING, db_column='mon_curso', blank=True, null=True)
     mon_periodo_academico = models.CharField(db_column='mon_periodo_academico', max_length=255)
@@ -70,7 +78,9 @@ class Tutor(models.Model):
     tut_email_pessoal = models.EmailField(db_column='tut_email_pessoal', max_length=255)
     tut_email_institucional = models.EmailField(db_column='tut_email_institucional', max_length=255)
     tut_telefone = models.CharField(db_column='tut_telefone', max_length=255)
-    tut_endereco = models.ForeignKey(Enderecos, models.DO_NOTHING, db_column='tut_endereco', blank=True, null=True)
+    tut_endereco_cep = models.CharField(db_column='tut_endereco_cep', max_length=255)
+    tut_endereco_descricao = models.CharField(db_column='tut_endereco_descricao', max_length=255)
+    tut_endereco_cidade = models.CharField(db_column='tut_endereco_cidade', max_length=255, choices=cidades)
     tut_matricula = models.CharField(db_column='tut_matricula', max_length=11)
     tut_curso = models.ForeignKey(Cursos, models.DO_NOTHING, db_column='tut_curso', blank=True, null=True)
     tut_periodo_academico = models.CharField(db_column='tut_periodo_academico', max_length=255)

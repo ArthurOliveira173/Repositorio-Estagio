@@ -3,12 +3,12 @@ from django.forms import ModelForm
 from .models import AlunoPcd, Monitor, Tutor, Interprete
 
 class AlunosForm(ModelForm):
-    alu_endereco = forms.CheckboxInput()
 
     class Meta:
         model = AlunoPcd
         fields = ('alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
-                  'alu_endereco', 'alu_matricula', 'alu_deficiencias', 'alu_curso', 'alu_periodo_academico', 'alu_data_nascimento')
+                  'alu_endereco_cep', 'alu_endereco_descricao', 'alu_endereco_cidade', 'alu_matricula', 'alu_deficiencias', 'alu_curso',
+                  'alu_periodo_academico', 'alu_data_nascimento')
         labels = {
             'alu_nome': 'Digite o nome',
             'alu_cpf': 'Digite o CPF',
@@ -16,7 +16,9 @@ class AlunosForm(ModelForm):
             'alu_email_pessoal': 'Digite o email pessoal',
             'alu_email_institucional': 'Digite o email institucional',
             'alu_telefone': 'Digite o contato',
-            'alu_endereco': 'Defina o endereco',
+            'alu_endereco_cep': 'Digite o CEP do endereco',
+            'alu_endereco_descricao': 'Digite o endereco',
+            'alu_endereco_cidade': 'Defina a cidade',
             'alu_matricula': 'Digite a matricula',
             'alu_deficiencias': 'Cite as deficiencias',
             'alu_curso': 'Defina o curso',
@@ -26,28 +28,27 @@ class AlunosForm(ModelForm):
         widgets = {
             'alu_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
             'alu_cpf': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CPF'}),
+            'alu_genero': forms.Select(attrs={'class':'form-control', 'placeholder': 'Genero'}),
             'alu_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
             'alu_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
             'alu_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
             'alu_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
             'alu_deficiencias': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Deficiencias'}),
             'alu_curso': forms.Select(attrs={'class':'form-control', 'placeholder': 'Curso'}),
-            'alu_endereco': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'alu_endereco_cep': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CEP'}),
+            'alu_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
+            'alu_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
             'alu_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
             'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'})
         }
-
-    def __init__(self, *args, **kwargs):
-        super(AlunosForm, self).__init__(*args, **kwargs)
-        self.fields['alu_endereco'].widget.attrs['data-toggle'] = "modal"
-        self.fields['alu_endereco'].widget.attrs['data-target'] = "#exampleModal"
 
 class MonitoresForm(ModelForm):
 
     class Meta:
         model = Monitor
         fields = ('mon_nome', 'mon_cpf', 'mon_genero', 'mon_email_pessoal', 'mon_email_institucional', 'mon_telefone',
-                  'mon_endereco', 'mon_matricula', 'mon_curso', 'mon_periodo_academico')
+                  'mon_endereco_cep', 'mon_endereco_descricao', 'mon_endereco_cidade', 'mon_matricula',
+                  'mon_curso', 'mon_periodo_academico')
         labels = {
             'mon_nome': 'Digite o nome',
             'mon_cpf': 'Digite o CPF',
@@ -55,7 +56,9 @@ class MonitoresForm(ModelForm):
             'mon_email_pessoal': 'Digite o email pessoal',
             'mon_email_institucional': 'Digite o email institucional',
             'mon_telefone': 'Digite o contato',
-            'mon_endereco': 'Defina o endereco',
+            'mon_endereco_cep': 'Digite o CEP do endereco',
+            'mon_endereco_descricao': 'Digite o endereco',
+            'mon_endereco_cidade': 'Defina a cidade',
             'mon_matricula': 'Digite a matricula',
             'mon_curso': 'Defina o curso',
             'mon_periodo_academico': 'Defina o periodo academico',
@@ -68,7 +71,9 @@ class MonitoresForm(ModelForm):
             'mon_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
             'mon_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
             'mon_curso': forms.Select(attrs={'class':'form-control', 'placeholder': 'Curso'}),
-            'mon_endereco': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'mon_endereco_cep': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CEP'}),
+            'mon_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
+            'mon_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
             'mon_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
         }
 
@@ -77,7 +82,8 @@ class TutoresForm(ModelForm):
     class Meta:
         model = Tutor
         fields = ('tut_nome', 'tut_cpf', 'tut_genero', 'tut_email_pessoal', 'tut_email_institucional', 'tut_telefone',
-                  'tut_endereco', 'tut_matricula', 'tut_curso', 'tut_periodo_academico')
+                  'tut_endereco_cep', 'tut_endereco_descricao', 'tut_endereco_cidade', 'tut_matricula',
+                  'tut_curso', 'tut_periodo_academico')
         labels = {
             'tut_nome': 'Digite o nome',
             'tut_cpf': 'Digite o CPF',
@@ -85,7 +91,9 @@ class TutoresForm(ModelForm):
             'tut_email_pessoal': 'Digite o email pessoal',
             'tut_email_institucional': 'Digite o email institucional',
             'tut_telefone': 'Digite o contato',
-            'tut_endereco': 'Defina o endereco',
+            'tut_endereco_cep': 'Digite o CEP do endereco',
+            'tut_endereco_descricao': 'Digite o endereco',
+            'tut_endereco_cidade': 'Defina a cidade',
             'tut_matricula': 'Digite a matricula',
             'tut_curso': 'Defina o curso',
             'tut_periodo_academico': 'Defina o periodo academico',
@@ -98,7 +106,9 @@ class TutoresForm(ModelForm):
             'tut_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
             'tut_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
             'tut_curso': forms.Select(attrs={'class':'form-control', 'placeholder': 'Curso'}),
-            'tut_endereco': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'tut_endereco_cep': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CEP'}),
+            'tut_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
+            'tut_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
             'tut_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
         }
 

@@ -1,11 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
-from sistema.models import Enderecos
-from sistema.forms import EnderecosForm
 from .models import AlunoPcd, Monitor, Tutor, Interprete
 from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
 
@@ -36,7 +34,6 @@ def adicionarAluno(request):
     context = {}
     if request.POST:
         form = AlunosForm(request.POST)
-
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('adicionarAluno?submitted=True')
@@ -52,28 +49,42 @@ def adicionarAluno(request):
     context['submitted'] = submitted
     return render(request, 'administrador/adicionarAluno.html', context)
 
-def adicionarAlunoEndereco(request):
-    submitted = False
-
-    context = {}
-    if request.POST:
-        form = AlunosForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('adicionarAluno?submitted=True')
-        else:
-            form = AlunosForm()
-            form.save()
-            return HttpResponseRedirect('adicionarAluno?submitted=True')
-    else:
-        form = AlunosForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    context['form'] = form
-    context['submitted'] = submitted
-    return render(request, 'administrador/adicionarAluno.html', context)
-
+# def adicionarAluno(request):
+#     submitted = False
+#     endSubmitted = False
+#
+#     context = {}
+#     if 'btnAluno' in request.POST:
+#         aluForm = AlunosForm(request.POST)
+#
+#         if aluForm.is_valid():
+#             aluForm.save()
+#             return HttpResponseRedirect('adicionarAluno?submitted=True')
+#         else:
+#             aluForm = AlunosForm()
+#             aluForm.save()
+#             return HttpResponseRedirect('adicionarAluno?submitted=True')
+#     elif 'btnEndereco' in request.POST:
+#         endForm = EnderecosForm(request.POST)
+#         if endForm.is_valid():
+#             endForm.save()
+#             return HttpResponseRedirect('adicionarAluno?endSubmitted=True')
+#         else:
+#             endForm = EnderecosForm()
+#             endForm.save()
+#             return HttpResponseRedirect('adicionarAluno?endSubmitted=True')
+#     elif 'endSubmitted' in request.GET:
+#         aluForm = AlunosForm
+#         endForm = EnderecosForm()
+#     else:
+#         aluForm = AlunosForm()
+#         endForm = EnderecosForm()
+#         if 'submitted' in request.GET:
+#             submitted = True
+#     context['aluForm'] = aluForm
+#     context['endForm'] = endForm
+#     context['submitted'] = submitted
+#     return render(request, 'administrador/adicionarAluno.html', context)
 
 def buscarAluno(request):
     if request.POST:
