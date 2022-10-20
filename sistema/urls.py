@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.template.defaulttags import url
+
 from django.urls import path, include
 from . import views
 urlpatterns = [
-    path('404', views.erro404, name='erro404'),
+    path('ola', views.ola, name='ola')
 ]

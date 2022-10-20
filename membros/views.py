@@ -280,7 +280,7 @@ def admTutor(request, tutor_id):
 
 
 def atualizarTutor(request, tutor_id):
-    tutor = get_object_or_404(AlunoPcd, tut_id=tutor_id)
+    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
 
     form = TutoresForm(request.POST or None, instance=tutor)
     if form.is_valid():
@@ -294,7 +294,7 @@ def atualizarTutor(request, tutor_id):
 
 
 def deletarTutor(request, tutor_id):
-    tutor = get_object_or_404(AlunoPcd, tut_id=tutor_id)
+    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
     tutor.delete()
     return redirect('tutores')
 

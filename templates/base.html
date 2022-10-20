@@ -5,18 +5,9 @@
 
 <head>
   <title>Sistema Estágio</title>
-  {% include 'parciais/_head.html' %}
 </head>
 
 <body>
-
-  {% include 'parciais/_nav.html' %}
-  <!-- Page Content -->
-    {% if messages %}
-      {% for message in messages %}
-        {{ message }} {{ message.tags }}
-      {% endfor %}
-    {% endif %}
   {%block conteudo%}
   {%endblock%}
 

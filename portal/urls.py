@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     path('membros/', include('membros.urls')),
     path('relatorios/', include('relatorios.urls')),
     path('sistema/', include('sistema.urls')),
+    path('404', TemplateView.as_view(template_name="404.html"))
 ]
