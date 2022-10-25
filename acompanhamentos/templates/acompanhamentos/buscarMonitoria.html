@@ -10,13 +10,13 @@
 {%endblock%}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos" role="button">Voltar</a>
-    <a class="btn btn-primary" style="margin-right: 30px" href="/acompanhamentos/adicionarAcompanhamento" role="button">Iniciar acompanhamento</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos/monitorias" role="button">Voltar</a>
+    <a class="btn btn-primary" style="margin-right: 30px" href="/acompanhamentos/adicionarMonitoria" role="button">Iniciar monitoria</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarAcompanhamento' %}">
+          method="POST" action="{% url 'buscarMonitoria' %}">
         <div class="input-group">
             {% csrf_token %}
-            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque acompanhamentos aqui..."
+            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque monitorias aqui..."
                    aria-label="Search" aria-describedby="basic-addon2" name="searched">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">
@@ -69,7 +69,7 @@
 </style>
 <body style="background-color: #f5f7fa">
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Acompanhamento de Alunos</h1>
+        <h1 class="h3 mb-4 text-gray-800">Acompanhamento de Monitores</h1>
     </div>
     <div align="center">
         {% if searched %}
@@ -79,32 +79,29 @@
                       <div class="col-12">
                         <div class="card" style="border-color: blue">
                           <div class="card-body p-0">
-
                             <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: auto">
                               <table class="table table-striped mb-0">
                                 <thead style="background-color: #4A6FDC;">
                                   <tr class="text-white">
-                                    <th scope="col">Aluno</th>
-                                    <th scope="col">Semestre</th>
+                                    <th scope="col">Monitor</th>
+                                    <th scope="col">Acompanhamento</th>
                                     <th scope="col">Data de Inicio</th>
                                     <th scope="col">Data de Encerramento</th>
                                     <th scope="col">Operacoes</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {% for acompanhamento in acompanhamentos %}
+                                  {% for monitoria in monitorias %}
                                     <tr>
+                                      <td>{{ monitoria.AsMon_monitor }}</td>
+                                      <td>{{ monitoria.AsMon_acompanhamento }}</td>
+                                      <td>{{ monitoria.AsMon_inicio }}</td>
+                                      <td>{{ monitoria.AsMon_fim }}</td>
                                       <td>
-                                          <a class="rounded-0 w-100" href="{% url 'acompanhamento' acompanhamento.aco_id %}" role="button">{{ acompanhamento.aco_aluno_pcd }}</a>
-                                      </td>
-                                      <td>{{ acompanhamento.aco_semestre }}</td>
-                                      <td>{{ acompanhamento.aco_inicio }}</td>
-                                      <td>{{ acompanhamento.aco_fim }}</td>
-                                      <td>
-                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarAcompanhamento' acompanhamento.aco_id %}" role="button">
+                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarMonitoria' monitoria.AsMon_id %}" role="button">
                                           Editar
                                         </a>
-                                        <a class="btn btn-danger text-white" href="{% url 'deletarAcompanhamento' acompanhamento.aco_id %}" role="button">
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarMonitoria' monitoria.AsMon_id %}" role="button">
                                           Excluir
                                         </a>
                                       </td>
