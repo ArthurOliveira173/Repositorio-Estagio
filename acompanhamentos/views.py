@@ -278,7 +278,7 @@ def adicionarMonitoria(request):
 def atualizarMonitoria(request, monitoria_id):
     monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_id=monitoria_id)
 
-    form = AcompanhamentosForm(request.POST or None, instance=monitoria)
+    form = AcoMonitoriasForm(request.POST or None, instance=monitoria)
     if form.is_valid():
         form.save()
         return redirect('acoMonIndex')

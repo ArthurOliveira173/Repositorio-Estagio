@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/interpretes/<int:interprete_id>', views.admInterprete, name='admInterprete'),
     path('admin/atualizarInterprete/<int:interprete_id>', views.atualizarInterprete, name='atualizarInterprete'),
     path('admin/deletarInterprete/<int:interprete_id>', views.deletarInterprete, name='deletarInterprete'),
+
     #Alunos
     path('alunos', views.aluIndex, name='aluIndex'),
     path('alunos/acompanhantes', views.acompanhantes, name='acompanhantes'),
