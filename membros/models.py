@@ -40,6 +40,7 @@ class AlunoPcd(models.Model):
     alu_curso = models.ForeignKey(Cursos, on_delete=models.PROTECT, db_column='alu_curso', blank=True, null=True)
     alu_periodo_academico = models.CharField(db_column='alu_periodo_academico', max_length=255)  # Field name made lowercase.
     alu_data_nascimento = models.DateField(db_column='alu_data_nascimento')
+    alu_ativo = models.BooleanField(db_column="alu_ativo", default=False)
 
     class Meta:
         managed = False
@@ -62,6 +63,7 @@ class Monitor(models.Model):
     mon_matricula = models.CharField(db_column='mon_matricula', max_length=11)
     mon_curso = models.ForeignKey(Cursos, models.DO_NOTHING, db_column='mon_curso', blank=True, null=True)
     mon_periodo_academico = models.CharField(db_column='mon_periodo_academico', max_length=255)
+    mon_ativo = models.BooleanField(db_column="mon_ativo", default=False)
 
     class Meta:
         managed = False
@@ -84,6 +86,7 @@ class Tutor(models.Model):
     tut_matricula = models.CharField(db_column='tut_matricula', max_length=11)
     tut_curso = models.ForeignKey(Cursos, models.DO_NOTHING, db_column='tut_curso', blank=True, null=True)
     tut_periodo_academico = models.CharField(db_column='tut_periodo_academico', max_length=255)
+    tut_ativo = models.BooleanField(db_column="tut_ativo", default=False)
 
     class Meta:
         managed = False
@@ -99,6 +102,7 @@ class Interprete(models.Model):
     int_email_pessoal = models.EmailField(db_column='int_email_pessoal', max_length=255)
     int_email_institucional = models.EmailField(db_column='int_email_institucional', max_length=255)
     int_telefone = models.CharField(db_column='int_telefone', max_length=255)
+    int_ativo = models.BooleanField(db_column="int_ativo", default=True)
 
     class Meta:
         managed = False
