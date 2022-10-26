@@ -1,20 +1,105 @@
-# CCET
-cursoDao.AdicionarCurso((1, "Sistemas de Informação", 8, 4))
-cursoDao.AdicionarCurso((2, "Engenharia Civil", 10, 4))
-cursoDao.AdicionarCurso((3, "Engenharia Elétrica", 10, 4))
-cursoDao.AdicionarCurso((4, "Matemática", 8, 2))
+use estagio;
 
-# CELA
-cursoDao.AdicionarCurso((5, "Artes Cênicas: Teatro", 8, 2))
-cursoDao.AdicionarCurso((6, "Letras: Espanhol", 8, 3))
-cursoDao.AdicionarCurso((7, "Letras: Francês", 8, 2))
-cursoDao.AdicionarCurso((8, "Letras: Inglês", 8, 2))
-cursoDao.AdicionarCurso((9, "Letras: Libras - Língua Portuguesa", 8, 2))
-cursoDao.AdicionarCurso((10, "Letras: Português", 8, 2))
-cursoDao.AdicionarCurso(11, "Música", 8, 3))
-cursoDao.AdicionarCurso(12, "Pedagogia", 8, 2))
+#CCET
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (1, "Sistemas de Informação", 8, 4);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (2, "Engenharia Civil", 10, 4);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (3, "Engenharia Elétrica", 10, 4);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (4, "Matemática", 8, 2);
 
-cursoDao.AdicionarCurso((13, "Nome curso", 8, 1))
-cursoDao.AdicionarCurso((14, "Nome curso", 8, 1))
-cursoDao.AdicionarCurso((15, "Nome curso", 8, 1))
-cursoDao.AdicionarCurso((16, "Nome curso", 8, 1))
+#CELA
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (5, "Artes Cênicas: Teatro", 8, 2);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (6, "Letras: Espanhol", 8, 3);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (7, "Letras: Francês", 8, 2);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (8, "Letras: Inglês", 8, 2);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (9, "Letras: Libras - Língua Portuguesa", 8, 2);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (10, "Letras: Português", 8, 2);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (11, "Música", 8, 3);
+insert into CURSOS (cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (12, "Pedagogia", 8, 2);
+
+#CCBN
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (13, "Ciências Biológicas", 8, 1);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (14, "Engenharia Agronômica", 10, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (15, "Engenharia Florestal", 10, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (16, "Física", 8, 2);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (17, "Medicina Veterinária", 10, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (18, "Química", 8, 1);
+
+
+#CCSD
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (19, "Educação Física (bacharelado)", 8, 1);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (20, "Educação Física (licenciatura)", 8, 1);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (21, "Enfermagem", 8, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (22, "Medicina", 12, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (23, "Nutrição", 10, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (24, "Saúde Coletiva", 8, 4);
+
+
+#CCJSA
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (25, "Ciências Econômicas", 10, 3);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (26, "Direito", 10, 3);
+
+
+#CFCH
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (27, "Ciênicas Sociais", 6, 4);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (28, "Comunicação Social/Jornalismo", 8, 3);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (29, "Filosofia", 8, 3);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (30, "Geografia (bacharelado)", 8, 2);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (31, "Geografia (licenciatura)", 8, 1);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (32, "História (bacharelado)", 8, 1);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (33, "História (licenciatura - matutino)", 8, 1);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (34, "História (licenciatura - noturno)", 8, 3);
+
+insert into CURSOS ( cur_id, cur_nome, cur_quant_periodos, cur_turno)
+	values (35, "Psicologia", 10, 4);
