@@ -29,5 +29,6 @@ urlpatterns = [
     path('membros/', include('membros.urls')),
     path('relatorios/', include('relatorios.urls')),
     path('sistema/', include('sistema.urls')),
-    path('404', TemplateView.as_view(template_name="404.html"))
+    path('404', TemplateView.as_view(template_name="404.html")),
+    path('index', TemplateView.as_view(template_name="index.html")),
 ]
