@@ -14,11 +14,75 @@ from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
 def admIndex(request):
     return render(request, 'administrador/admIndex.html')
 
-def homologar(request):
-    return render(request, 'administrador/homologar.html')
+def homologarAtivo(request):
+    alunos = AlunoPcd.objects.all().order_by('alu_nome').filter(alu_ativo = True)
+    monitores = Monitor.objects.all().order_by('mon_nome').filter(mon_ativo = True)
+    tutores = Tutor.objects.all().order_by('tut_nome').filter(tut_ativo = True)
+    interpretes = Interprete.objects.all().order_by('int_nome').filter(int_ativo = True)
+
+    return render(request, 'administrador/homologarAtivo.html', {
+        'alunos': alunos,
+        'monitores': monitores,
+        'tutores': tutores,
+        'interpretes': interpretes
+    })
+
+def homologarInativo(request):
+    alunos = AlunoPcd.objects.all().order_by('alu_nome').filter(alu_ativo = False)
+    monitores = Monitor.objects.all().order_by('mon_nome').filter(mon_ativo = False)
+    tutores = Tutor.objects.all().order_by('tut_nome').filter(tut_ativo = False)
+    interpretes = Interprete.objects.all().order_by('int_nome').filter(int_ativo = False)
+
+    return render(request, 'administrador/homologarInativo.html', {
+        'alunos': alunos,
+        'monitores': monitores,
+        'tutores': tutores,
+        'interpretes': interpretes
+    })
+
+def ativarAluno(request, aluno_id):
+    usuario = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    usuario.ativar()
+    return redirect('homologarInativo')
+
+def ativarMonitor(request, monitor_id):
+    usuario = get_object_or_404(Monitor, mon_id=monitor_id)
+    usuario.ativar()
+    return redirect('homologarInativo')
+
+def ativarTutor(request, tutor_id):
+    usuario = get_object_or_404(Tutor, tut_id=tutor_id)
+    usuario.ativar()
+    return redirect('homologarInativo')
+
+def ativarInterprete(request, interprete_id):
+    usuario = get_object_or_404(Interprete, int_id=interprete_id)
+    usuario.ativar()
+    return redirect('homologarInativo')
+def desativarAluno(request, aluno_id):
+    usuario = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    usuario.desativar()
+    return redirect('homologarAtivo')
+
+def desativarMonitor(request, monitor_id):
+    usuario = get_object_or_404(Monitor, mon_id=monitor_id)
+    usuario.desativar()
+    return redirect('homologarAtivo')
+
+def desativarTutor(request, tutor_id):
+    usuario = get_object_or_404(Tutor, tut_id=tutor_id)
+    usuario.desativar()
+    return redirect('homologarAtivo')
+
+def desativarInterprete(request, interprete_id):
+    usuario = get_object_or_404(Interprete, int_id=interprete_id)
+    usuario.desativar()
+    return redirect('homologarAtivo')
+
 
 def adminAlunos(request):
     alunos = AlunoPcd.objects.all().order_by('alu_nome')
+
 
     paginator = Paginator(alunos, 10)
     page = request.GET.get('p')

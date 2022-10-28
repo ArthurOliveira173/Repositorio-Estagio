@@ -49,6 +49,14 @@ class AlunoPcd(models.Model):
     def __str__(self):
         return self.alu_nome
 
+    def ativar(self):
+        self.alu_ativo = True
+        self.save()
+
+    def desativar(self):
+        self.alu_ativo = False
+        self.save()
+
 class Monitor(models.Model):
     mon_id = models.AutoField(db_column='mon_id', primary_key=True)
     mon_nome = models.CharField(db_column='mon_nome', max_length=255)
@@ -72,6 +80,14 @@ class Monitor(models.Model):
     def __str__(self):
         return self.mon_nome
 
+    def ativar(self):
+        self.mon_ativo = True
+        self.save()
+
+    def desativar(self):
+        self.mon_ativo = False
+        self.save()
+
 class Tutor(models.Model):
     tut_id = models.AutoField(db_column='tut_id', primary_key=True)
     tut_nome = models.CharField(db_column='tut_nome', max_length=255)
@@ -94,6 +110,14 @@ class Tutor(models.Model):
     def __str__(self):
         return self.tut_nome
 
+    def ativar(self):
+        self.tut_ativo = True
+        self.save()
+
+    def desativar(self):
+        self.tut_ativo = False
+        self.save()
+
 class Interprete(models.Model):
     int_id = models.AutoField(db_column='int_id', primary_key=True)
     int_nome = models.CharField(db_column='int_nome', max_length=255)
@@ -109,3 +133,11 @@ class Interprete(models.Model):
         db_table = 'interprete'
     def __str__(self):
         return self.int_nome
+
+    def ativar(self):
+        self.int_ativo = True
+        self.save()
+
+    def desativar(self):
+        self.int_ativo = False
+        self.save()

@@ -3,7 +3,16 @@ from . import views
 urlpatterns = [
     #Admin
     path('admin/', views.admIndex, name='admIndex'),
-    path('admin/homologar', views.homologar, name='homologar'),
+    path('admin/homologarAtivo', views.homologarAtivo, name='homologarAtivo'),
+    path('admin/homologarInativo', views.homologarInativo, name='homologarInativo'),
+    path('admin/ativarAluno/<int:aluno_id>', views.ativarAluno, name='ativarAluno'),
+    path('admin/ativarMonitor/<int:monitor_id>', views.ativarMonitor, name='ativarMonitor'),
+    path('admin/ativarTutor/<int:tutor_id>', views.ativarTutor, name='ativarTutor'),
+    path('admin/ativarInterprete/<int:interprete_id>', views.ativarInterprete, name='ativarInterprete'),
+    path('admin/desativarAluno/<int:aluno_id>', views.desativarAluno, name='desativarAluno'),
+    path('admin/desativarMonitor/<int:monitor_id>', views.desativarMonitor, name='desativarMonitor'),
+    path('admin/desativarTutor/<int:tutor_id>', views.desativarTutor, name='desativarTutor'),
+    path('admin/desativarInterprete/<int:interprete_id>', views.desativarInterprete, name='desativarInterprete'),
     path('admin/alunos/', views.adminAlunos, name='alunos'),
     path('admin/adicionarAluno', views.adicionarAluno, name='adicionarAluno'),
     path('admin/buscarAluno', views.buscarAluno, name='buscarAluno'),
