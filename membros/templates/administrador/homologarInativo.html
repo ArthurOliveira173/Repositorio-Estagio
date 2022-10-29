@@ -67,8 +67,61 @@
                               <td>{{ aluno.alu_telefone }}</td>
                               <td>{{ aluno.alu_cpf }}</td>
                               <td>
-                                <a class="btn btn-secondary text-white " href="{% url 'ativarAluno' aluno.alu_id %}" role="button">Ativar</a>
-                                <a class="btn btn-danger text-white" href="{% url 'deletarAluno' aluno.alu_id %}" role="button">Excluir</a>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-primary text-white" data-toggle="modal" data-target="#ativarAlunoModal" role="button">
+                                  Ativar
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="ativarAlunoModal" tabindex="-1" role="dialog" aria-labelledby="ativarAlunoModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="ativarAlunoModalLabel">Ativando aluno</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja ativar a conta do aluno {{ aluno.alu_nome }}?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary text-white " href="{% url 'ativarAluno' aluno.alu_id %}" role="button">
+                                            Ativar
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteAlunoModal" role="button">
+                                  Excluir
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteAlunoModal" tabindex="-1" role="dialog" aria-labelledby="deleteAlunoModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="deleteAlunoModalLabel">Excluindo aluno</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja excluir o aluno {{ aluno.alu_nome }}?
+                                      </div>
+                                      <div class="modal-body" style="color: red;">
+                                        Esta ação é permanente.
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarAluno' aluno.alu_id %}" role="button">
+                                            Excluir
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </td>
                             </tr>
                           {% endfor %}
@@ -114,8 +167,61 @@
                               <td>{{ monitor.mon_telefone }}</td>
                               <td>{{ monitor.mon_cpf }}</td>
                               <td>
-                                <a class="btn btn-secondary text-white " href="{% url 'ativarMonitor' monitor.mon_id %}" role="button">Ativar</a>
-                                <a class="btn btn-danger text-white" href="{% url 'deletarMonitor' monitor.mon_id %}" role="button">Excluir</a>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-primary text-white" data-toggle="modal" data-target="#ativarMonitorModal" role="button">
+                                  Ativar
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="ativarMonitorModal" tabindex="-1" role="dialog" aria-labelledby="ativarMonitorModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="ativarMonitorModalLabel">Ativando monitor</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja ativar a conta do monitor {{ monitor.mon_nome }}?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary text-white " href="{% url 'ativarMonitor' monitor.mon_id %}" role="button">
+                                            Ativar
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteMonitorModal" role="button">
+                                  Excluir
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteMonitorModal" tabindex="-1" role="dialog" aria-labelledby="deleteMonitorModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="deleteMonitorModalLabel">Excluindo monitor</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja excluir o monitor {{ monitor.mon_nome }}?
+                                      </div>
+                                      <div class="modal-body" style="color: red;">
+                                        Esta ação é permanente.
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarMonitor' monitor.mon_id %}" role="button">
+                                          Excluir
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </td>
                             </tr>
                           {% endfor %}
@@ -161,8 +267,61 @@
                               <td>{{ tutor.tut_telefone }}</td>
                               <td>{{ tutor.tut_cpf }}</td>
                               <td>
-                                <a class="btn btn-secondary text-white " href="{% url 'ativarTutor' tutor.tut_id %}" role="button">Ativar</a>
-                                <a class="btn btn-danger text-white" href="{% url 'deletarTutor' tutor.tut_id %}" role="button">Excluir</a>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-primary text-white" data-toggle="modal" data-target="#ativarTutorModal" role="button">
+                                  Ativar
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="ativarTutorModal" tabindex="-1" role="dialog" aria-labelledby="ativarTutorModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="ativarTutorModalLabel">Ativando tutor</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja ativar a conta do tutor {{ tutor.tut_nome }}?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary text-white " href="{% url 'ativarTutor' tutor.tut_id %}" role="button">
+                                            Ativar
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteTutorModal" role="button">
+                                  Excluir
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteTutorModal" tabindex="-1" role="dialog" aria-labelledby="deleteTutorModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="deleteTutorModalLabel">Excluindo tutor</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja excluir o tutor {{ tutor.tut_nome }}?
+                                      </div>
+                                      <div class="modal-body" style="color: red;">
+                                        Esta ação é permanente.
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarTutor' tutor.tut_id %}" role="button">
+                                          Excluir
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </td>
                             </tr>
                           {% endfor %}
@@ -208,8 +367,61 @@
                               <td>{{ interprete.int_telefone }}</td>
                               <td>{{ interprete.int_cpf }}</td>
                               <td>
-                                <a class="btn btn-secondary text-white " href="{% url 'ativarInterprete' interprete.int_id %}" role="button">Ativar</a>
-                                <a class="btn btn-danger text-white" href="{% url 'deletarInterprete' interprete.int_id %}" role="button">Excluir</a>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-primary text-white" data-toggle="modal" data-target="#ativarInterpreteModal" role="button">
+                                  Ativar
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="ativarInterpreteModal" tabindex="-1" role="dialog" aria-labelledby="ativarInterpreteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="ativarInterpreteModalLabel">Ativando interprete</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja ativar a conta do interprete {{ interprete.int_nome }}?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary text-white " href="{% url 'ativarInterprete' interprete.int_id %}" role="button">
+                                            Ativar
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteInterpreteModal" role="button">
+                                  Excluir
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteInterpreteModal" tabindex="-1" role="dialog" aria-labelledby="deleteInterpreteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="deleteInterpreteModalLabel">Excluindo interprete</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja excluir o interprete {{ interprete.int_nome }}?
+                                      </div>
+                                      <div class="modal-body" style="color: red;">
+                                        Esta ação é permanente.
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarInterprete' interprete.int_id %}" role="button">
+                                          Excluir
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </td>
                             </tr>
                           {% endfor %}

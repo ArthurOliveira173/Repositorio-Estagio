@@ -105,9 +105,35 @@
                                 <a class="btn btn-secondary text-white" href="{% url 'atualizarInterprete' interprete.int_id %}" role="button">
                                   Editar
                                 </a>
-                                <a class="btn btn-danger text-white" href="{% url 'deletarInterprete' interprete.int_id %}" role="button">
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal" role="button">
                                   Excluir
                                 </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                        <h5 class="modal-title" id="deleteModalLabel">Excluindo interprete</h5>
+                                        <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Tem certeza que deseja excluir o interprete {{ interprete.int_nome }}?
+                                      </div>
+                                      <div class="modal-body" style="color: red;">
+                                        Esta ação é permanente.
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarInterprete' interprete.int_id %}" role="button">
+                                          Excluir
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </td>
                             </tr>
                           {% endfor %}
