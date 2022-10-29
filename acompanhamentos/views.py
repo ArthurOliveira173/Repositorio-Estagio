@@ -151,7 +151,9 @@ def buscarDisciplina(request):
         searched = request.POST.get('searched')
         if searched:
             disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
-                Q(AsDis_disciplina__icontains=searched) | Q(AsDis_acompanhamento__icontains=searched)
+                Q(AsDis_disciplina__dis_nome__icontains=searched) |
+                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
             )
         else:
             disciplinas = None
@@ -222,7 +224,9 @@ def buscarInterpretacao(request):
         searched = request.POST.get('searched')
         if searched:
             interpretacoes = AcompanhamentoInterpretes.objects.order_by('-AsInt_id').filter(
-                Q(AsInt_interprete__icontains=searched) | Q(AsInt_acompanhamento__icontains=searched)
+                Q(AsInt_interprete__int_nome__icontains=searched) |
+                Q(AsInt_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched) |
+                Q(AsInt_acompanhamento__aco_semestre__icontains=searched)
             )
         else:
             interpretacoes = None
@@ -293,7 +297,9 @@ def buscarMonitoria(request):
         searched = request.POST.get('searched')
         if searched:
             monitorias = AcompanhamentoMonitores.objects.order_by('-AsMon_id').filter(
-                Q(AsMon_monitor__icontains=searched) | Q(AsMon_acompanhamento__icontains=searched)
+                Q(AsMon_monitor__mon_nome__icontains=searched) |
+                Q(AsMon_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched) |
+                Q(AsMon_acompanhamento__aco_semestre__icontains=searched)
             )
         else:
             monitorias = None
@@ -364,7 +370,9 @@ def buscarTutoria(request):
         searched = request.POST.get('searched')
         if searched:
             tutorias = AcompanhamentoTutores.objects.order_by('-AsTut_id').filter(
-                Q(AsTut_tutor__icontains=searched) | Q(AsTut_acompanhamento__icontains=searched)
+                Q(AsTut_tutor__icontains=searched) |
+                Q(AsTut_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched) |
+                Q(AsTut_acompanhamento__aco_semestre__icontains=searched)
             )
         else:
             tutorias = None

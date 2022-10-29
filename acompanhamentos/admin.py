@@ -15,7 +15,7 @@ class AcompanhamentoDisciplinasAdmin(admin.ModelAdmin):
     list_display_links = ('AsDis_acompanhamento',)
     list_filter = ('AsDis_disciplina', 'AsDis_acompanhamento')
     list_per_page = 8
-    search_fields = ('AsDis_disciplina', 'AsDis_acompanhamento')
+    search_fields = ('AsDis_disciplina__dis_nome', 'AsDis_acompanhamento__aco_aluno_pcd__alu_nome')
     list_editable = ('AsDis_disciplina',)
 
 class AcompanhamentoInterpretesAdmin(admin.ModelAdmin):
