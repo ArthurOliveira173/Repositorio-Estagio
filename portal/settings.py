@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'estagio',
         'USER': 'root',
-        'PASSWORD': 'tesi1',
+        'PASSWORD': 'root123$',
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -162,4 +162,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "welligtonlinsufac@gmail.com"
-EMAIL_HOST_PASSWORD = "a senha do seu e-mail vai aqui"
+EMAIL_HOST_PASSWORD = "mrywhlhwdfsfjeop"
