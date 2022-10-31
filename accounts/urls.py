@@ -13,4 +13,7 @@ urlpatterns = [
     path('cadastroMonitor', views.cadastroMonitor, name='cadastroMonitor'),
     path('cadastroTutor', views.cadastroTutor, name='cadastroTutor'),
     path('dashboardAluno/', views.dashboardAluno, name='dashboardAluno'),
+
+
+
 ]
