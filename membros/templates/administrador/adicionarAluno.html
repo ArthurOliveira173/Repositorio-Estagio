@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-university"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Sistema Estagio</sup></div>
+        <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
     </a>
 {%endblock%}
 
@@ -33,13 +33,15 @@
 </style>
 <body style="background-color: #f5f7fa">
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Gestao de Alunos</h1>
+        <h1 class="h3 mb-4 text-gray-800">Gestão de Alunos</h1>
     </div>
     <div style="margin-left: 250px; margin-right: 250px">
         <h1 style="text-align: center;">Cadastre um novo aluno</h1>
         <br>
         {% if submitted %}
-            aluno cadastrado com sucesso!
+            <div align="center">
+                <h4 style="color: blue">aluno cadastrado com sucesso!</h4>
+            </div>
 
         {% else %}
             <form action="" method="POST" enctype="multipart/form-data">

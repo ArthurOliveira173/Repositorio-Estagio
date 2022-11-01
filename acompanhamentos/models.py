@@ -1,8 +1,16 @@
-
 from django.db import models
 from django.utils import timezone
 from membros.models import AlunoPcd, Monitor, Tutor, Interprete
 from sistema.models import Disciplinas
+
+Dias = (
+    ('Segunda-feira', 'Segunda-feira'),
+    ('Terça-feira', 'Terça-feira'),
+    ('Quarta-feira', 'Quarta-feira'),
+    ('Quinta-feira', 'Quinta-feira'),
+    ('Sexta-feira', 'Sexta-feira'),
+    ('Sábado', 'Sábado')
+)
 
 class Acompanhamentos(models.Model):
     aco_id = models.AutoField(db_column='aco_id', primary_key=True)
@@ -74,3 +82,17 @@ class AcompanhamentoTutores(models.Model):
     class Meta:
         managed = False
         db_table = 'acompanhamento_tutoria'
+
+class HorariosDisciplina(models.Model):
+    HoDis_id = models.AutoField(db_column='HoDis_id', primary_key=True)
+    HoDis_dia = models.CharField(db_column='HoDis_dia', max_length=255, choices=Dias)
+    HoDis_inicio = models.TimeField(db_column='HoDis_inicio', default=timezone.now)
+    HoDis_fim = models.TimeField(db_column='HoDis_Fim', default=timezone.now)
+    HoDis_disciplina = models.ForeignKey(AcompanhamentoDisciplinas, on_delete=models.SET_NULL, db_column='HoDis_disciplina', blank=True, null=True)
+
+    def __str__(self):
+        return self.HoDis_disciplina.__str__()
+
+    class Meta:
+        managed = False
+        db_table = 'horarios_disciplina'

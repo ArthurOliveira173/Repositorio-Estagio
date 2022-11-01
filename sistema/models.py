@@ -31,6 +31,7 @@ class Disciplinas(models.Model):
     dis_id = models.AutoField(db_column='dis_id', primary_key=True)
     dis_nome = models.CharField(db_column='dis_nome', max_length=255)
     dis_curso = models.ForeignKey(Cursos, models.DO_NOTHING, db_column='dis_curso', blank=True, null=True)
+    dis_carga_horaria = models.IntegerField(db_column='dis_carga_horaria')
 
     class Meta:
         managed = False

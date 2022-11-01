@@ -55,11 +55,21 @@ def acompanhamento(request, acompanhamento_id):
         tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
     except:
         tutoria = None
+    try:
+        interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_acompanhamento=acompanhamento)
+    except:
+        interpretacoes = None
+    try:
+        disciplinas = AcompanhamentoDisciplinas.objects.filter(AsDis_acompanhamento=acompanhamento)
+    except:
+        disciplinas = None
 
     return render(request, 'acompanhamentos/acompanhamento.html', {
         'acompanhamento': acompanhamento,
         'monitoria': monitoria,
-        'tutoria': tutoria
+        'tutoria': tutoria,
+        'interpretacoes': interpretacoes,
+        'disciplinas': disciplinas
     })
 
 def atualizarAcompanhamento(request, acompanhamento_id):

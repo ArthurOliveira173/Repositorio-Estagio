@@ -5,11 +5,12 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-university"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Sistema Estagio</sup></div>
+        <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
     </a>
 {%endblock%}
 
 {%block opcoes%}
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/membros/admin/homologarAtivo" role="button">Voltar</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
           method="POST" action="{% url 'buscarAtivo' %}">
         <div class="input-group">
@@ -35,6 +36,7 @@
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Homologação</h1>
     </div>
+    {% if searched %}
     <section>
         <div class="center" align="center">
           <div class="col-12 mt-3 mb-1">
@@ -54,7 +56,7 @@
                             <th scope="col">Email Institucional</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Operacoes</th>
+                            <th scope="col">Operações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -82,7 +84,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja desativar a conta do aluno {{ aluno.alu_nome }}?
+                                        Tem certeza que deseja desativar a conta do aluno/aluna {{ aluno.alu_nome }}?
                                       </div>
                                       <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -108,7 +110,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja excluir o aluno {{ aluno.alu_nome }}?
+                                        Tem certeza que deseja excluir o aluno/aluna {{ aluno.alu_nome }}?
                                       </div>
                                       <div class="modal-body" style="color: red;">
                                         Esta ação é permanente.
@@ -154,7 +156,7 @@
                             <th scope="col">Email Institucional</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Operacoes</th>
+                            <th scope="col">Operações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -182,7 +184,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja desativar a conta do monitor {{ monitor.mon_nome }}?
+                                        Tem certeza que deseja desativar a conta do monitor/monitora {{ monitor.mon_nome }}?
                                       </div>
                                       <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -208,7 +210,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja excluir o monitor {{ monitor.mon_nome }}?
+                                        Tem certeza que deseja excluir o monitor/monitora {{ monitor.mon_nome }}?
                                       </div>
                                       <div class="modal-body" style="color: red;">
                                         Esta ação é permanente.
@@ -254,7 +256,7 @@
                             <th scope="col">Email Institucional</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Operacoes</th>
+                            <th scope="col">Operações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -282,7 +284,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja desativar a conta do tutor {{ tutor.tut_nome }}?
+                                        Tem certeza que deseja desativar a conta do tutor/tutora {{ tutor.tut_nome }}?
                                       </div>
                                       <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -308,7 +310,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja excluir o tutor {{ tutor.tut_nome }}?
+                                        Tem certeza que deseja excluir o tutor/tutora {{ tutor.tut_nome }}?
                                       </div>
                                       <div class="modal-body" style="color: red;">
                                         Esta ação é permanente.
@@ -354,7 +356,7 @@
                             <th scope="col">Email Institucional</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Operacoes</th>
+                            <th scope="col">Operações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -432,9 +434,13 @@
                 </div>
               </div>
             </div>
-          </div>
-
+        </div>
     </section>
+    {% else %}
+      <div align="center">
+        <h4>Nenhuma busca realizada</h4>
+      </div>
+    {% endif %}
 </body>
 
 {%endblock%}

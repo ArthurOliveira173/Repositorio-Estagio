@@ -5,17 +5,17 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-university"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
+        <div class="sidebar-brand-text mx-3">Sistema Estagio</sup></div>
     </a>
 {%endblock%}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/membros/admin/tutores" role="button">Voltar</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/membros/admin/homologarAtivo" role="button">Voltar</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarTutor' %}">
+          method="POST" action="{% url 'buscarAtivo' %}">
         <div class="input-group">
             {% csrf_token %}
-            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque tutores aqui..."
+            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque cadastros ativos aqui..."
                    aria-label="Search" aria-describedby="basic-addon2" name="searched">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">
@@ -29,13 +29,13 @@
 {%block conteudo%}
 <body style="background-color: #f5f7fa">
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Gestão de Tutores</h1>
+        <h1 class="h3 mb-4 text-gray-800">Homologação</h1>
     </div>
     <div class="container-fluid" align="center">
         <section>
             <div class="card" style="border-color: blue; margin-top: -30px; margin-left: 200px; margin-right: 200px;">
                 <div class="card-header align-items-center">
-                    <h3 class="card-title">Informações Pessoais</h3>
+                    <h3 class="card-title">Informacoes Pessoais</h3>
                 </div>
                 <div class="card-body" style="margin-left: 25px; margin-right: 25px;">
                     <div class="d-flex flex-row justify-content-between p-md-1">
@@ -44,7 +44,7 @@
                             <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutor.tut_nome }}</p>
                         </div>
                         <div class="d-flex flex-row">
-                            <h4>Gênero:</h4>
+                            <h4>Genero:</h4>
                             <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutor.tut_genero }}</p>
                         </div>
                     </div>
@@ -68,12 +68,12 @@
             </div>
             <div class="card" style="border-color: blue; margin-top: 10px; margin-left: 200px; margin-right: 200px;">
                 <div class="card-header align-items-center">
-                    <h3 class="card-title">Informações Institucionais</h3>
+                    <h3 class="card-title">Informacoes Institucionais</h3>
                 </div>
                 <div class="card-body" style="margin-left: 25px; margin-right: 25px;">
                     <div class="d-flex flex-row justify-content-between p-md-1">
                         <div class="d-flex flex-row" style="text-align: left;">
-                            <h4>Matrícula:</h4>
+                            <h4>Matricula:</h4>
                             <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutor.tut_matricula }}</p>
                         </div>
                         <div class="d-flex flex-row">
@@ -87,20 +87,20 @@
                             <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutor.tut_email_institucional }}</p>
                         </div>
                         <div class="d-flex flex-row">
-                            <h4>Período acadêmico:</h4>
+                            <h4>Periodo academico:</h4>
                             <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutor.tut_periodo_academico }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card" style="border-color: blue; margin-top: 10px; margin-left: 300px; margin-right: 300px;">
+            <div class="card" style="border-color: blue; margin-top: 10px; margin-left: 200px; margin-right: 200px;">
                 <div class="card-header align-items-center">
-                    <h3 class="card-title">Endereço</h3>
+                    <h3 class="card-title">Endereco</h3>
                 </div>
                 <div class="card-body" style="margin-left: 25px; margin-right: 25px;">
                     <div class="d-flex flex-row justify-content-between p-md-1">
                         <div class="d-flex flex-row" style="text-align: left;">
-                            <h4>Descrição:</h4>
+                            <h4>Descricao:</h4>
                             <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutor.tut_endereco_descricao }}</p>
                         </div>
                     </div>

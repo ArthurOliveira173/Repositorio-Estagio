@@ -5,7 +5,7 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-university"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Sistema Estagio</sup></div>
+        <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
     </a>
 {%endblock%}
 
@@ -69,7 +69,7 @@
 </style>
 <body>
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Gestao de Alunos</h1>
+        <h1 class="h3 mb-4 text-gray-800">Gestão de Alunos</h1>
     </div>
     <div align="center">
       {% if searched %}
@@ -88,7 +88,7 @@
                             <th scope="col">Email Institucional</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Operacoes</th>
+                            <th scope="col">Operações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -104,11 +104,11 @@
                               <td>
                                 <a class="btn btn-secondary text-white" href="{% url 'atualizarAluno' aluno.alu_id %}" role="button">Editar</a>
                                 <!-- Button trigger modal -->
-                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal" role="button">
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ aluno.alu_id }}" role="button">
                                   Excluir
                                 </a>
                                 <!-- Modal -->
-                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteModal{{ aluno.alu_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                   <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                       <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
@@ -118,7 +118,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja excluir o aluno {{ aluno.alu_nome }}?
+                                        Tem certeza que deseja excluir {{ aluno.alu_nome }}?
                                       </div>
                                       <div class="modal-body" style="color: red;">
                                         Esta ação é permanente.

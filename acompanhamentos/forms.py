@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Acompanhamentos, AcompanhamentoDisciplinas, AcompanhamentoMonitores, AcompanhamentoTutores, AcompanhamentoInterpretes
+from .models import Acompanhamentos, AcompanhamentoDisciplinas, AcompanhamentoMonitores,\
+    AcompanhamentoTutores, AcompanhamentoInterpretes, HorariosDisciplina
 
 class AcompanhamentosForm(ModelForm):
 
@@ -86,4 +87,16 @@ class AcoInterpretacoesForm(ModelForm):
             'AsInt_fim': forms.DateInput(attrs={'class':'form-control'}),
             'AsInt_interprete': forms.Select(attrs={'class': 'form-control'}),
             'AsInt_acompanhamento': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+class HorDisciplinaForm(ModelForm):
+
+    class Meta:
+        model = HorariosDisciplina
+        fields = ('HoDis_dia', 'HoDis_inicio', 'HoDis_fim', 'HoDis_disciplina')
+        labels = {
+            'HoDis_dia': 'Defina o dia',
+            'HoDis_inicio': 'Defina o horário de início',
+            'HoDis_fim': 'Defina o horário de término',
+            'HoDis_disciplina': 'Defina a disciplina',
         }

@@ -79,6 +79,181 @@ def desativarInterprete(request, interprete_id):
     usuario.desativar()
     return redirect('homologarAtivo')
 
+def homologarAlunoAtivo(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+
+    return render(request, 'administrador/homologarAlunoAtivo.html', {
+        'aluno': aluno
+    })
+
+def homologarAlunoInativo(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+
+    return render(request, 'administrador/homologarAlunoInativo.html', {
+        'aluno': aluno
+    })
+
+def homologarInterpreteAtivo(request, interprete_id):
+    interprete = get_object_or_404(Interprete, int_id=interprete_id)
+
+    return render(request, 'administrador/homologarInterpreteAtivo.html', {
+        'interprete': interprete
+    })
+
+def homologarInterpreteInativo(request, interprete_id):
+    interprete = get_object_or_404(Interprete, int_id=interprete_id)
+
+    return render(request, 'administrador/homologarInterpreteInativo.html', {
+        'interprete': interprete
+    })
+
+def homologarMonitorAtivo(request, monitor_id):
+    monitor = get_object_or_404(Monitor, mon_id=monitor_id)
+
+    return render(request, 'administrador/homologarMonitorAtivo.html', {
+        'monitor': monitor
+    })
+
+def homologarMonitorInativo(request, monitor_id):
+    monitor = get_object_or_404(Monitor, mon_id=monitor_id)
+
+    return render(request, 'administrador/homologarMonitorInativo.html', {
+        'monitor': monitor
+    })
+
+def homologarTutorAtivo(request, tutor_id):
+    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
+
+    return render(request, 'administrador/homologarTutorAtivo.html', {
+        'tutor': tutor
+    })
+
+def homologarTutorInativo(request, tutor_id):
+    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
+
+    return render(request, 'administrador/homologarTutorInativo.html', {
+        'tutor': tutor
+    })
+
+def buscarAtivo(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            try:
+                alunos = AlunoPcd.objects.order_by('alu_nome').filter(
+                    Q(alu_nome__icontains=searched) | Q(alu_curso__icontains=searched)).filter(alu_ativo=True)
+                monitores = Monitor.objects.order_by('mon_nome').filter(
+                    Q(mon_nome__icontains=searched)).filter(mon_ativo=True)
+                tutores = Tutor.objects.order_by('tut_nome').filter(
+                    Q(tut_nome__icontains=searched)).filter(tut_ativo=True)
+                interpretes = Interprete.objects.order_by('int_nome').filter(
+                    Q(int_nome__icontains=searched)).filter(int_ativo=True)
+            except:
+                alunos = AlunoPcd.objects.order_by('alu_nome').filter(
+                    Q(alu_nome__icontains=searched)).filter(alu_ativo=True)
+                monitores = Monitor.objects.order_by('mon_nome').filter(
+                    Q(mon_nome__icontains=searched)).filter(mon_ativo=True)
+                tutores = Tutor.objects.order_by('tut_nome').filter(
+                    Q(tut_nome__icontains=searched)).filter(tut_ativo=True)
+                interpretes = Interprete.objects.order_by('int_nome').filter(
+                    Q(int_nome__icontains=searched)).filter(int_ativo=True)
+        else:
+            alunos = None
+            monitores = None
+            tutores = None
+            interpretes = None
+
+        return render(request, 'administrador/buscarAtivo.html', {
+            'searched': searched,
+            'alunos': alunos,
+            'monitores': monitores,
+            'tutores': tutores,
+            'interpretes': interpretes
+        })
+    else:
+        return render(request, 'administrador/buscarAtivo.html', {
+
+        })
+
+def buscarInativo(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            try:
+                alunos = AlunoPcd.objects.order_by('alu_nome').filter(
+                    Q(alu_nome__icontains=searched) | Q(alu_curso__icontains=searched)).filter(alu_ativo=False)
+                monitores = Monitor.objects.order_by('mon_nome').filter(
+                    Q(mon_nome__icontains=searched)).filter(mon_ativo=False)
+                tutores = Tutor.objects.order_by('tut_nome').filter(
+                    Q(tut_nome__icontains=searched)).filter(tut_ativo=False)
+                interpretes = Interprete.objects.order_by('int_nome').filter(
+                    Q(int_nome__icontains=searched)).filter(int_ativo=False)
+            except:
+                alunos = AlunoPcd.objects.order_by('alu_nome').filter(
+                    Q(alu_nome__icontains=searched)).filter(alu_ativo=False)
+                monitores = Monitor.objects.order_by('mon_nome').filter(
+                    Q(mon_nome__icontains=searched)).filter(mon_ativo=False)
+                tutores = Tutor.objects.order_by('tut_nome').filter(
+                    Q(tut_nome__icontains=searched)).filter(tut_ativo=False)
+                interpretes = Interprete.objects.order_by('int_nome').filter(
+                    Q(int_nome__icontains=searched)).filter(int_ativo=False)
+        else:
+            alunos = None
+            monitores = None
+            tutores = None
+            interpretes = None
+
+        return render(request, 'administrador/buscarInativo.html', {
+            'searched': searched,
+            'alunos': alunos,
+            'monitores': monitores,
+            'tutores': tutores,
+            'interpretes': interpretes
+        })
+    else:
+        return render(request, 'administrador/buscarInativo.html', {
+
+        })
+
+def deletarAlunoAtivo(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    aluno.delete()
+    return redirect('homologarAtivo')
+
+def deletarAlunoInativo(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    aluno.delete()
+    return redirect('homologarInativo')
+
+def deletarMonitorAtivo(request, monitor_id):
+    monitor = get_object_or_404(Monitor, mon_id=monitor_id)
+    monitor.delete()
+    return redirect('homologarAtivo')
+
+def deletarMonitorInativo(request, monitor_id):
+    monitor = get_object_or_404(Monitor, mon_id=monitor_id)
+    monitor.delete()
+    return redirect('homologarInativo')
+
+def deletarTutorAtivo(request, tutor_id):
+    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
+    tutor.delete()
+    return redirect('homologarAtivo')
+
+def deletarTutorInativo(request, tutor_id):
+    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
+    tutor.delete()
+    return redirect('homologarInativo')
+
+def deletarInterpreteAtivo(request, interprete_id):
+    interprete = get_object_or_404(Interprete, int_id=interprete_id)
+    interprete.delete()
+    return redirect('homologarAtivo')
+
+def deletarInterpreteInativo(request, interprete_id):
+    interprete = get_object_or_404(Interprete, int_id=interprete_id)
+    interprete.delete()
+    return redirect('homologarInativo')
 
 def adminAlunos(request):
     alunos = AlunoPcd.objects.all().order_by('alu_nome')
