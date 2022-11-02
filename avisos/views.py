@@ -22,6 +22,18 @@ def aviIndex(request):
         'avisos': avisos
     })
 
+def aviIndexAluno(request):
+    avisos = Avisos.objects.order_by('-avi_id').filter(
+        avi_mostrar = True
+    )
+    paginator = Paginator(avisos, 10)
+
+    page = request.GET.get('p')
+    avisos = paginator.get_page(page)
+    return render(request, 'avisos/aviIndexAluno.html', {
+        'avisos': avisos
+    })
+
 def adicionarAviso(request):
     submitted = False
 
@@ -89,3 +101,55 @@ def deletarAviso(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)
     aviso.delete()
     return redirect('aviIndex')
+
+
+
+#ALUNO
+
+def aviIndexAluno(request):
+    avisos = Avisos.objects.order_by('-avi_id').filter(
+        avi_mostrar = True
+    )
+    paginator = Paginator(avisos, 10)
+
+    page = request.GET.get('p')
+    avisos = paginator.get_page(page)
+    return render(request, 'avisos/aviIndexAluno.html', {
+        'avisos': avisos
+    })
+
+def avisoAluno(request, aviso_id):
+    aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    if not aviso.avi_mostrar:
+        raise Http404()
+
+    return render(request, 'avisos/avisoAluno.html', {
+        'aviso': aviso
+    })
+
+
+def buscarAvisoAluno(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+        else:
+            avisos = None
+
+        return render(request, 'avisos/buscarAvisoAluno.html', {
+            'searched': searched,
+            'avisos': avisos
+        })
+    else:
+        return render(request, 'avisos/buscarAvisoAluno.html', {
+
+        })
+
+def avisoAluno(request, aviso_id):
+    aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    if not aviso.avi_mostrar:
+        raise Http404()
+
+    return render(request, 'avisos/avisoAluno.html', {
+        'aviso': aviso
+    })

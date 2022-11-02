@@ -26,7 +26,7 @@
 </form>
 {% else %}
 <p>
-  Voce fez login com {{ user.last_name }}, <a href="{% url 'logout' %}">clique aqui</a> para sair!
+  Voce fez login com {{ user.username }}, <a href="{% url 'logout' %}">clique aqui</a> para sair!
 </p>
 {% endif %}
 {% endblock %}

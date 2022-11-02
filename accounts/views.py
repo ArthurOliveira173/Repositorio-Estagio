@@ -3,6 +3,7 @@ from django.core.validators import validate_email
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from string import ascii_letters
 from .models import FormAdministrador, FormAlunoPcd, FormMonitor, FormTutor
 from membros.forms import AlunosForm
 # Create your views here.
@@ -22,7 +23,7 @@ def login(request):
     else:
         auth.login(request, user)
         messages.error(request, 'Login com sucesso.')
-        return redirect('aluIndex')
+        return redirect('aviIndexAluno')
 
 def logout(request):
     auth.logout(request)
@@ -136,7 +137,7 @@ def cadastroAluno(request):
     form = AlunosForm(request.POST, request.FILES)
 
     if not form.is_valid():
-        messages.error(request, 'Erro ao enviar suas informacoes, tente novamente!')
+        messages.error(request, 'Informações invalidas, tente novamente!')
         form = AlunosForm(request.POST)
         return render(request, 'accounts/cadastroAluno.html', {'form': form})
 
@@ -163,6 +164,12 @@ def cadastroAluno(request):
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
 
     try:
+        valida_string(nome)
+    except:
+        messages.error(request, 'Por favor digite somente letras e espaços')
+        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
+
+    try:
         validate_email(email_pessoal)
     except:
         messages.error(request, 'Email pessoal invalido!')
@@ -174,23 +181,23 @@ def cadastroAluno(request):
         messages.error(request, 'Email institucional invalido!')
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
 
-
-
-    if len(usuario) > 14:
-        messages.error(request, 'Cpf nao e valido!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
+    try:
+         valida_cpf(usuario)
+    except:
+        messages.error(request, 'O Cpf informado não é valido, tente novamente!')
+        return render(request, 'accounts/cadastroAluno.html', {'form': form})
 
     if User.objects.filter(username=usuario).exists():
-        messages.error(request, 'Cpf ja cadastrado, verifique e tente novamente!')
+        messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
 
 
     if User.objects.filter(email=email_pessoal).exists():
-        messages.error(request, 'Email pessoal ja cadastrado!')
+        messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
 
     if User.objects.filter(email=email_instituicao).exists():
-        messages.error(request, 'Email institucional ja cadastrado!')
+        messages.error(request, 'Email institucional já cadastrado, tente novamente!')
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
 
     if len(senha) < 6:
@@ -201,7 +208,7 @@ def cadastroAluno(request):
         messages.error(request, 'Senhas diferentes, tente novamente!')
         return render(request, 'accounts/cadastroAluno.html')
 
-    messages.success(request, 'Bem vindo ao atendimento do NAI!')
+    messages.success(request, 'Cadastro com sucesso, realize seu primeiro Login!')
 
     user = User.objects.create_user(username=usuario, email=email_pessoal,
                                     password=senha, first_name=nome,
@@ -278,7 +285,7 @@ def cadastroMonitor(request):
         messages.error(request, 'Senhas diferentes, tente novamente!')
         return render(request, 'accounts/cadastroMonitor.html')
 
-    messages.success(request, 'Bem vindo ao atendimento do NAI!')
+    messages.success(request, 'Cadastro com sucesso, realize seu primeiro Login!')
 
     user = User.objects.create_user(username=usuario, email=email_pessoal,
                                     password=senha, first_name=nome,
@@ -358,7 +365,7 @@ def cadastroTutor(request):
         return render(request, 'accounts/cadastroTutor.html')
 
 
-    messages.success(request, 'Bem vindo ao atendimento do NAI!')
+    messages.success(request, 'Cadastro com sucesso, realize seu primeiro Login!')
 
     user = User.objects.create_user(username=usuario, email=email_pessoal,
                                     password=senha, first_name=nome,
@@ -420,3 +427,12 @@ def valida_cpf(f):
         return True
     else:
         return False
+
+def valida_string(s):
+    validos = ascii_letters + ' áàâãéèêíïóôõöúçñ'
+    while True:
+
+        if all(c in validos for c in s):
+            break  # sai do while
+        else:
+            return False
