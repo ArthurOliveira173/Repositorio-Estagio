@@ -16,7 +16,7 @@
     <form action="{% url 'cadastroMonitor' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <table class="table">
-            {{ form }}
+            {{ form.as_p }}
 
             <tr>
                 <td colspan="2">

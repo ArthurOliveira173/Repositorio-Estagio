@@ -1,9 +1,10 @@
 from django.db import models
 from sistema.models import Cursos
-
+from django.contrib.auth.models import User
 generos = (
     ('M', 'Masculino'),
     ('F', 'Feminino'),
+    ('O', 'Outros'),
 )
 cidades = (
     ('RB', 'Rio Branco'),
@@ -26,6 +27,7 @@ class Administrador(models.Model):
 
 class AlunoPcd(models.Model):
     alu_id = models.AutoField(db_column='alu_id', primary_key=True)
+    alu_user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='alu_user')
     alu_nome = models.CharField(db_column='alu_nome', max_length=255)
     alu_cpf = models.CharField(db_column='alu_cpf', max_length=11)
     alu_genero = models.CharField(db_column='alu_genero', max_length=1, choices=generos)
@@ -92,7 +94,7 @@ class Tutor(models.Model):
     tut_id = models.AutoField(db_column='tut_id', primary_key=True)
     tut_nome = models.CharField(db_column='tut_nome', max_length=255)
     tut_cpf = models.CharField(db_column='tut_cpf', max_length=11)
-    tut_genero = models.CharField(db_column='tut_genero', max_length=1)
+    tut_genero = models.CharField(db_column='tut_genero', max_length=1, choices=generos)
     tut_email_pessoal = models.EmailField(db_column='tut_email_pessoal', max_length=255)
     tut_email_institucional = models.EmailField(db_column='tut_email_institucional', max_length=255)
     tut_telefone = models.CharField(db_column='tut_telefone', max_length=255)

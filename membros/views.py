@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import AlunoPcd, Monitor, Tutor, Interprete
-from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
+from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm, perfilAlunoForm
 
 
 # Create your views here.
@@ -636,11 +636,30 @@ def aluIndex(request):
 def acompanhantes(request):
     return render(request, 'alunos/acompanhantes.html')
 
-def aluno(request, aluno_id):
+def aluno(request):
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     return render(request, 'alunos/aluno.html', {
         'aluno' : aluno
     })
+
+
+#Pespectiva do usuário
+def usuarioIndex(request):
+    user = request.user
+    aluno = get_object_or_404(AlunoPcd, user)
+    return render(request, 'alunos/usuarioIndex.html', {
+        'aluno' : aluno
+    })
+
+def perfilAluno(request):
+    template_name = 'alunosPerfil.html'
+    # Não esquecer do request.user como primeiro parâmetro.
+    aluno = perfilAlunoForm(request.user, request.POST or None)
+
+
+    context = {'form': aluno}
+    return render(request, template_name, context)
+
 
 #MONITOR_TUTOR========================================================================================
 
@@ -702,4 +721,5 @@ def interprete(request, interprete_id):
     return render(request, 'interpretes/interprete.html', {
         'interprete' : interprete
     })
+
 

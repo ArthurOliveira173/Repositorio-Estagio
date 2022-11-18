@@ -1,11 +1,16 @@
 from django.contrib import messages, auth
+from django.contrib.auth import authenticate
 from django.core.validators import validate_email
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from string import ascii_letters
-from .models import FormAdministrador, FormAlunoPcd, FormMonitor, FormTutor
-from membros.forms import AlunosForm
+from .models import FormAdministrador, FormMonitor, FormTutor
+from membros.forms import AlunosForm, MonitoresForm, TutoresForm
+from django.views import View
+from . import forms
+from . import models
+from membros.models import AlunoPcd
 # Create your views here.
 
 
@@ -22,7 +27,7 @@ def login(request):
         return render(request, 'accounts/login.html')
     else:
         auth.login(request, user)
-        messages.error(request, 'Login com sucesso.')
+        messages.success(request, 'Login com sucesso.')
         return redirect('aviIndexAluno')
 
 def logout(request):
@@ -81,8 +86,6 @@ def cadastro(request):
     user.save()
     return redirect('login')
 
-
-
 @login_required(redirect_field_name='login')
 def dashboard(request):
     if request.method != 'POST':
@@ -106,41 +109,54 @@ def dashboard(request):
     messages.success(request, f'Usuario {request.POST.get("adm_nome")} salvo com sucesso!')
     return redirect('dashboard')
 
-@login_required(redirect_field_name='login')
-def cadastroInterprete(request):
+
+
+class BaseCadastro(View):
+    template_name = 'accounts/cadastroAluno.html'
+    def setup(self, *args, **kwargs):
+        super().setup(*args, **kwargs)
+        #Se o usuário estiver logado
+        if self.request.user.is_authenticated:
+            self.contexto = {
+                'userform': forms.UserForm(
+                    data = self.request.POST or None,
+                    usuario= self.request.user,
+                    instance= self.request.user,
+                ),
+                'alunoform': forms.AlunoForm(
+                    data = self.request.POST or None,
+                ),
+            }
+        # Se o usuário não estiver logado
+        else:
+            self.contexto = {
+                'userform': forms.UserForm(
+                    data=self.request.POST or None
+                ),
+                'alunoform': forms.AlunoForm(
+                    data=self.request.POST or None
+                )
+            }
+
+        self.renderizar = render(self.request, self.template_name, self.contexto)
+    def get(self, *args, **kwargs):
+        return self.renderizar
+
+class CadastroAluno(BaseCadastro):
+    def post(self, *args, **kwargs):
+        return self.renderizar
+
+    '''
     if request.method != 'POST':
-        form = FormAdministrador()
-        return render(request, 'accounts/cadastroInterprete.html', {'form': form})
-
-    form = FormAdministrador(request.POST, request.FILES)
-
-    if not form.is_valid():
-        messages.error(request, 'Erro ao enviar suas informacoes, tente novamente!')
-        form = FormAdministrador(request.POST)
-        return render(request, 'accounts/cadastroInterprete.html', {'form': form})
-
-    nome = request.POST.get('adm_nome')
-    if len(nome) < 5:
-        messages.error(request, '"Nome" deve ter que 5 caracteres')
-        form = FormAdministrador(request.POST)
-        return render(request, 'accounts/dashboard.html', {'form': form})
-
-    form.save()
-    messages.success(request, f'Usuario {request.POST.get("adm_nome")} salvo com sucesso!')
-    return redirect('dashboard')
-
-def cadastroAluno(request):
-    if request.method != 'POST':
-        form = AlunosForm()
+        form = FormAlunoPcd()
         return render(request, 'accounts/cadastroAluno.html', {'form': form})
 
-    form = AlunosForm(request.POST, request.FILES)
+    form = FormAlunoPcd(request.POST, request.FILES)
 
     if not form.is_valid():
         messages.error(request, 'Informações invalidas, tente novamente!')
-        form = AlunosForm(request.POST)
+        form = FormAlunoPcd(request.POST)
         return render(request, 'accounts/cadastroAluno.html', {'form': form})
-
 
     nome = request.POST.get('alu_nome')
     usuario = request.POST.get('alu_cpf')
@@ -164,23 +180,15 @@ def cadastroAluno(request):
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
 
     try:
-        valida_string(nome)
-    except:
-        messages.error(request, 'Por favor digite somente letras e espaços')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
-    try:
         validate_email(email_pessoal)
     except:
         messages.error(request, 'Email pessoal invalido!')
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
     try:
         validate_email(email_instituicao)
     except:
         messages.error(request, 'Email institucional invalido!')
         return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
     try:
          valida_cpf(usuario)
     except:
@@ -213,20 +221,22 @@ def cadastroAluno(request):
     user = User.objects.create_user(username=usuario, email=email_pessoal,
                                     password=senha, first_name=nome,
                                     last_name=email_instituicao)
+
+    form.alu_user = user
     form.save()
     user.save()
     return redirect('login')
-
+'''
 def cadastroMonitor(request):
     if request.method != 'POST':
-        form = FormMonitor()
+        form = MonitoresForm()
         return render(request, 'accounts/cadastroMonitor.html', {'form': form})
 
-    form = FormMonitor(request.POST, request.FILES)
+    form = MonitoresForm(request.POST, request.FILES)
 
     if not form.is_valid():
         messages.error(request, 'Erro ao enviar suas informacoes, tente novamente!')
-        form = FormMonitor(request.POST)
+        form = MonitoresForm(request.POST)
         return render(request, 'accounts/cadastroMonitor.html', {'form': form})
 
 
@@ -296,14 +306,14 @@ def cadastroMonitor(request):
 
 def cadastroTutor(request):
     if request.method != 'POST':
-        form = FormTutor()
+        form = TutoresForm()
         return render(request, 'accounts/cadastroTutor.html', {'form': form})
 
-    form = FormTutor(request.POST, request.FILES)
+    form = TutoresForm(request.POST, request.FILES)
 
     if not form.is_valid():
         messages.error(request, 'Erro ao enviar suas informacoes, tente novamente!')
-        form = FormTutor(request.POST)
+        form = TutoresForm(request.POST)
         return render(request, 'accounts/cadastroTutor.html', {'form': form})
 
 
@@ -376,6 +386,29 @@ def cadastroTutor(request):
 
 
 @login_required(redirect_field_name='login')
+def cadastroInterprete(request):
+    if request.method != 'POST':
+        form = FormAdministrador()
+        return render(request, 'accounts/cadastroInterprete.html', {'form': form})
+
+    form = FormAdministrador(request.POST, request.FILES)
+
+    if not form.is_valid():
+        messages.error(request, 'Erro ao enviar suas informacoes, tente novamente!')
+        form = FormAdministrador(request.POST)
+        return render(request, 'accounts/cadastroInterprete.html', {'form': form})
+
+    nome = request.POST.get('adm_nome')
+    if len(nome) < 5:
+        messages.error(request, '"Nome" deve ter que 5 caracteres')
+        form = FormAdministrador(request.POST)
+        return render(request, 'accounts/dashboard.html', {'form': form})
+
+    form.save()
+    messages.success(request, f'Usuario {request.POST.get("adm_nome")} salvo com sucesso!')
+    return redirect('dashboard')
+
+@login_required(redirect_field_name='login')
 def dashboardAluno(request):
     if request.method != 'POST':
         form = FormAlunoPcd()
@@ -392,7 +425,6 @@ def dashboardAluno(request):
     form.save()
     messages.success(request, f'Usuario {request.POST.get("adm_nome")} salvo com sucesso!')
     return redirect('dashboard')
-
 
 
 def valida_cpf(f):
@@ -428,11 +460,4 @@ def valida_cpf(f):
     else:
         return False
 
-def valida_string(s):
-    validos = ascii_letters + ' áàâãéèêíïóôõöúçñ'
-    while True:
 
-        if all(c in validos for c in s):
-            break  # sai do while
-        else:
-            return False

@@ -2,11 +2,12 @@ from django import forms
 from django.forms import ModelForm
 from .models import AlunoPcd, Monitor, Tutor, Interprete
 
-class AlunosForm(ModelForm):
 
+#ALUNOS
+class AlunosForm(ModelForm):
     class Meta:
         model = AlunoPcd
-        fields = ('alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
+        fields = ( 'alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
                   'alu_endereco_cep', 'alu_endereco_descricao', 'alu_endereco_cidade', 'alu_matricula', 'alu_deficiencias', 'alu_curso',
                   'alu_periodo_academico', 'alu_data_nascimento')
         labels = {
@@ -42,6 +43,23 @@ class AlunosForm(ModelForm):
             'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'})
         }
 
+class perfilAlunoForm(forms.ModelForm):
+
+        class Meta:
+            model = AlunoPcd
+            fields = ( 'alu_nome', 'alu_cpf', 'alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
+                  'alu_endereco_cep', 'alu_endereco_descricao', 'alu_endereco_cidade', 'alu_matricula', 'alu_deficiencias', 'alu_curso',
+                  'alu_periodo_academico', 'alu_data_nascimento')
+
+        def __init__(self, user=None, *args, **kwargs):
+            super(perfilAlunoForm, self).__init__(*args, **kwargs)
+            usuario = AlunoPcd.objects.filter(user=user)
+            if usuario.is_authenticated:
+                print(usuario)
+            else:
+                print('Não')
+
+#MONITORES
 class MonitoresForm(ModelForm):
 
     class Meta:

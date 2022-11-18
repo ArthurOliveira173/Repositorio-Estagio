@@ -2,6 +2,11 @@ from django.db import models
 from membros.models import Administrador, AlunoPcd, Monitor, Tutor, Interprete
 from django import forms
 
+
+
+
+
+
 class FormAdministrador(forms.ModelForm):
     class Meta:
         model = Administrador
@@ -64,3 +69,4 @@ class FormInterprete(forms.ModelForm):
     class Meta:
         model = Interprete
         exclude = ('int_id',)
+
