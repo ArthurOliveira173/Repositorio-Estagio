@@ -11,6 +11,19 @@ cidades = (
     ('CS', 'Cruzeiro do Sul'),
 )
 
+periodos = (
+    ('1', '1º Período'),
+    ('2', '2º Período'),
+    ('3', '3º Período'),
+    ('4', '4º Período'),
+    ('5', '5º Período'),
+    ('6', '6º Período'),
+    ('7', '7º Período'),
+    ('8', '8º Período'),
+    ('9', '9º Período'),
+    ('10', '10º Período'),
+)
+
 # Create your models here.
 
 class Administrador(models.Model):
@@ -27,12 +40,12 @@ class Administrador(models.Model):
 
 class AlunoPcd(models.Model):
     alu_id = models.AutoField(db_column='alu_id', primary_key=True)
-    alu_user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='alu_user')
+    alu_user = models.OneToOneField(User, db_column='alu_user', on_delete=models.CASCADE)
     alu_nome = models.CharField(db_column='alu_nome', max_length=255)
-    alu_cpf = models.CharField(db_column='alu_cpf', max_length=11)
+    alu_cpf = models.CharField(db_column='alu_cpf', max_length=11, verbose_name='cpf')
     alu_genero = models.CharField(db_column='alu_genero', max_length=1, choices=generos)
     alu_email_pessoal = models.EmailField(db_column='alu_email_pessoal', max_length=255)
-    alu_email_institucional = models.EmailField(db_column='alu_email_institucional', max_length=255)
+    alu_email_institucional = models.EmailField(db_column='alu_email_institucional', max_length=255, verbose_name='email_inst')
     alu_telefone = models.CharField(db_column='alu_telefone', max_length=255)
     alu_endereco_cep = models.CharField(db_column='alu_endereco_cep', max_length=255)
     alu_endereco_descricao = models.CharField(db_column='alu_endereco_descricao', max_length=255)
@@ -40,7 +53,7 @@ class AlunoPcd(models.Model):
     alu_matricula = models.CharField(db_column='alu_matricula', max_length=11)
     alu_deficiencias = models.CharField(db_column='alu_deficiencias', max_length=255, blank=True, null=True)
     alu_curso = models.ForeignKey(Cursos, on_delete=models.PROTECT, db_column='alu_curso', blank=True, null=True)
-    alu_periodo_academico = models.CharField(db_column='alu_periodo_academico', max_length=255)  # Field name made lowercase.
+    alu_periodo_academico = models.CharField(db_column='alu_periodo_academico', max_length=255, choices=periodos)  # Field name made lowercase.
     alu_data_nascimento = models.DateField(db_column='alu_data_nascimento')
     alu_ativo = models.BooleanField(db_column="alu_ativo", default=False)
 

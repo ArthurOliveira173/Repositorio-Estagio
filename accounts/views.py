@@ -1,3 +1,5 @@
+import string
+
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate
 from django.core.validators import validate_email
@@ -5,6 +7,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from string import ascii_letters
+
+import membros.models
 from .models import FormAdministrador, FormMonitor, FormTutor
 from membros.forms import AlunosForm, MonitoresForm, TutoresForm
 from django.views import View
@@ -115,8 +119,13 @@ class BaseCadastro(View):
     template_name = 'accounts/cadastroAluno.html'
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
+
+        self.alunoPcd = None
+
         #Se o usuário estiver logado
         if self.request.user.is_authenticated:
+            self.alunoPcd = AlunoPcd.objects.filter(alu_user=self.request.user).first()
+
             self.contexto = {
                 'userform': forms.UserForm(
                     data = self.request.POST or None,
@@ -125,7 +134,8 @@ class BaseCadastro(View):
                 ),
                 'alunoform': forms.AlunoForm(
                     data = self.request.POST or None,
-                ),
+                    instance = self.alunoPcd
+                )
             }
         # Se o usuário não estiver logado
         else:
@@ -137,96 +147,42 @@ class BaseCadastro(View):
                     data=self.request.POST or None
                 )
             }
+        self.userform = self.contexto['userform']
+        self.alunoform = self.contexto['alunoform']
 
         self.renderizar = render(self.request, self.template_name, self.contexto)
     def get(self, *args, **kwargs):
         return self.renderizar
 
+
 class CadastroAluno(BaseCadastro):
     def post(self, *args, **kwargs):
+        if not self.userform.is_valid() or not self.alunoform.is_valid():
+            return self.renderizar
+
+        first_name = self.userform.cleaned_data.get('first_name')
+        last_name = self.userform.cleaned_data.get('last_name')
+        username= self.userform.cleaned_data.get('username')
+        password= self.userform.cleaned_data.get('password')
+        email= self.userform.cleaned_data.get('email')
+
+        if self.request.user.is_authenticated:
+            pass
+
+        else:
+            usuario = self.userform.save(commit=False)
+            usuario.set_password(password)
+            usuario.save()
+
+            alunoPcd = self.alunoform.save(commit=False)
+            alunoPcd.alu_nome = first_name+' '+last_name
+            alunoPcd.alu_cpf = username
+            alunoPcd.alu_email_pessoal = email
+            alunoPcd.alu_user = usuario
+            alunoPcd.save()
+
         return self.renderizar
 
-    '''
-    if request.method != 'POST':
-        form = FormAlunoPcd()
-        return render(request, 'accounts/cadastroAluno.html', {'form': form})
-
-    form = FormAlunoPcd(request.POST, request.FILES)
-
-    if not form.is_valid():
-        messages.error(request, 'Informações invalidas, tente novamente!')
-        form = FormAlunoPcd(request.POST)
-        return render(request, 'accounts/cadastroAluno.html', {'form': form})
-
-    nome = request.POST.get('alu_nome')
-    usuario = request.POST.get('alu_cpf')
-    data_nascimento = request.POST.get('alu_data_nascimento')
-    sexo = request.POST.get('alu_genero')
-    email_pessoal = request.POST.get('alu_email_pessoal')
-    email_instituicao = request.POST.get('alu_email_institucional')
-    telefone = request.POST.get('alu_telefone')
-    cep = request.POST.get('alu_endereco_cep')
-    descricao_des = request.POST.get('alu_endereco_descricao')
-    cidade = request.POST.get('alu_endereco_cidade')
-    curso = request.POST.get(' alu_curso')
-    periodo = request.POST.get('alu_periodo_academico')
-    matricula = request.POST.get('alu_matricula')
-    deficiencias = request.POST.get('alu_deficiencias')
-    senha = request.POST.get('senha')
-    senha2 = request.POST.get('senha2')
-
-    if not nome or not usuario or not data_nascimento or not sexo or not email_pessoal or not email_instituicao or not telefone or not cep or not descricao_des or not cidade or not periodo or not matricula or not senha or not senha2:
-        messages.error(request, 'Todos os campos devem ser preenchidos!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
-    try:
-        validate_email(email_pessoal)
-    except:
-        messages.error(request, 'Email pessoal invalido!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-    try:
-        validate_email(email_instituicao)
-    except:
-        messages.error(request, 'Email institucional invalido!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-    try:
-         valida_cpf(usuario)
-    except:
-        messages.error(request, 'O Cpf informado não é valido, tente novamente!')
-        return render(request, 'accounts/cadastroAluno.html', {'form': form})
-
-    if User.objects.filter(username=usuario).exists():
-        messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
-
-    if User.objects.filter(email=email_pessoal).exists():
-        messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
-    if User.objects.filter(email=email_instituicao).exists():
-        messages.error(request, 'Email institucional já cadastrado, tente novamente!')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
-    if len(senha) < 6:
-        messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
-        return render(request, 'accounts/cadastroAluno.html',  {'form': form})
-
-    if senha != senha2:
-        messages.error(request, 'Senhas diferentes, tente novamente!')
-        return render(request, 'accounts/cadastroAluno.html')
-
-    messages.success(request, 'Cadastro com sucesso, realize seu primeiro Login!')
-
-    user = User.objects.create_user(username=usuario, email=email_pessoal,
-                                    password=senha, first_name=nome,
-                                    last_name=email_instituicao)
-
-    form.alu_user = user
-    form.save()
-    user.save()
-    return redirect('login')
-'''
 def cadastroMonitor(request):
     if request.method != 'POST':
         form = MonitoresForm()
@@ -427,37 +383,5 @@ def dashboardAluno(request):
     return redirect('dashboard')
 
 
-def valida_cpf(f):
-    cpf = f
-    novo_cpf = cpf[:-2]  # Elimina os dois últimos digitos do CPF
-    reverso = 10  # Contador reverso
-    total = 0
-
-    # Loop do CPF
-    for index in range(19):
-        if index > 8:  # Primeiro índice vai de 0 a 9,
-            index -= 9  # São os 9 primeiros digitos do CPF
-
-        total += int(novo_cpf[index]) * reverso  # Valor total da multiplicação
-
-        reverso -= 1  # Decrementa o contador reverso
-        if reverso < 2:
-            reverso = 11
-            d = 11 - (total % 11)
-
-            if d > 9:  # Se o digito for > que 9 o valor é 0
-                d = 0
-            total = 0  # Zera o total
-            novo_cpf += str(d)  # Concatena o digito gerado no novo cpf
-
-    # Evita sequencias. Ex.: 11111111111, 00000000000...
-    sequencia = novo_cpf == str(novo_cpf[0]) * len(cpf)
-
-    # Descobri que sequências avaliavam como verdadeiro, então também
-    # adicionei essa checagem aqui
-    if cpf == novo_cpf and not sequencia:
-        return True
-    else:
-        return False
 
 
