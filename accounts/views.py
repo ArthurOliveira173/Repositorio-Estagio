@@ -1,42 +1,54 @@
-import string
-
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate
 from django.core.validators import validate_email
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from string import ascii_letters
-
+from django.contrib.auth import authenticate, login, logout
+from django.views import View
 import membros.models
 from .models import FormAdministrador, FormMonitor, FormTutor
 from membros.forms import AlunosForm, MonitoresForm, TutoresForm
-from django.views import View
 from . import forms
 from . import models
 from membros.models import AlunoPcd
 # Create your views here.
 
 
-def login(request):
-    if request.method != 'POST':
-        return render(request, 'accounts/login.html')
-    usuario = request.POST.get('usuario')
-    senha = request.POST.get('senha')
+class Login(View):
+     def post(self, *args, **kwargs):
+        username = self.request.POST.get('usuario')
+        password = self.request.POST.get('senha')
 
-    user = auth.authenticate(request, username=usuario, password=senha)
+        if not username or not password:
+            messages.error(
+                self.request,
+                'Usuário ou senha inválidos.'
+            )
+            return redirect('login')
 
-    if not user:
-        messages.error(request, 'usuario ou senha invalidos.')
-        return render(request, 'accounts/login.html')
-    else:
-        auth.login(request, user)
-        messages.success(request, 'Login com sucesso.')
-        return redirect('aviIndexAluno')
+        usuario = authenticate(
+            self.request, username=username, password=password)
 
-def logout(request):
-    auth.logout(request)
-    return redirect('dashboard')
+        if not usuario:
+            messages.error(
+                self.request,
+                'Usuário ou senha inválidos.'
+            )
+            return redirect('login')
+
+        login(self.request, user=usuario)
+
+        messages.success(
+            self.request,
+            'Você fez login.'
+        )
+        return render('accounts/cadastroAluno.html')
+
+class Logout(View):
+    def get(self, *args, **kwargs):
+        logout(self.request)
+        return redirect('login')
 
 def cadastro(request):
     if request.method != 'POST':
@@ -90,6 +102,7 @@ def cadastro(request):
     user.save()
     return redirect('login')
 
+'''
 @login_required(redirect_field_name='login')
 def dashboard(request):
     if request.method != 'POST':
@@ -112,9 +125,7 @@ def dashboard(request):
     form.save()
     messages.success(request, f'Usuario {request.POST.get("adm_nome")} salvo com sucesso!')
     return redirect('dashboard')
-
-
-
+'''
 class BaseCadastro(View):
     template_name = 'accounts/cadastroAluno.html'
     def setup(self, *args, **kwargs):
@@ -157,17 +168,28 @@ class BaseCadastro(View):
 
 class CadastroAluno(BaseCadastro):
     def post(self, *args, **kwargs):
-        if not self.userform.is_valid() or not self.alunoform.is_valid():
+        if not self.userform.is_valid():
             return self.renderizar
 
         first_name = self.userform.cleaned_data.get('first_name')
         last_name = self.userform.cleaned_data.get('last_name')
-        username= self.userform.cleaned_data.get('username')
-        password= self.userform.cleaned_data.get('password')
-        email= self.userform.cleaned_data.get('email')
+        username = self.userform.cleaned_data.get('username')
+        password = self.userform.cleaned_data.get('password')
+        email = self.userform.cleaned_data.get('email')
 
+        #usuário está logado
         if self.request.user.is_authenticated:
-            pass
+            usuario = get_object_or_404(User, username=self.request.user.username)
+
+            usuario.username = username
+
+            if password:
+                usuario.set_password(password)
+
+            usuario.email = email
+            usuario.first_name = first_name
+            usuario.last_name = last_name
+            usuario.save()
 
         else:
             usuario = self.userform.save(commit=False)
@@ -181,6 +203,12 @@ class CadastroAluno(BaseCadastro):
             alunoPcd.alu_user = usuario
             alunoPcd.save()
 
+        if password:
+            autentica = authenticate(self.request, username=usuario, password=password)
+            if autentica:
+                print(autentica)
+                login()
+        self.request.session.save()
         return self.renderizar
 
 def cadastroMonitor(request):

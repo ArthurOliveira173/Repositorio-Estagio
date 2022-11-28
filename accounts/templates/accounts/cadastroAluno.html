@@ -15,7 +15,7 @@
     <form action="{% url 'cadastroAluno' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ userform|crispy}}
-        {{ alunoform|crispy}}
+
 
 
         <button type="submit" class="btn btn-primary">Enviar</button>

@@ -52,8 +52,10 @@ class AlunoForm(forms.ModelForm):
 
         if not telefone_data:
             validation_error_msgs['alu_telefone'] = error_msg_required_field
+
         if not cep_data:
             validation_error_msgs['alu_endereco_cep'] = error_msg_required_field
+
         if not endereco_descricao_data:
             validation_error_msgs['alu_endereco_descricao'] = error_msg_required_field
 
@@ -65,8 +67,10 @@ class AlunoForm(forms.ModelForm):
 
         if not deficiencias_data:
             validation_error_msgs['alu_deficiencias'] = error_msg_required_field
+
         if not curso_data:
             validation_error_msgs['alu_curso'] = error_msg_required_field
+
         if not periodo_data:
             validation_error_msgs['alu_periodo_academico'] = error_msg_required_field
 
@@ -140,8 +144,8 @@ class UserForm(forms.ModelForm):
                     validation_error_msgs['password'] = error_msg_password_match
                     validation_error_msgs['password2'] = error_msg_password_match
 
-            if not valida_cpf(usuario_data):
-                validation_error_msgs['username'] = error_msg_invalid_cpf
+
+
         #usuário não logado
         else:
             if usuario_db:

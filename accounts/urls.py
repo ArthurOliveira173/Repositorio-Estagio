@@ -4,15 +4,14 @@ from . import views
 from .views import CadastroAluno
 
 urlpatterns = [
-    path('dashboard/', views.dashboard, name='dashboard'),
     path('cadastro/', views.cadastro, name='cadastro'),
 
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
+    path('login/', views.Login.as_view(), name='login'),
+    path('logout/', views.Logout.as_view(), name='logout'),
     path('cadastro/', views.cadastro, name='cadastro'),
     path('cadastroAluno/', views.CadastroAluno.as_view(), name='cadastroAluno'),
-    path('cadastroMonitor', views.cadastroMonitor, name='cadastroMonitor'),
-    path('cadastroTutor', views.cadastroTutor, name='cadastroTutor'),
+    path('cadastroMonitor/', views.cadastroMonitor, name='cadastroMonitor'),
+    path('cadastroTutor/', views.cadastroTutor, name='cadastroTutor'),
     path('dashboardAluno/', views.dashboardAluno, name='dashboardAluno'),
 
     #template_name="accounts/reset_password.html"
