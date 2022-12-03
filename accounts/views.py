@@ -85,13 +85,14 @@ class BaseCadastro(View):
                     data=self.request.POST or None
                 )
             }
+
         self.userform = self.contexto['userform']
         self.alunoform = self.contexto['alunoform']
 
+
         self.renderizar = render(self.request, self.template_name, self.contexto)
 
-        if self.request.user.is_authenticated:
-            self.template_name = 'accounts/atualizar.html'
+
 
     def get(self, *args, **kwargs):
         return self.renderizar
@@ -100,7 +101,7 @@ class BaseCadastro(View):
 class CadastroAluno(BaseCadastro):
     def post(self, *args, **kwargs):
         print(self.aluno)
-        if not self.userform.is_valid():
+        if not self.userform.is_valid() or not self.alunoform.is_valid():
             messages.error(
                 self.request,
                 'Existem erros no formulário de cadastro. Verifique se todos '
@@ -126,6 +127,22 @@ class CadastroAluno(BaseCadastro):
             usuario.first_name = first_name
             usuario.last_name = last_name
             usuario.save()
+
+            if not self.aluno:
+                self.alunoform.cleaned_data['alu_user'] = usuario
+                self.alunoform.cleaned_data['alu_nome'] = first_name + ' ' + last_name
+                self.alunoform.cleaned_data['alu_cpf'] = usuario.username
+                self.alunoform.cleaned_data['alu_email_pessoal'] = usuario.email
+                aluno = AlunoPcd(**self.alunoform.cleaned_data)
+                aluno.save()
+                print(self.alunoform.cleaned_data)
+            else:
+                aluno = self.alunoform.save(commit=False)
+                aluno.alu_user = usuario
+                aluno.alu_nome = usuario.first_name+' '+usuario.last_name
+                aluno.alu_cpf = usuario.username
+                aluno.alu_email_pessoal = usuario.email
+                aluno.save()
 
         #usuário não logado (novo usuário)
         else:

@@ -78,7 +78,8 @@ class AlunoForm(forms.ModelForm):
             validation_error_msgs['alu_data_nascimento'] = error_msg_required_field
 
         if email_db:
-            validation_error_msgs['alu_email_institucional'] = error_msg_email_institucional_exists
+            if email_institucional_data != email_db.alu_email_institucional:
+               validation_error_msgs['alu_email_institucional'] = error_msg_email_institucional_exists
             
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
