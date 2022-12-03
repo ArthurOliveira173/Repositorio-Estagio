@@ -66,14 +66,15 @@ class MonitoresForm(ModelForm):
         widgets = {
             'mon_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
             'mon_cpf': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CPF'}),
+            'mon_genero': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Gênero'}),
             'mon_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
             'mon_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
             'mon_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+            'mon_endereco_cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CEP'}),
+            'mon_endereco_descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'mon_endereco_cidade': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Cidade'}),
             'mon_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
             'mon_curso': forms.Select(attrs={'class':'form-control', 'placeholder': 'Curso'}),
-            'mon_endereco_cep': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CEP'}),
-            'mon_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
-            'mon_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
             'mon_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
         }
 
@@ -101,14 +102,15 @@ class TutoresForm(ModelForm):
         widgets = {
             'tut_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
             'tut_cpf': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CPF'}),
+            'tut_genero': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Gênero'}),
             'tut_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
             'tut_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
             'tut_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+            'tut_endereco_cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CEP'}),
+            'tut_endereco_descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'tut_endereco_cidade': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Cidade'}),
             'tut_matricula': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Matricula'}),
             'tut_curso': forms.Select(attrs={'class':'form-control', 'placeholder': 'Curso'}),
-            'tut_endereco_cep': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CEP'}),
-            'tut_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
-            'tut_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
             'tut_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
         }
 
@@ -128,6 +130,7 @@ class InterpretesForm(ModelForm):
         widgets = {
             'int_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
             'int_cpf': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CPF'}),
+            'int_genero': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Gênero'}),
             'int_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
             'int_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
             'int_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),

@@ -98,6 +98,7 @@
                           <tr class="text-white">
                             <th scope="col">Disciplina</th>
                             <th scope="col">Acompanhamento</th>
+                            <th scope="col">Carga Horária</th>
                             <th scope="col">Operações</th>
                           </tr>
                         </thead>
@@ -106,6 +107,7 @@
                             <tr>
                               <td>{{ disciplina.AsDis_disciplina }}</td>
                               <td>{{ disciplina.AsDis_acompanhamento }}</td>
+                              <td>{{ disciplina.AsDis_disciplina.dis_carga_horaria }} Horas</td>
                               <td>
                                 <a class="btn btn-secondary text-white " href="{% url 'atualizarDisciplina' disciplina.AsDis_id %}" role="button">
                                   Editar

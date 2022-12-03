@@ -61,8 +61,6 @@ urlpatterns = [
     path('alunos/acompanhantes', views.acompanhantes, name='acompanhantes'),
     path('alunos/<int:aluno_id>', views.aluno, name='aluno'),
 
-    path('usuarioIndex', views.usuarioIndex, name='usuarioIndex'),
-
     #Monitor_tutor
     path('monitores', views.index_mon, name='index_mon'),
     path('monitores/monAluno', views.monAluno, name='monAluno'),
