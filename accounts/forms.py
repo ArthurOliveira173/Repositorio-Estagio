@@ -109,6 +109,7 @@ class UserForm(forms.ModelForm):
         cleaned = self.cleaned_data
         validation_error_msgs = {}
 
+
         usuario_data = cleaned.get('username')
         password_data = cleaned.get('password')
         password2_data = cleaned.get('password2')
@@ -150,9 +151,6 @@ class UserForm(forms.ModelForm):
         else:
             if usuario_db:
                 validation_error_msgs['username'] = error_msg_user_exists
-
-            if not valida_cpf(usuario_data):
-                validation_error_msgs['username'] = error_msg_invalid_cpf
 
             if email_db:
                 validation_error_msgs['email'] = error_msg_email_exists

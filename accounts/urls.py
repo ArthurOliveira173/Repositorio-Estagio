@@ -1,19 +1,20 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import CadastroAluno
+
+app_name = 'accounts'
 
 urlpatterns = [
-    path('cadastro/', views.cadastro, name='cadastro'),
 
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
-    path('cadastro/', views.cadastro, name='cadastro'),
+    path('atualizar/', views.Atualizar.as_view(), name='atualizar'),
     path('cadastroAluno/', views.CadastroAluno.as_view(), name='cadastroAluno'),
-    path('cadastroMonitor/', views.cadastroMonitor, name='cadastroMonitor'),
-    path('cadastroTutor/', views.cadastroTutor, name='cadastroTutor'),
-    path('dashboardAluno/', views.dashboardAluno, name='dashboardAluno'),
 
+
+   # path('cadastroMonitor/', views.cadastroMonitor, name='cadastroMonitor'),
+   # path('cadastroTutor/', views.cadastroTutor, name='cadastroTutor'),
+   # path('dashboardAluno/', views.dashboardAluno, name='dashboardAluno'),
     #template_name="accounts/reset_password.html"
     #template_name="accounts/password_reset_done.html"
     #template_name="accounts/password_reset_confirm.html"
