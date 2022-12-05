@@ -47,10 +47,15 @@ class Logout(View):
         logout(self.request)
         return redirect('login')
 
-
 class Atualizar(View):
     def get(self, *args, **kwargs):
         return HttpResponse('Atualizar')
+
+class IndexCadastro(View):
+    template_name = 'accounts/indexcadastro.html'
+    def get(self, *args, **kwargs):
+        return render(self.request, self.template_name)
+
 
 class BaseCadastro(View):
     template_name = 'accounts/cadastroAluno.html'
@@ -89,10 +94,7 @@ class BaseCadastro(View):
         self.userform = self.contexto['userform']
         self.alunoform = self.contexto['alunoform']
 
-
         self.renderizar = render(self.request, self.template_name, self.contexto)
-
-
 
     def get(self, *args, **kwargs):
         return self.renderizar
@@ -164,7 +166,3 @@ class CadastroAluno(BaseCadastro):
                 login(self.request, user=usuario)
 
         return self.renderizar
-
-
-
-

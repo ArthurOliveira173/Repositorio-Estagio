@@ -84,7 +84,6 @@ class AlunoForm(forms.ModelForm):
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
 
-
 class UserForm(forms.ModelForm):
     password = forms.CharField(required=False, widget=forms.PasswordInput(), label='Senha')
     password2 = forms.CharField(required=False, widget=forms.PasswordInput(), label='Confirmação de Senha')
@@ -126,8 +125,8 @@ class UserForm(forms.ModelForm):
         error_msg_required_field = 'Este campo é obrigatório'
         error_msg_invalid_cpf = 'Digite um CPF válido'
 
-
-
+        if not valida_cpf(usuario_data):
+            validation_error_msgs['username'] = error_msg_invalid_cpf
         #se o usuário estiver logado
         if self.usuario:
             if usuario_db:
@@ -171,3 +170,4 @@ class UserForm(forms.ModelForm):
 
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
+
