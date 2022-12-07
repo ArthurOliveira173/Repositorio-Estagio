@@ -7,8 +7,29 @@ generos = (
     ('O', 'Outros'),
 )
 cidades = (
-    ('RB', 'Rio Branco'),
-    ('CS', 'Cruzeiro do Sul'),
+    #Código na SEF-MG
+    ('01', 'Assis Brasil'),
+    ('02', 'Brasileia'),
+    ('03', 'Cruzeiro Do Sul'),
+    ('04', 'Feijo'),
+    ('05', 'Mancio Lima'),
+    ('06', 'Manoel Urbano'),
+    ('07', 'Placido De Castro'),
+    ('08', 'Rio Branco'),
+    ('09', 'Sena Madureira'),
+    ('10', 'Senador Guiomard'),
+    ('11', 'Tarauaca'),
+    ('12', 'Xapuri'),
+    ('13', 'Acrelandia'),
+    ('14', 'Bujari'),
+    ('15', 'Capixaba'),
+    ('16', 'Epitaciolandia'),
+    ('17', 'Jordão'),
+    ('18', 'Marechal Thaumaturgo'),
+    ('19', 'Porto Acre'),
+    ('20', 'Porto Walter'),
+    ('21', 'Rodrigues Alvez'),
+    ('22', 'Santa Rosa Do Purus'),
 )
 
 periodos = (
@@ -74,6 +95,7 @@ class AlunoPcd(models.Model):
 
 class Monitor(models.Model):
     mon_id = models.AutoField(db_column='mon_id', primary_key=True)
+    mon_user = models.OneToOneField(User, db_column='mon_user', on_delete=models.CASCADE)
     mon_nome = models.CharField(db_column='mon_nome', max_length=255)
     mon_cpf = models.CharField(db_column='mon_cpf', max_length=11)
     mon_genero = models.CharField(db_column='mon_genero', max_length=1, choices=generos)

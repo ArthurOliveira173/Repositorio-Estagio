@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ValidationError
-from membros.models import AlunoPcd
+from membros.models import AlunoPcd, Monitor
 from . uteis import valida_cpf
 
 class AlunoForm(forms.ModelForm):
@@ -83,6 +83,87 @@ class AlunoForm(forms.ModelForm):
             
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
+
+
+class MonitorForm(forms.ModelForm):
+    class Meta:
+        model = Monitor
+        fields = '__all__'
+        exclude = ('mon_user', 'mon_nome', 'mon_cpf', 'mon_email_pessoal',
+                   'mon_ativo',)
+
+        labels = {
+            'mon_genero': 'Sexo',
+            'mon_email_institucional': 'E-mail institucional',
+            'mon_telefone': 'Telefone(Celular)',
+            'mon_endereco_cep': 'Cep',
+            'mon_endereco_descricao': 'Endereço',
+            'mon_endereco_cidade': 'Cidade Natal',
+            'mon_matricula': 'Número de Mátricula',
+            'mon_curso': 'Curso',
+            'mon_periodo_academico': 'Período',
+            'mon_data_nascimento': 'Data Nascimento',
+
+        }
+
+    def clean(self, *args, **kwargs):
+        data = self.data
+        cleaned = self.cleaned_data
+        validation_error_msgs = {}
+
+        genero_data =cleaned.get('mon_genero')
+        email_institucional_data = cleaned.get('mon_email_institucional')
+        telefone_data = cleaned.get('mon_telefone')
+        cep_data = cleaned.get('mon_endereco_cep')
+        endereco_descricao_data = cleaned.get('mon_endereco_descricao')
+        cidade_data = cleaned.get('mon_endereco_cidade')
+        matricula_data = cleaned.get('mon_matricula')
+        curso_data = cleaned.get('mon_curso')
+        periodo_data = cleaned.get('mon_periodo_academico')
+        data_nascimento_data = cleaned.get('mon_data_nascimento')
+
+        email_db = Monitor.objects.filter(mon_email_institucional=email_institucional_data).first()
+
+        error_msg_email_institucional_exists = 'E-mail institucional já existe'
+        error_msg_required_field = 'Este campo é obrigatório'
+
+        if not genero_data:
+            validation_error_msgs['mon_genero'] = error_msg_required_field
+
+
+        if not email_institucional_data:
+            validation_error_msgs['mon_email_institucional'] = error_msg_required_field
+
+        if not telefone_data:
+            validation_error_msgs['mon_telefone'] = error_msg_required_field
+
+        if not cep_data:
+            validation_error_msgs['mon_endereco_cep'] = error_msg_required_field
+
+        if not endereco_descricao_data:
+            validation_error_msgs['mon_endereco_descricao'] = error_msg_required_field
+
+        if not cidade_data:
+            validation_error_msgs['mon_endereco_cidade'] = error_msg_required_field
+
+        if not matricula_data:
+            validation_error_msgs['mon_matricula'] = error_msg_required_field
+
+        if not curso_data:
+            validation_error_msgs['mon_curso'] = error_msg_required_field
+
+        if not periodo_data:
+            validation_error_msgs['mon_periodo_academico'] = error_msg_required_field
+
+        if not data_nascimento_data:
+            validation_error_msgs['mon_data_nascimento'] = error_msg_required_field
+
+        if email_db:
+            if email_institucional_data != email_db.alu_email_institucional:
+                validation_error_msgs['mon_email_institucional'] = error_msg_email_institucional_exists
+
+        if validation_error_msgs:
+            raise (forms.ValidationError(validation_error_msgs))
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(required=False, widget=forms.PasswordInput(), label='Senha')

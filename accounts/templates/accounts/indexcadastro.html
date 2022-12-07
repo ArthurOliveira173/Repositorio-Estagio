@@ -10,6 +10,36 @@
 
 
 <div class="d-flex bd-highlight">
+    <div class="row ">
+      <div class="col-lg-4 col-md-12">
+        <div class="card color-black">
+
+          <div class="card-body">
+                <h5 class="card-title">Aluno</h5>
+                <p class="card-text">
+                  Se você for aluno que precisa de acompanhamento fornecido pelo NAI.
+                </p>
+                <a href="{% url 'accounts:cadastroAluno' %}" class="btn btn-primary">Cadastrar</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <div class="card color-black">
+
+          <div class="card-body">
+                <h5 class="card-title">Monitor</h5>
+                <p class="card-text">
+                  Se você for aluno que passou no processo seleitvo para "Monitor" para o NAI.
+                </p>
+                <a href="{% url 'accounts:cadastroMonitor' %}" class="btn btn-primary">Cadastrar</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-4 col-md-12">
         <div class="card color-black">
@@ -21,6 +51,7 @@
                 </p>
                 <a href="{% url 'accounts:cadastroAluno' %}" class="btn btn-primary">Cadastrar</a>
           </div>
+
         </div>
       </div>
     </div>
