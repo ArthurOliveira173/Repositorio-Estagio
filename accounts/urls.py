@@ -10,8 +10,9 @@ urlpatterns = [
     path('logout/', views.Logout.as_view(), name='logout'),
     path('atualizar/', views.Atualizar.as_view(), name='atualizar'),
     path('indexcadastro/', views.IndexCadastro.as_view(), name='indexcadastro'),
-    path('indexcadastro/cadastroAluno/', views.CadastroAluno.as_view(), name='cadastroaluno'),
-    path('indexcadastro/cadastroMonitor/', views.CadastroMonitor.as_view(), name='cadastromonitor'),
+    path('cadastroAluno/', views.CadastroAluno.as_view(), name='cadastroAluno'),
+    path('cadastroMonitor/', views.CadastroMonitor.as_view(), name='cadastroMonitor'),
+    path('cadastroTutor/', views.CadastroTutor.as_view(), name='cadastroTutor'),
 
    # path('cadastroMonitor/', views.cadastroMonitor, name='cadastroMonitor'),
    # path('cadastroTutor/', views.cadastroTutor, name='cadastroTutor'),

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from . import forms
-from membros.models import AlunoPcd, Monitor
+from membros.models import AlunoPcd, Monitor, Tutor
 from django.http import HttpResponse
 # Create your views here.
 
@@ -99,7 +99,6 @@ class BaseAluno(View):
     def get(self, *args, **kwargs):
         return self.renderizar
 
-
 class CadastroAluno(BaseAluno):
     def post(self, *args, **kwargs):
         print(self.aluno)
@@ -166,8 +165,6 @@ class CadastroAluno(BaseAluno):
                 login(self.request, user=usuario)
 
         return self.renderizar
-
-
 
 class BaseMonitor(View):
     template_name = 'accounts/cadastroMonitor.html'
@@ -269,6 +266,224 @@ class CadastroMonitor(BaseMonitor):
             monitor.mon_email_pessoal = email
             monitor.mon_user = usuario
             monitor.save()
+
+        if password:
+            autentica = authenticate(self.request, username=usuario, password=password)
+            if autentica:
+                print(autentica)
+                login(self.request, user=usuario)
+
+        return self.renderizar
+
+    class BaseMonitor(View):
+        template_name = 'accounts/cadastroMonitor.html'
+
+        def setup(self, *args, **kwargs):
+            super().setup(*args, **kwargs)
+
+            self.monitor = None
+
+            # Se o usuário estiver logado
+            if self.request.user.is_authenticated:
+                self.monitor = Monitor.objects.filter(mon_user=self.request.user).first()
+
+                self.contexto = {
+                    'userform': forms.UserForm(
+                        data=self.request.POST or None,
+                        usuario=self.request.user,
+                        instance=self.request.user,
+                    ),
+                    'monitorform': forms.MonitorForm(
+                        data=self.request.POST or None,
+                        instance=self.monitor,
+                    )
+                }
+            # Se o usuário não estiver logado
+            else:
+                self.contexto = {
+                    'userform': forms.UserForm(
+                        data=self.request.POST or None
+                    ),
+                    'monitorform': forms.MonitorForm(
+                        data=self.request.POST or None
+                    )
+                }
+            print(self.contexto)
+            self.userform = self.contexto['userform']
+            self.monitorform = self.contexto['monitorform']
+
+            self.renderizar = render(self.request, self.template_name, self.contexto)
+
+        def get(self, *args, **kwargs):
+            return self.renderizar
+
+    class CadastroMonitor(BaseMonitor):
+        def post(self, *args, **kwargs):
+            print(self.monitor)
+            if not self.userform.is_valid():  # or not self.monitorform.is_valid()
+                messages.error(
+                    self.request,
+                    'Existem erros no formulário de cadastro. Verifique se todos '
+                    'os campos foram preenchidos corretamente.'
+                )
+                return self.renderizar
+
+            first_name = self.userform.cleaned_data.get('first_name')
+            last_name = self.userform.cleaned_data.get('last_name')
+            username = self.userform.cleaned_data.get('username')
+            password = self.userform.cleaned_data.get('password')
+            email = self.userform.cleaned_data.get('email')
+
+            # usuário está logado
+            if self.request.user.is_authenticated:
+                usuario = get_object_or_404(User, username=self.request.user.username)
+                usuario.username = username
+
+                if password:
+                    usuario.set_password(password)
+
+                usuario.email = email
+                usuario.first_name = first_name
+                usuario.last_name = last_name
+                usuario.save()
+
+                if not self.monitor:
+                    self.monitorform.cleaned_data['mon_user'] = usuario
+                    self.monitorform.cleaned_data['mon_nome'] = first_name + ' ' + last_name
+                    self.monitorform.cleaned_data['mon_cpf'] = usuario.username
+                    self.monitorform.cleaned_data['mon_email_pessoal'] = usuario.email
+                    monitor = Monitor(**self.monitorform.cleaned_data)
+                    monitor.save()
+                #                print(self.monitorform.cleaned_data)
+                else:
+                    monitor = self.monitorform.save(commit=False)
+                    monitor.mon_user = usuario
+                    monitor.mon_nome = usuario.first_name + ' ' + usuario.last_name
+                    monitor.mon_cpf = usuario.username
+                    monitor.mon_email_pessoal = usuario.email
+                    monitor.save()
+
+            # usuário não logado (novo usuário)
+            else:
+                usuario = self.userform.save(commit=False)
+                usuario.set_password(password)
+                usuario.save()
+
+                monitor = self.monitorform.save(commit=False)
+                monitor.mon_nome = first_name + ' ' + last_name
+                monitor.mon_cpf = username
+                monitor.mon_email_pessoal = email
+                monitor.mon_user = usuario
+                monitor.save()
+
+            if password:
+                autentica = authenticate(self.request, username=usuario, password=password)
+                if autentica:
+                    print(autentica)
+                    login(self.request, user=usuario)
+
+            return self.renderizar
+
+class BaseTutor(View):
+    template_name = 'accounts/cadastroTutor.html'
+
+    def setup(self, *args, **kwargs):
+        super().setup(*args, **kwargs)
+
+        self.tutor = None
+
+        # Se o usuário estiver logado
+        if self.request.user.is_authenticated:
+            self.tutor = Tutor.objects.filter(tut_user=self.request.user).first()
+
+            self.contexto = {
+                'userform': forms.UserForm(
+                    data=self.request.POST or None,
+                    usuario=self.request.user,
+                    instance=self.request.user,
+                ),
+                'tutorform': forms.TutorForm(
+                    data=self.request.POST or None,
+                    instance=self.tutor,
+                )
+            }
+        # Se o usuário não estiver logado
+        else:
+            self.contexto = {
+                'userform': forms.UserForm(
+                    data=self.request.POST or None
+                ),
+                'tutorform': forms.TutorForm(
+                    data=self.request.POST or None
+                )
+            }
+        print(self.contexto)
+        self.userform = self.contexto['userform']
+        self.tutorform = self.contexto['tutorform']
+
+        self.renderizar = render(self.request, self.template_name, self.contexto)
+
+    def get(self, *args, **kwargs):
+        return self.renderizar
+
+class CadastroTutor(BaseTutor):
+    def post(self, *args, **kwargs):
+
+        if not self.userform.is_valid():  # or not self.monitorform.is_valid()
+            messages.error(
+                self.request,
+                'Existem erros no formulário de cadastro. Verifique se todos '
+                'os campos foram preenchidos corretamente.'
+            )
+            return self.renderizar
+
+        first_name = self.userform.cleaned_data.get('first_name')
+        last_name = self.userform.cleaned_data.get('last_name')
+        username = self.userform.cleaned_data.get('username')
+        password = self.userform.cleaned_data.get('password')
+        email = self.userform.cleaned_data.get('email')
+
+        # usuário está logado
+        if self.request.user.is_authenticated:
+            usuario = get_object_or_404(User, username=self.request.user.username)
+            usuario.username = username
+
+            if password:
+                usuario.set_password(password)
+
+            usuario.email = email
+            usuario.first_name = first_name
+            usuario.last_name = last_name
+            usuario.save()
+
+            if not self.tutor:
+                self.tutorform.cleaned_data['tut_user'] = usuario
+                self.tutorform.cleaned_data['tut_nome'] = first_name + ' ' + last_name
+                self.tutorform.cleaned_data['tut_cpf'] = usuario.username
+                self.tutorform.cleaned_data['tut_email_pessoal'] = usuario.email
+                tutor = Tutor(**self.tutorform.cleaned_data)
+                tutor.save()
+            #                print(self.monitorform.cleaned_data)
+            else:
+                tutor = self.tutorform.save(commit=False)
+                tutor.tut_user = usuario
+                tutor.tut_nome = usuario.first_name + ' ' + usuario.last_name
+                tutor.tut_cpf = usuario.username
+                tutor.tut_email_pessoal = usuario.email
+                tutor.save()
+
+        # usuário não logado (novo usuário)
+        else:
+            usuario = self.userform.save(commit=False)
+            usuario.set_password(password)
+            usuario.save()
+
+            tutor = self.tutorform.save(commit=False)
+            tutor.tut_nome = first_name + ' ' + last_name
+            tutor.tut_cpf = username
+            tutor.tut_email_pessoal = email
+            tutor.tut_user = usuario
+            tutor.save()
 
         if password:
             autentica = authenticate(self.request, username=usuario, password=password)

@@ -127,6 +127,8 @@ class Monitor(models.Model):
 
 class Tutor(models.Model):
     tut_id = models.AutoField(db_column='tut_id', primary_key=True)
+    tut_user = models.OneToOneField(User, db_column='tut_user', on_delete=models.CASCADE)
+
     tut_nome = models.CharField(db_column='tut_nome', max_length=255)
     tut_cpf = models.CharField(db_column='tut_cpf', max_length=11)
     tut_genero = models.CharField(db_column='tut_genero', max_length=1, choices=generos)

@@ -11,12 +11,10 @@
   </p>
 
   <div class="container">
-    <form action="{% url 'accounts:indexcadastro' %}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'aviIndexAluno' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ userform|crispy}}
         {{ alunoform|crispy}}
-
-
 
         <button type="submit" class="btn btn-primary">Enviar</button>
 

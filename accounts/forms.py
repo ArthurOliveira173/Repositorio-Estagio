@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ValidationError
-from membros.models import AlunoPcd, Monitor
+from membros.models import AlunoPcd, Monitor, Tutor
 from . uteis import valida_cpf
 
 class AlunoForm(forms.ModelForm):
@@ -84,7 +84,6 @@ class AlunoForm(forms.ModelForm):
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
 
-
 class MonitorForm(forms.ModelForm):
     class Meta:
         model = Monitor
@@ -102,8 +101,6 @@ class MonitorForm(forms.ModelForm):
             'mon_matricula': 'Número de Mátricula',
             'mon_curso': 'Curso',
             'mon_periodo_academico': 'Período',
-            'mon_data_nascimento': 'Data Nascimento',
-
         }
 
     def clean(self, *args, **kwargs):
@@ -120,7 +117,7 @@ class MonitorForm(forms.ModelForm):
         matricula_data = cleaned.get('mon_matricula')
         curso_data = cleaned.get('mon_curso')
         periodo_data = cleaned.get('mon_periodo_academico')
-        data_nascimento_data = cleaned.get('mon_data_nascimento')
+#        data_nascimento_data = cleaned.get('mon_data_nascimento')
 
         email_db = Monitor.objects.filter(mon_email_institucional=email_institucional_data).first()
 
@@ -155,12 +152,92 @@ class MonitorForm(forms.ModelForm):
         if not periodo_data:
             validation_error_msgs['mon_periodo_academico'] = error_msg_required_field
 
-        if not data_nascimento_data:
-            validation_error_msgs['mon_data_nascimento'] = error_msg_required_field
+#        if not data_nascimento_data:
+#            validation_error_msgs['mon_data_nascimento'] = error_msg_required_field
 
         if email_db:
             if email_institucional_data != email_db.alu_email_institucional:
                 validation_error_msgs['mon_email_institucional'] = error_msg_email_institucional_exists
+
+        if validation_error_msgs:
+            raise (forms.ValidationError(validation_error_msgs))
+
+class TutorForm(forms.ModelForm):
+    class Meta:
+        model = Tutor
+        fields = '__all__'
+        exclude = ('tut_user', 'tut_nome', 'tut_cpf', 'tut_email_pessoal',
+                   'tut_ativo',)
+
+        labels = {
+            'tut_genero': 'Sexo',
+            'tut_email_institucional': 'E-mail institucional',
+            'tut_telefone': 'Telefone(Celular)',
+            'tut_endereco_cep': 'Cep',
+            'tut_endereco_descricao': 'Endereço',
+            'tut_endereco_cidade': 'Cidade Natal',
+            'tut_matricula': 'Número de Mátricula',
+            'tut_curso': 'Curso',
+            'tut_periodo_academico': 'Período',
+            'tut_data_nascimento': 'Data Nascimento',
+
+        }
+
+    def clean(self, *args, **kwargs):
+        data = self.data
+        cleaned = self.cleaned_data
+        validation_error_msgs = {}
+
+        genero_data =cleaned.get('tut_genero')
+        email_institucional_data = cleaned.get('tut_email_institucional')
+        telefone_data = cleaned.get('tut_telefone')
+        cep_data = cleaned.get('tut_endereco_cep')
+        endereco_descricao_data = cleaned.get('tut_endereco_descricao')
+        cidade_data = cleaned.get('tut_endereco_cidade')
+        matricula_data = cleaned.get('tut_matricula')
+        curso_data = cleaned.get('tut_curso')
+        periodo_data = cleaned.get('tut_periodo_academico')
+#        data_nascimento_data = cleaned.get('mon_data_nascimento')
+
+        email_db = Tutor.objects.filter(tut_email_institucional=email_institucional_data).first()
+
+        error_msg_email_institucional_exists = 'E-mail institucional já existe'
+        error_msg_required_field = 'Este campo é obrigatório'
+
+        if not genero_data:
+            validation_error_msgs['tut_genero'] = error_msg_required_field
+
+
+        if not email_institucional_data:
+            validation_error_msgs['tut_email_institucional'] = error_msg_required_field
+
+        if not telefone_data:
+            validation_error_msgs['tut_telefone'] = error_msg_required_field
+
+        if not cep_data:
+            validation_error_msgs['tut_endereco_cep'] = error_msg_required_field
+
+        if not endereco_descricao_data:
+            validation_error_msgs['tut_endereco_descricao'] = error_msg_required_field
+
+        if not cidade_data:
+            validation_error_msgs['tut_endereco_cidade'] = error_msg_required_field
+
+        if not matricula_data:
+            validation_error_msgs['tut_matricula'] = error_msg_required_field
+
+        if not curso_data:
+            validation_error_msgs['tut_curso'] = error_msg_required_field
+
+        if not periodo_data:
+            validation_error_msgs['tut_periodo_academico'] = error_msg_required_field
+
+#        if not data_nascimento_data:
+#            validation_error_msgs['mon_data_nascimento'] = error_msg_required_field
+
+        if email_db:
+            if email_institucional_data != email_db.tut_email_institucional:
+                validation_error_msgs['tut_email_institucional'] = error_msg_email_institucional_exists
 
         if validation_error_msgs:
             raise (forms.ValidationError(validation_error_msgs))
@@ -251,4 +328,3 @@ class UserForm(forms.ModelForm):
 
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
-
