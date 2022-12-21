@@ -14,8 +14,8 @@ from django.http import HttpResponse
 
 class Login(View):
      def post(self, *args, **kwargs):
-        username = self.request.POST.get('usuario')
-        password = self.request.POST.get('senha')
+        username = self.request.POST.get('username')
+        password = self.request.POST.get('password')
 
         if not username or not password:
             messages.error(
@@ -24,8 +24,7 @@ class Login(View):
             )
             return redirect('accounts:login')
 
-        usuario = authenticate(
-            self.request, username=username, password=password)
+        usuario = authenticate(self.request, username=username, password=password)
 
         if not usuario:
             messages.error(
@@ -40,7 +39,7 @@ class Login(View):
             self.request,
             'Você fez login.'
         )
-        return redirect('accounts:cadastroAluno')
+        return redirect('accounts:indexAlu')
 
 class Logout(View):
     def get(self, *args, **kwargs):
@@ -103,6 +102,8 @@ class CadastroAluno(BaseAluno):
     def post(self, *args, **kwargs):
         print(self.aluno)
         if not self.userform.is_valid() or not self.alunoform.is_valid():
+            if not self.userform.is_valid():
+                messages.error(self.request, 'ALUNO')
             messages.error(
                 self.request,
                 'Existem erros no formulário de cadastro. Verifique se todos '

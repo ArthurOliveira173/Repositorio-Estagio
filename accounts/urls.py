@@ -6,7 +6,7 @@ app_name = 'accounts'
 
 urlpatterns = [
 
-    path('', views.Login.as_view(), name='login'),#login
+    path('login/', views.Login.as_view(), name='login'),#login
     path('logout/', views.Logout.as_view(), name='logout'),
     path('atualizar/', views.Atualizar.as_view(), name='atualizar'),
     path('indexcadastro/', views.IndexCadastro.as_view(), name='indexcadastro'),
