@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'relatorios.apps.RelatoriosConfig',
     'membros.apps.MembrosConfig',
     'accounts.apps.AccountsConfig',
+    'authentication.apps.AuthenticationConfig',
     'crispy_forms',
     'crispy_bootstrap5',
 ]

@@ -238,6 +238,11 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
                 {%block conteudo%}
                 <!-- /.container-fluid -->
                 {%endblock%}
@@ -279,7 +284,7 @@
                 <div class="modal-body">Selecione "Deslogar" abaixo se quiser encerrar a seção.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="login.html">Deslogar</a>
+                    <a class="btn btn-primary" href="{% url 'authLogout' %}">Deslogar</a>
                 </div>
             </div>
         </div>

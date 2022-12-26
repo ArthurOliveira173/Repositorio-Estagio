@@ -12,7 +12,7 @@
     <title>Sistema Estágio</title>
 </head>
 <body style="min-height: 100%; bottom: 0;">
-    <section class="form-02-main" style="min-height: 100%; bottom: 0;>
+    <section class="form-02-main" style="min-height: 100%; bottom: 0;">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -22,6 +22,11 @@
                   <h1>Sistema Estágio</h1>
                   <img src={% static "assetsLogin/images/user.png" %}>
                 </div>
+                {% if messages %}
+                  {% for message in messages %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                  {% endfor %}
+                {% endif %}
                 {%block conteudo%}
                 {%endblock%}
 <!--                <div class="form-group">-->
