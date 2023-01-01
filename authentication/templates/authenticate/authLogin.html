@@ -3,23 +3,33 @@
 
 
 {% block conteudo %}
+  <style>
+    .disabled-link {
+      pointer-events: none;
+    }
+  </style>
   <h1 class="mt-3 mb-3">Login</h1>
-    <form method="POST" action="">
-      {% csrf_token %}
+    {% if user.is_authenticated %}
+      <p>Você já realizou Login! Retorne ao site <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">aqui!</a></p>
+    {% else %}
+      <form method="POST" action="">
+        {% csrf_token %}
 
-      <div class="form-group">
-        <label>CPF</label>
-        <input type="text" name="username" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" name="password" class="form-control">
-      </div>
-      <button type="submit" class="btn btn-success" >Entrar</button>
-      <a type="button" class="btn btn-primary" href="">Cadastrar</a>
+        <div class="form-group">
+          <label>CPF</label>
+          <input type="text" name="username" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" name="password" class="form-control">
+        </div>
 
-      <p>
-        <a style="color:black;center;" type="button" class="btn btn-link" href="">Esqueci Minha Senha</a>
-      </p>
-    </form>
+        <button type="submit" class="btn btn-success" >Entrar</button>
+        <a type="button" class="btn btn-primary" href="{% url 'authRegisterAluno' %}">Cadastrar</a>
+
+        <p>
+          <a style="color:black;center;" type="button" class="btn btn-link" href="">Esqueci Minha Senha</a>
+        </p>
+      </form>
+    {% endif %}
 {% endblock %}
