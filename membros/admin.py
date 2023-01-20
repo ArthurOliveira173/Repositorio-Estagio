@@ -1,7 +1,13 @@
 from django.contrib import admin
-from .models import Administrador, AlunoPcd, Monitor, Tutor, Interprete
+from .models import Administrador, AlunoPcd, Monitor, Tutor, Interprete, CustomUser
 # Register your models here.
 
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'user_type', 'is_active')
+    list_display_links = ('username',)
+    list_filter = ('username', 'email', 'user_type')
+    list_per_page = 10
+    search_fields = ('username', 'email')
 class AdministradorAdmin(admin.ModelAdmin):
     list_display = ('adm_nome', 'adm_cpf', 'adm_email')
     list_display_links = ('adm_email',)
@@ -43,6 +49,7 @@ class InterpreteAdmin(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ('int_nome', 'int_cpf', 'int_email_pessoal', 'int_email_institucional')
 
+admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Administrador, AdministradorAdmin)
 admin.site.register(AlunoPcd, AlunoAdmin)
 admin.site.register(Monitor, MonitorAdmin)

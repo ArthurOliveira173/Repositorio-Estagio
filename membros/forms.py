@@ -39,7 +39,7 @@ class AlunosForm(ModelForm):
             'alu_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
             'alu_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
             'alu_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
-            'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'})
+            'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'}),
         }
 
 class MonitoresForm(ModelForm):

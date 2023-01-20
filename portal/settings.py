@@ -101,6 +101,10 @@ DATABASES = {
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
 
+# CUSTOM USER MODEL
+AUTH_USER_MODEL = 'membros.CustomUser'
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

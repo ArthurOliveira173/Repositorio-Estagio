@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 from string import ascii_letters
 from django.contrib import messages
+from membros.models import CustomUser
 from membros.forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
 
 def authLogin(request):
@@ -76,6 +77,7 @@ def authRegisterAluno(request):
             deficiencias = request.POST.get('alu_deficiencias')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
+            permissao = 1
 
             if not nome or not usuario or not data_nascimento or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -105,15 +107,15 @@ def authRegisterAluno(request):
                 messages.error(request, 'O Cpf informado não é valido, tente novamente!')
                 return render(request, 'authenticate/authRegisterAluno.html', {'form': form})
 
-            if User.objects.filter(username=usuario).exists():
+            if CustomUser.objects.filter(username=usuario).exists():
                 messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
                 return render(request, 'authenticate/authRegisterAluno.html', {'form': form})
 
-            if User.objects.filter(email=email_pessoal).exists():
+            if CustomUser.objects.filter(email=email_pessoal).exists():
                 messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterAluno.html', {'form': form})
 
-            if User.objects.filter(email=email_instituicao).exists():
+            if CustomUser.objects.filter(email=email_instituicao).exists():
                 messages.error(request, 'Email institucional já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterAluno.html', {'form': form})
 
@@ -125,11 +127,12 @@ def authRegisterAluno(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterAluno.html')
 
-            user = User.objects.create_user(username=usuario, email=email_pessoal,
-                                            password=senha, first_name=nome,
-                                            last_name=email_instituicao)
+            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+                                                  password=senha, user_type=permissao)
             if user is not None:
-                form.save()
+                userForm = form.save(commit=False)
+                userForm.alu_usuario = user
+                userForm.save()
                 user.save()
                 messages.success(request, 'Cadastro realizado com sucesso!')
                 return redirect("authLogin")
@@ -164,6 +167,7 @@ def authRegisterMonitor(request):
             matricula = request.POST.get('mon_matricula')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
+            permissao = 2
 
             if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -193,15 +197,15 @@ def authRegisterMonitor(request):
                 messages.error(request, 'O Cpf informado não é valido, tente novamente!')
                 return render(request, 'authenticate/authRegisterMonitor.html', {'form': form})
 
-            if User.objects.filter(username=usuario).exists():
+            if CustomUser.objects.filter(username=usuario).exists():
                 messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
                 return render(request, 'authenticate/authRegisterMonitor.html', {'form': form})
 
-            if User.objects.filter(email=email_pessoal).exists():
+            if CustomUser.objects.filter(email=email_pessoal).exists():
                 messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterMonitor.html', {'form': form})
 
-            if User.objects.filter(email=email_instituicao).exists():
+            if CustomUser.objects.filter(email=email_instituicao).exists():
                 messages.error(request, 'Email institucional já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterMonitor.html', {'form': form})
 
@@ -213,11 +217,13 @@ def authRegisterMonitor(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterMonitor.html')
 
-            user = User.objects.create_user(username=usuario, email=email_pessoal,
-                                            password=senha, first_name=nome,
-                                            last_name=email_instituicao)
+            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+                                                  password=senha, user_type=permissao)
+
             if user is not None:
-                form.save()
+                userForm = form.save(commit=False)
+                userForm.mon_usuario = user
+                userForm.save()
                 user.save()
                 messages.success(request, 'Cadastro realizado com sucesso!')
                 return redirect("authLogin")
@@ -252,6 +258,7 @@ def authRegisterTutor(request):
             matricula = request.POST.get('tut_matricula')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
+            permissao = 3
 
             if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -281,15 +288,15 @@ def authRegisterTutor(request):
                 messages.error(request, 'O Cpf informado não é valido, tente novamente!')
                 return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
 
-            if User.objects.filter(username=usuario).exists():
+            if CustomUser.objects.filter(username=usuario).exists():
                 messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
                 return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
 
-            if User.objects.filter(email=email_pessoal).exists():
+            if CustomUser.objects.filter(email=email_pessoal).exists():
                 messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
 
-            if User.objects.filter(email=email_instituicao).exists():
+            if CustomUser.objects.filter(email=email_instituicao).exists():
                 messages.error(request, 'Email institucional já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
 
@@ -301,11 +308,13 @@ def authRegisterTutor(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterTutor.html')
 
-            user = User.objects.create_user(username=usuario, email=email_pessoal,
-                                            password=senha, first_name=nome,
-                                            last_name=email_instituicao)
+            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+                                                  password=senha, user_type=permissao)
+
             if user is not None:
-                form.save()
+                userForm = form.save(commit=False)
+                userForm.tut_usuario = user
+                userForm.save()
                 user.save()
                 messages.success(request, 'Cadastro realizado com sucesso!')
                 return redirect("authLogin")
@@ -334,6 +343,7 @@ def authRegisterInterprete(request):
             telefone = request.POST.get('int_telefone')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
+            permissao = 4
 
             if not nome or not usuario or not sexo or not email_pessoal or not email_instituicao or not telefone or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -363,15 +373,15 @@ def authRegisterInterprete(request):
                 messages.error(request, 'O Cpf informado não é valido, tente novamente!')
                 return render(request, 'authenticate/authRegisterInterprete.html', {'form': form})
 
-            if User.objects.filter(username=usuario).exists():
+            if CustomUser.objects.filter(username=usuario).exists():
                 messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
                 return render(request, 'authenticate/authRegisterInterprete.html', {'form': form})
 
-            if User.objects.filter(email=email_pessoal).exists():
+            if CustomUser.objects.filter(email=email_pessoal).exists():
                 messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterInterprete.html', {'form': form})
 
-            if User.objects.filter(email=email_instituicao).exists():
+            if CustomUser.objects.filter(email=email_instituicao).exists():
                 messages.error(request, 'Email institucional já cadastrado, tente novamente!')
                 return render(request, 'authenticate/authRegisterInterprete.html', {'form': form})
 
@@ -383,11 +393,13 @@ def authRegisterInterprete(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterInterprete.html')
 
-            user = User.objects.create_user(username=usuario, email=email_pessoal,
-                                            password=senha, first_name=nome,
-                                            last_name=email_instituicao)
+            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+                                                  password=senha, user_type=permissao)
+
             if user is not None:
-                form.save()
+                userForm = form.save(commit=False)
+                userForm.int_usuario = user
+                userForm.save()
                 user.save()
                 messages.success(request, 'Cadastro realizado com sucesso!')
                 return redirect("authLogin")

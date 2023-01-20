@@ -42,41 +42,41 @@ def homologarInativo(request):
 
 def ativarAluno(request, aluno_id):
     usuario = get_object_or_404(AlunoPcd, alu_id=aluno_id)
-    usuario.ativar()
+    usuario.ativar(request)
     return redirect('homologarInativo')
 
 def ativarMonitor(request, monitor_id):
     usuario = get_object_or_404(Monitor, mon_id=monitor_id)
-    usuario.ativar()
+    usuario.ativar(request)
     return redirect('homologarInativo')
 
 def ativarTutor(request, tutor_id):
     usuario = get_object_or_404(Tutor, tut_id=tutor_id)
-    usuario.ativar()
+    usuario.ativar(request)
     return redirect('homologarInativo')
 
 def ativarInterprete(request, interprete_id):
     usuario = get_object_or_404(Interprete, int_id=interprete_id)
-    usuario.ativar()
+    usuario.ativar(request)
     return redirect('homologarInativo')
 def desativarAluno(request, aluno_id):
     usuario = get_object_or_404(AlunoPcd, alu_id=aluno_id)
-    usuario.desativar()
+    usuario.desativar(request)
     return redirect('homologarAtivo')
 
 def desativarMonitor(request, monitor_id):
     usuario = get_object_or_404(Monitor, mon_id=monitor_id)
-    usuario.desativar()
+    usuario.desativar(request)
     return redirect('homologarAtivo')
 
 def desativarTutor(request, tutor_id):
     usuario = get_object_or_404(Tutor, tut_id=tutor_id)
-    usuario.desativar()
+    usuario.desativar(request)
     return redirect('homologarAtivo')
 
 def desativarInterprete(request, interprete_id):
     usuario = get_object_or_404(Interprete, int_id=interprete_id)
-    usuario.desativar()
+    usuario.desativar(request)
     return redirect('homologarAtivo')
 
 def homologarAlunoAtivo(request, aluno_id):
