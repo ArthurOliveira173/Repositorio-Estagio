@@ -37,6 +37,8 @@ create table if not exists ALUNO_PCD (
     alu_periodo_academico varchar(255) not null,
     alu_data_nascimento date not null,
     alu_ativo bool,
+    alu_usuario int,
+    permissao int,
     primary key(alu_id),
     foreign key(alu_curso) references CURSOS(cur_id)
 );
@@ -56,6 +58,8 @@ create table if not exists MONITOR (
     mon_curso int,
     mon_periodo_academico varchar(255) not null,
     mon_ativo bool,
+    mon_usuario int,
+    permissao int,
     primary key(mon_id),
     foreign key(mon_curso) references CURSOS(cur_id)
 );
@@ -75,6 +79,8 @@ create table if not exists TUTOR (
     tut_curso int,
     tut_periodo_academico varchar(255) not null,
     tut_ativo bool,
+    tut_usuario int,
+    permissao int,
     primary key(tut_id),
     foreign key(tut_curso) references CURSOS(cur_id)
 );
@@ -84,6 +90,7 @@ create table if not exists ADMINISTRADOR (
     adm_nome varchar(255) not null,
     adm_cpf char(11) not null,
     adm_email varchar(255) not null,
+    permissao int,
     primary key(adm_id)
 );
 
@@ -120,6 +127,8 @@ create table if not exists INTERPRETE (
     int_email_institucional varchar(255) not null,
     int_telefone varchar(255) not null,
     int_ativo bool,
+    int_usuario int,
+    permissao int,
     primary key(int_id)
 );
 
