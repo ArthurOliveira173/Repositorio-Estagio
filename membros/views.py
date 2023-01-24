@@ -642,6 +642,18 @@ def aluno(request, aluno_id):
         'aluno' : aluno
     })
 
+def alunoAtualizar(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+
+    form = AlunosForm(request.POST or None, instance=aluno)
+    if form.is_valid():
+        form.save()
+        return redirect('aluno')
+
+    return render(request, 'alunos/alunoAtualizar.html', {
+        'aluno': aluno,
+        'form': form
+    })
 #MONITOR_TUTOR========================================================================================
 
 def index_mon(request):

@@ -60,6 +60,7 @@ urlpatterns = [
     path('alunos', views.aluIndex, name='aluIndex'),
     path('alunos/acompanhantes', views.acompanhantes, name='acompanhantes'),
     path('alunos/<int:aluno_id>', views.aluno, name='aluno'),
+    path('alunoAtualizar/<int:aluno_id>', views.alunoAtualizar, name='alunoAtualizar'),
 
     #Monitor_tutor
     path('monitores', views.index_mon, name='index_mon'),
