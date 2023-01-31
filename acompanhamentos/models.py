@@ -23,7 +23,7 @@ class Acompanhamentos(models.Model):
     aco_monitores = models.ManyToManyField(Monitor, through='AcompanhamentoMonitores')
     aco_tutores = models.ManyToManyField(Tutor, through='AcompanhamentoTutores')
     def __str__(self):
-        return "{0}: {1}".format(self.aco_aluno_pcd, self.aco_semestre)
+        return "{0}: {1}:".format(self.aco_aluno_pcd, self.aco_semestre)
 
     class Meta:
         managed = False

@@ -6,8 +6,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import AlunoPcd, Monitor, Tutor, Interprete
 from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
-
-
+from feedbacks.forms import FeedbacksForm
+from feedbacks.models import Feedbacks
+from acompanhamentos.models import Acompanhamentos
 # Create your views here.
 #ADMIN================================================================================================
 
@@ -654,6 +655,55 @@ def alunoAtualizar(request, aluno_id):
         'aluno': aluno,
         'form': form
     })
+
+def alunoFeedback(request):
+    submitted = False
+    context = {}
+
+    if request.POST:
+        form = FeedbacksForm(request.POST, request.FILES)
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES["avi_arquivos"])
+            form.save()
+            return HttpResponseRedirect('alunoFeedback?submitted=True')
+        else:
+            form = FeedbacksForm()
+            form.save()
+            return HttpResponseRedirect('alunoFeedback?submitted=True')
+    else:
+        form = FeedbacksForm()
+        if 'submitted' in request.GET:
+            submitted = True
+    context['form'] = form
+    context['submitted'] = submitted
+
+    return render (request, 'alunos/alunoFeedback.html', context)
+
+def alunoFeedbackAll(request, aluno_id):
+
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
+    print(acompanhamento)
+
+    feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
+
+    '''
+    avisos = Avisos.objects.order_by('-avi_id').filter(
+        avi_mostrar=True
+    )
+    paginator = Paginator(avisos, 10)
+
+    page = request.GET.get('p')
+    avisos = paginator.get_page(page)
+    return render(request, 'avisos/aviIndexAluno.html', {
+        'avisos': avisos
+    })'''
+    return render(request, 'alunos/alunofeedbackAll.html', {
+        'feedback': feedback,
+        'aluno': aluno,
+        'acompanhamento': acompanhamento,
+    })
+
 #MONITOR_TUTOR========================================================================================
 
 def index_mon(request):

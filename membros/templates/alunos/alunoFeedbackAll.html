@@ -1,0 +1,40 @@
+{% extends 'baseAluno.html' %}
+<html lang="pt">
+
+{%block brand%}
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/avisos/aviIndexAluno">
+    <div class="sidebar-brand-icon">
+        <i class="fas fa-university"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
+</a>
+{%endblock%}
+
+{%block conteudo%}
+<body style="background-color: #f5f7fa">
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Meus Feedbacks</h1>
+</div>
+<div class="container-fluid" align="center">
+    <section>
+        <a class="rounded-0 w-100" href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">
+
+            <div style="overflow: hidden; text-align: left; margin-left: 25px">
+                <h4>{{ aluno.alu_id }}</h4>
+                <h4>{{ aluno.alu_nome }}</h4>
+                {% for feedbacks in feedback %}
+                <h4>{{ acompanhamento.aco_aluno_pcd}}</h4>
+                <h4>{{ feedbacks.fee_acompanhamento}}</h4>
+                <h4>{{ feedbacks.fee_titulo }}</h4>
+                <h4>{{ feedbacks.fee_descricao }}</h4>s
+                <h4>{{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</h4>
+
+
+                {% endfor %}
+            </div>
+        </a>
+    </section>
+</div>
+</body>
+
+{%endblock%}
