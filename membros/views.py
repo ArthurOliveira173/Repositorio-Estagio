@@ -4,8 +4,8 @@ from django.views.generic.list import ListView
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import AlunoPcd, Monitor, Tutor, Interprete
-from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
+from .models import AlunoPcd, Monitor, Tutor, Interprete, CustomUser
+from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm, AtualizarAlunosForm
 
 
 # Create your views here.
@@ -636,8 +636,9 @@ def aluIndex(request):
 def acompanhantes(request):
     return render(request, 'alunos/acompanhantes.html')
 
-def aluno(request, aluno_id):
-    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+def aluno(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
     return render(request, 'alunos/aluno.html', {
         'aluno' : aluno
     })
@@ -645,9 +646,12 @@ def aluno(request, aluno_id):
 def alunoAtualizar(request, aluno_id):
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
 
-    form = AlunosForm(request.POST or None, instance=aluno)
+    form = AtualizarAlunosForm(request.POST or None, instance=aluno)
     if form.is_valid():
+        email_pessoal = request.POST.get('alu_email_pessoal')
         form.save()
+        aluno.alu_usuario.email = email_pessoal
+        aluno.alu_usuario.save()
         return redirect('aluno')
 
     return render(request, 'alunos/alunoAtualizar.html', {
