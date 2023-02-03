@@ -138,13 +138,13 @@ class Monitor(models.Model):
     def __str__(self):
         return self.mon_nome
 
-    def ativar(self):
+    def ativar(self, request):
         self.mon_ativo = True
         self.mon_usuario.is_active = True
         self.mon_usuario.save()
         self.save()
 
-    def desativar(self):
+    def desativar(self, request):
         self.mon_ativo = False
         self.mon_usuario.is_active = False
         self.mon_usuario.save()
@@ -174,13 +174,13 @@ class Tutor(models.Model):
     def __str__(self):
         return self.tut_nome
 
-    def ativar(self):
+    def ativar(self, request):
         self.tut_ativo = True
         self.tut_usuario.is_active = True
         self.tut_usuario.save()
         self.save()
 
-    def desativar(self):
+    def desativar(self, request):
         self.tut_ativo = False
         self.tut_usuario.is_active = False
         self.tut_usuario.save()
@@ -204,13 +204,13 @@ class Interprete(models.Model):
     def __str__(self):
         return self.int_nome
 
-    def ativar(self):
+    def ativar(self, request):
         self.int_ativo = True
         self.int_usuario.is_active = True
         self.int_usuario.save()
         self.save()
 
-    def desativar(self):
+    def desativar(self, request):
         self.int_ativo = False
         self.int_usuario.is_active = False
         self.int_usuario.save()

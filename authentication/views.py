@@ -17,7 +17,14 @@ def authLogin(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login realizado com sucesso!')
-            return redirect('aviIndex')
+            if user.user_type == 0:
+                return redirect('aviIndex')
+            elif user.user_type == 1:
+                return redirect('aviIndexAluno')
+            elif user.user_type == 2 or user.user_type == 3:
+                return redirect('aviIndexMonitorTutor')
+            elif user.user_type == 4:
+                return redirect('aviIndexInterprete')
         else:
             messages.error(request, 'usuário ou senha inválidos!')
             return redirect('authLogin')

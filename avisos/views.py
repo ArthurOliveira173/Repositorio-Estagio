@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .forms import AvisosForm
+from membros.models import AlunoPcd, CustomUser
 
 # def handle_uploaded_file(f):
 #     with open('avisos/uploads/'+f.name, 'wb+') as destination:
@@ -26,12 +27,15 @@ def aviIndexAluno(request):
     avisos = Avisos.objects.order_by('-avi_id').filter(
         avi_mostrar = True
     )
+    aluno = get_object_or_404(AlunoPcd, alu_id=1)
+
     paginator = Paginator(avisos, 10)
 
     page = request.GET.get('p')
     avisos = paginator.get_page(page)
     return render(request, 'avisos/aviIndexAluno.html', {
-        'avisos': avisos
+        'avisos': avisos,
+        'aluno': aluno
     })
 
 def adicionarAviso(request):

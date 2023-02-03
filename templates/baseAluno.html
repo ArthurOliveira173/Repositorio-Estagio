@@ -49,7 +49,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/membros/alunos">
+                <a class="nav-link" href="{% url 'aluno' user.id %}">
                     <i class="fas fa-fw fa-envelope-open-text"></i>
                     <span>Perfil</span></a>
             </li>
@@ -190,6 +190,11 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
                 {%block conteudo%}
                 <!-- /.container-fluid -->
                 {%endblock%}
@@ -200,7 +205,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Sistema Estágio 2022</span>
+                        <span>Sistema Estágio 2023</span>
                     </div>
                 </div>
             </footer>
@@ -231,7 +236,7 @@
                 <div class="modal-body">Selecione "Deslogar" abaixo se quiser encerrar a seção.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="login.html">Deslogar</a>
+                    <a class="btn btn-primary" href="{% url 'authLogout' %}">Deslogar</a>
                 </div>
             </div>
         </div>

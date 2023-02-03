@@ -9,32 +9,34 @@
     <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
 </a>
 {%endblock%}
-
 {%block conteudo%}
-<body style="background-color: #f5f7fa">
-<div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Meus Feedbacks</h1>
-</div>
-<div class="container-fluid" align="center">
+
+<div class="container-fluid" align="">
     <section>
-        <a class="rounded-0 w-100" href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">
-
-            <div style="overflow: hidden; text-align: left; margin-left: 25px">
-                <h4>{{ aluno.alu_id }}</h4>
-                <h4>{{ aluno.alu_nome }}</h4>
-                {% for feedbacks in feedback %}
-                <h4>{{ acompanhamento.aco_aluno_pcd}}</h4>
-                <h4>{{ feedbacks.fee_acompanhamento}}</h4>
-                <h4>{{ feedbacks.fee_titulo }}</h4>
-                <h4>{{ feedbacks.fee_descricao }}</h4>s
-                <h4>{{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</h4>
-
-
-                {% endfor %}
+        <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h5 class="text-uppercase" align="center">TODOS FEEDBACKS</h5>
             </div>
-        </a>
+        </div>
+
+        {% for feedbacks in feedback %}
+        <div class="row" style="">
+            <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
+                <div class="card mb-3">
+                    <div class="card-header bg-success fw-bold text-white">
+                        <label>Data: {{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</label>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Tipo de Feedback: {{ feedbacks.fee_titulo }}</h5>
+                        <textarea class="form-control " rows="5" disabled>{{feedbacks.fee_descricao}}</textarea>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                             <a href="#" class="btn btn-primary mt-3">Abrir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </section>
 </div>
-</body>
-
 {%endblock%}

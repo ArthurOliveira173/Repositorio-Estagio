@@ -42,6 +42,28 @@ class AlunosForm(ModelForm):
             'alu_data_nascimento': forms.DateInput(attrs={'class':'date', 'placeholder': '____-__-__'}),
         }
 
+class AtualizarAlunosForm(ModelForm):
+    class Meta:
+        model = AlunoPcd
+        fields = ('alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
+                  'alu_endereco_cep', 'alu_endereco_descricao', 'alu_endereco_cidade')
+        labels = {
+            'alu_email_pessoal': 'Digite o email pessoal',
+            'alu_email_institucional': 'Digite o email institucional',
+            'alu_telefone': 'Digite o contato',
+            'alu_endereco_cep': 'Digite o CEP do endereco',
+            'alu_endereco_descricao': 'Digite o endereco',
+            'alu_endereco_cidade': 'Defina a cidade',
+        }
+        widgets = {
+            'alu_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
+            'alu_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
+            'alu_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+            'alu_endereco_cep': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CEP'}),
+            'alu_endereco_descricao': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Endereco'}),
+            'alu_endereco_cidade': forms.Select(attrs={'class':'form-control', 'placeholder': 'Cidade'}),
+        }
+
 class MonitoresForm(ModelForm):
 
     class Meta:

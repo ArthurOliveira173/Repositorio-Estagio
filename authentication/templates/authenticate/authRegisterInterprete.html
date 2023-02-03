@@ -17,7 +17,17 @@
             <div class="col-12 col-lg-9 col-xl-7">
                   <h3 class="mb-4 pb-2 pb-md-0 mb-md-5" align="center">Cadastro de Interprete</h3>
                   {% if user.is_authenticated %}
-                    <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+                    {% if user.user_type == 0 %}
+                      <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+                    {% elif user.user_type == 1 %}
+                      <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexAluno' %}">Retorne ao site aqui!</a></p>
+                    {% elif user.user_type == 2 %}
+                      <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+                    {% elif user.user_type == 3 %}
+                      <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+                    {% elif user.user_type == 4 %}
+                      <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+                    {% endif %}
                     <br>
                     <p>Para deslogar, <a style="color:black;" type="button" class="btn-link" href="{% url 'authLogout' %}">clique aqui!</a></p>
                   {% else %}
