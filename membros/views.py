@@ -683,22 +683,28 @@ def alunoFeedbackAll(request, aluno_id):
 
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
-    print(acompanhamento)
-
     feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
 
-    '''
-    avisos = Avisos.objects.order_by('-avi_id').filter(
-        avi_mostrar=True
-    )
-    paginator = Paginator(avisos, 10)
+    paginator = Paginator(feedback, 7)
     page = request.GET.get('p')
-    avisos = paginator.get_page(page)
-    return render(request, 'avisos/aviIndexAluno.html', {
-        'avisos': avisos
-    })'''
+    feedback = paginator.get_page(page)
+
     return render(request, 'alunos/alunofeedbackAll.html', {
         'feedback': feedback,
+        'aluno': aluno,
+        'acompanhamento': acompanhamento,
+    })
+
+def alunoOpenfeedback(request, feedback_id, aluno_id):
+
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    feedbacks = get_object_or_404(Feedbacks, fee_id=feedback_id)
+    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=feedbacks.fee_acompanhamento.aco_id)
+
+    print(acompanhamento)
+
+    return render(request, 'alunos/alunoOpenfeedback.html', {
+        'feedbacks': feedbacks,
         'aluno': aluno,
         'acompanhamento': acompanhamento,
     })

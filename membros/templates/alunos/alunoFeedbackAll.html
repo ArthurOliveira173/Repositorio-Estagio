@@ -22,21 +22,46 @@
         {% for feedbacks in feedback %}
         <div class="row" style="">
             <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
-                <div class="card mb-3">
+                <div class="card mb-3 col-12">
                     <div class="card-header bg-success fw-bold text-white">
-                        <label>Data: {{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</label>
+                        <label class="col-6">Data: {{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</label>
+                        <label class="">Número do Feedback: {{ feedbacks.fee_id }}</label>
                     </div>
+
                     <div class="card-body">
                         <h5 class="card-title">Tipo de Feedback: {{ feedbacks.fee_titulo }}</h5>
                         <textarea class="form-control " rows="5" disabled>{{feedbacks.fee_descricao}}</textarea>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                             <a href="#" class="btn btn-primary mt-3">Abrir</a>
+                            <a url="/alunos/alunoOpenfeedback"
+                               href="{% url 'alunoOpenfeedback' aluno.alu_id feedbacks.fee_id%}"
+                               class="btn btn-primary mt-3">Abrir</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
+        <div class="row">
+            <div class="" style="margin: 0 auto; margin-top: 10px">
+                <div class="pagination" align="center">
+                    <ul class="pagination center">
+                        {% for pagina in feedback.paginator.page_range %}
+                        {% if feedback.number == pagina %}
+                        <li
+                                class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+                        </li>
+                        {% else %}
+                        <li
+                                class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </section>
+
 </div>
+
 {%endblock%}
