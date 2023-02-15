@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'templatetags',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -77,6 +78,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+            'libraries': {
+                'custom_tags': 'templatetags.custom_tags',
+            }
         },
     }
 ]
@@ -129,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Etc/GMT+5'
 
 USE_I18N = True
 

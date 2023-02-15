@@ -1,16 +1,31 @@
+import os
+
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from .models import Avisos
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .forms import AvisosForm
-from membros.models import AlunoPcd, CustomUser
+from membros.models import AlunoPcd
+import mimetypes
+import pickle
 
 # def handle_uploaded_file(f):
 #     with open('avisos/uploads/'+f.name, 'wb+') as destination:
 #         for chunk in f.chunks():
 #             destination.write(chunk)
+
+def baixar(request, filename):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filename = str(filename)
+    filepath = BASE_DIR + '\\uploads\\' + filename
+    path = open(filepath, 'rb')
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(path, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response
+
 def aviIndex(request):
     avisos = Avisos.objects.order_by('-avi_id').filter(
         avi_mostrar = True
@@ -45,11 +60,21 @@ def adicionarAviso(request):
     if request.POST:
         form = AvisosForm(request.POST, request.FILES)
         if form.is_valid():
+            if form.cleaned_data['avi_arquivos']:
+                arquivo = form.cleaned_data['avi_arquivos']
+                arquivo_nome = str(arquivo)
+
+                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                filepath = BASE_DIR + '\\uploads\\' + arquivo_nome
+
+                with open(filepath, 'wb') as f:
+                    pickle.dump(arquivo, f)
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
             return HttpResponseRedirect('adicionarAviso?submitted=True')
         else:
             form = AvisosForm()
+
             form.save()
             return HttpResponseRedirect('adicionarAviso?submitted=True')
     else:
@@ -93,6 +118,15 @@ def atualizarAviso(request, aviso_id):
 
     form = AvisosForm(request.POST or None, instance=aviso)
     if form.is_valid():
+        if form.cleaned_data['avi_arquivos']:
+            arquivo = form.cleaned_data['avi_arquivos']
+            arquivo_nome = str(arquivo)
+
+            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            filepath = BASE_DIR + '\\uploads\\' + arquivo_nome
+
+            with open(filepath, 'wb') as f:
+                pickle.dump(arquivo, f)
         form.save()
         return redirect('aviIndex')
 

@@ -141,7 +141,9 @@ def authRegisterAluno(request):
                 userForm.alu_usuario = user
                 userForm.save()
                 user.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
+                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
+                
+                por favor, aguarde 24 horas para logar no sistema.''')
                 return redirect("authLogin")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
@@ -232,7 +234,9 @@ def authRegisterMonitor(request):
                 userForm.mon_usuario = user
                 userForm.save()
                 user.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
+                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
+                
+                por favor, aguarde 24 horas para logar no sistema.''')
                 return redirect("authLogin")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
@@ -323,7 +327,9 @@ def authRegisterTutor(request):
                 userForm.tut_usuario = user
                 userForm.save()
                 user.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
+                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
+                
+                por favor, aguarde 24 horas para logar no sistema.''')
                 return redirect("authLogin")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")

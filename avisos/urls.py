@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 urlpatterns = [
+    path('baixar/<str:filename>', views.baixar, name='baixar'),
+
+#ADMIN
     path('aviIndex', views.aviIndex, name='aviIndex'),
     path('adicionarAviso', views.adicionarAviso, name='adicionarAviso'),
     path('buscarAviso', views.buscarAviso, name='buscarAviso'),
