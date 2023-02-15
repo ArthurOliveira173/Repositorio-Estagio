@@ -1,0 +1,57 @@
+{% extends 'baseAluno.html' %}
+<html lang="pt">
+
+{%block brand%}
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/avisos/aviIndexAluno">
+    <div class="sidebar-brand-icon">
+        <i class="fas fa-university"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
+</a>
+{%endblock%}
+{%block conteudo%}
+
+<div class="container-fluid" align="">
+    <section>
+        <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h5 class="text-uppercase" align="center">FEEDBACK DE NÚMERO: {{feedbacks.fee_id}}</h5>
+            </div>
+        </div>
+        <div class="row" style="">
+            <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        <div class="row">
+                            <div class="me-auto p-2 bd-highlight">
+                                Data: {{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Tipo de Feedback: {{ feedbacks.fee_titulo }}</h5>
+                        <textarea class="form-control " rows="5" disabled>{{feedbacks.fee_descricao}}</textarea>
+                        <div class="row">
+                            <h5 class="col-12">Esse feedback foi gerado durante:</h5>
+                            <div class="ms-auto p-2 bd-highlight flex-row-reverse col-6">
+                                <p class="flex-row-reverse">Acompanhamento de Número: {{ acompanhamento.aco_id }}</p>
+                                <p class="flex-row-reverse">Inicio do acompanhamento: {{ acompanhamento.aco_inicio|date:'d/m/Y' }}</p>
+                                <p class="flex-row-reverse">Fim do acompanhamento: {{ acompanhamento.aco_fim|date:'d/m/Y' }}</p>
+                            </div>
+                            <div class="ms-auto p-2 bd-highlight flex-row-reverse">
+                                <p class="flex-row-reverse">Acompanhamento de Númeo: {{ acompanhamento.aco_id }}</p>
+                                <p class="flex-row-reverse">Inicio do acompanhamento: {{ acompanhamento.aco_inicio|date:'d/m/Y' }}</p>
+                                <p class="flex-row-reverse">Fim do acompanhamento: {{ acompanhamento.aco_fim|date:'d/m/Y' }}</p>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'alunoFeedbackAll' 1 %}" methods="GET"
+                               class="btn btn-primary mt-3">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{%endblock%}

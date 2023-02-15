@@ -4,9 +4,11 @@ from django.views.generic.list import ListView
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import AlunoPcd, Monitor, Tutor, Interprete, CustomUser
-from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm, AtualizarAlunosForm
-
+from .models import AlunoPcd, Monitor, Tutor, Interprete
+from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
+from acompanhamentos.models import Acompanhamentos
+from feedbacks.forms import FeedbacksForm
+from feedbacks.models import Feedbacks
 
 # Create your views here.
 #ADMIN================================================================================================
@@ -636,9 +638,8 @@ def aluIndex(request):
 def acompanhantes(request):
     return render(request, 'alunos/acompanhantes.html')
 
-def aluno(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
+def aluno(request, aluno_id):
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     return render(request, 'alunos/aluno.html', {
         'aluno' : aluno
     })
@@ -646,17 +647,66 @@ def aluno(request, user_id):
 def alunoAtualizar(request, aluno_id):
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
 
-    form = AtualizarAlunosForm(request.POST or None, instance=aluno)
+    form = AlunosForm(request.POST or None, instance=aluno)
     if form.is_valid():
-        email_pessoal = request.POST.get('alu_email_pessoal')
         form.save()
-        aluno.alu_usuario.email = email_pessoal
-        aluno.alu_usuario.save()
         return redirect('aluno')
 
     return render(request, 'alunos/alunoAtualizar.html', {
         'aluno': aluno,
         'form': form
+    })
+def alunoFeedback(request):
+    submitted = False
+    context = {}
+
+    if request.POST:
+        form = FeedbacksForm(request.POST, request.FILES)
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES["avi_arquivos"])
+            form.save()
+            return HttpResponseRedirect('alunoFeedback?submitted=True')
+        else:
+            form = FeedbacksForm()
+            form.save()
+            return HttpResponseRedirect('alunoFeedback?submitted=True')
+    else:
+        form = FeedbacksForm()
+        if 'submitted' in request.GET:
+            submitted = True
+    context['form'] = form
+    context['submitted'] = submitted
+
+    return render (request, 'alunos/alunoFeedback.html', context)
+
+def alunoFeedbackAll(request, aluno_id):
+
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
+    feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
+
+    paginator = Paginator(feedback, 7)
+    page = request.GET.get('p')
+    feedback = paginator.get_page(page)
+
+    return render(request, 'alunos/alunofeedbackAll.html', {
+        'feedback': feedback,
+        'aluno': aluno,
+        'acompanhamento': acompanhamento,
+    })
+
+def alunoOpenfeedback(request, feedback_id, aluno_id):
+
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    feedbacks = get_object_or_404(Feedbacks, fee_id=feedback_id)
+    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=feedbacks.fee_acompanhamento.aco_id)
+
+    print(acompanhamento)
+
+    return render(request, 'alunos/alunoOpenfeedback.html', {
+        'feedbacks': feedbacks,
+        'aluno': aluno,
+        'acompanhamento': acompanhamento,
     })
 #MONITOR_TUTOR========================================================================================
 
