@@ -97,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'estagio',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'tesi1',
         'HOST':'localhost',
         'PORT':'3306',
     }
