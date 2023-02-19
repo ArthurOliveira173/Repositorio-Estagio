@@ -1,13 +1,13 @@
 {% extends 'baseAdmin.html' %}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/membros/admin/monitores" role="button">Voltar</a>
-    <a class="btn btn-primary" style="margin-right: 30px" href="/membros/admin/adicionarMonitor" role="button">Criar monitor</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/membros/admin/administradores" role="button">Voltar</a>
+    <a class="btn btn-primary" style="margin-right: 30px" href="/membros/admin/adicionarAdmin" role="button">Criar Admin</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarMonitor' %}">
+          method="POST" action="{% url 'buscarAdmin' %}">
         <div class="input-group">
             {% csrf_token %}
-            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque monitores aqui..."
+            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque administradores aqui..."
                    aria-label="Search" aria-describedby="basic-addon2" name="searched">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">
@@ -60,7 +60,7 @@
 </style>
 <body>
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Gestao de Alunos</h1>
+        <h1 class="h3 mb-4 text-gray-800">Gestão de Administradores</h1>
     </div>
     <div align="center">
       {% if searched %}
@@ -75,51 +75,42 @@
                         <thead style="background-color: #4A6FDC;">
                           <tr class="text-white">
                             <th scope="col">Nome</th>
-                            <th scope="col">Curso</th>
-                            <th scope="col">Email Institucional</th>
-                            <th scope="col">Telefone</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Operacoes</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Operações</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {% for monitor in monitores %}
+                          {% for administrador in administradores %}
                             <tr>
+                              <td>{{ administrador.adm_nome }}</td>
+                              <td>{{ administrador.adm_cpf }}</td>
+                              <td>{{ administrador.adm_email }}</td>
                               <td>
-                                <a href="{% url 'admMonitor' monitor.mon_id %}">{{ monitor.mon_nome }}</a>
-                              </td>
-                              <td>{{ monitor.mon_cur }}</td>
-                              <td>{{ monitor.mon_email_institucional }}</td>
-                              <td>{{ monitor.mon_telefone }}</td>
-                              <td>{{ monitor.mon_cpf }}</td>
-                              <td>
-                                <a class="btn btn-secondary text-white" href="{% url 'atualizarMonitor' monitor.mon_id %}" role="button">
-                                  Editar
-                                </a>
                                 <!-- Button trigger modal -->
-                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ monitor.mon_id }}" role="button">
+                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ administrador.adm_id }}" role="button">
                                   Excluir
                                 </a>
                                 <!-- Modal -->
-                                <div class="modal fade" id="deleteModal{{ monitor.mon_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteModal{{ administrador.adm_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                   <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                       <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
-                                        <h5 class="modal-title" id="deleteModalLabel">Excluindo monitor</h5>
+                                        <h5 class="modal-title" id="deleteModalLabel">Excluindo administrador</h5>
                                         <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                           <span aria-hidden="true">&times;</span>
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        Tem certeza que deseja excluir o monitor {{ monitor.mon_nome }}?
+                                        Tem certeza que deseja excluir {{ administrador.adm_nome }}?
                                       </div>
                                       <div class="modal-body" style="color: red;">
                                         Esta ação é permanente.
                                       </div>
                                       <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <a class="btn btn-danger text-white" href="{% url 'deletarMonitor' monitor.mon_id %}" role="button">
-                                          Excluir
+                                        <a class="btn btn-danger text-white" href="{% url 'deletarAdmin' administrador.adm_id %}" role="button">
+                                            Excluir
                                         </a>
                                       </div>
                                     </div>

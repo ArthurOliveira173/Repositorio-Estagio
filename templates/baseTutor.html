@@ -42,7 +42,7 @@
             <hr class="sidebar-divider">
 
             {% if user.is_authenticated %}
-                {% if user.user_type == 2 %}
+                {% if user.user_type == 4 %}
                     <!-- Heading -->
                     <div class="sidebar-heading">
                         Funcionalidades
@@ -61,9 +61,30 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-cog"></i>
+                            <span>Acompanhamentos</span>
+                        </a>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Opções:</h6>
+                                <a class="collapse-item" href="/acompanhamentos">Alunos</a>
+                                <a class="collapse-item" href="/acompanhamentos/disciplinas">Disciplinas</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'alunoFeedbackAll' 1 %}">
                             <i class="fas fa-fw fa-envelope-open-text"></i>
                             <span>Feedbacks</span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/relatorios/relTIndex">
+                            <i class="fas fa-fw fa-envelope-open-text"></i>
+                            <span>Relatórios</span></a>
                     </li>
 
                     <!-- Divider -->
@@ -108,7 +129,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     {% if user.is_authenticated %}
-                        {% if user.user_type == 2 %}
+                        {% if user.user_type == 4 %}
                             {%block opcoes%}
                             <!-- Opcoes-->
                             {%endblock%}
@@ -217,7 +238,7 @@
                     {% endfor %}
                 {% endif %}
                 {% if user.is_authenticated %}
-                    {% if user.user_type == 2 %}
+                    {% if user.user_type == 4 %}
                         {%block conteudo%}
                         <!-- /.container-fluid -->
                         {%endblock%}
@@ -230,7 +251,7 @@
                                 </button>
                             </div>
                         </div>
-                     {% elif user.user_type == 3 %}
+                     {% elif user.user_type == 2 %}
                         <div class="container-fluid">
                             <div class="alert alert-warning" role="alert">
                                 Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">retorne para a página inicial aqui!</a>
@@ -239,7 +260,7 @@
                                 </button>
                             </div>
                         </div>
-                     {% elif user.user_type == 4 %}
+                     {% elif user.user_type == 3 %}
                         <div class="container-fluid">
                             <div class="alert alert-warning" role="alert">
                                 Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">retorne para a página inicial aqui!</a>

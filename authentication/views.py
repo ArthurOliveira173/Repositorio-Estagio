@@ -17,13 +17,15 @@ def authLogin(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login realizado com sucesso!')
-            if user.user_type == 0:
+            if user.user_type == 1:
                 return redirect('aviIndex')
-            elif user.user_type == 1:
+            elif user.user_type == 2:
                 return redirect('aviIndexAluno')
-            elif user.user_type == 2 or user.user_type == 3:
-                return redirect('aviIndexMonitorTutor')
+            elif user.user_type == 3:
+                return redirect('aviIndexMonitor')
             elif user.user_type == 4:
+                return redirect('aviIndexTutor')
+            elif user.user_type == 5:
                 return redirect('aviIndexInterprete')
         else:
             messages.error(request, 'usuário ou senha inválidos!')
@@ -84,7 +86,7 @@ def authRegisterAluno(request):
             deficiencias = request.POST.get('alu_deficiencias')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
-            permissao = 1
+            permissao = 2
 
             if not nome or not usuario or not data_nascimento or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -134,7 +136,7 @@ def authRegisterAluno(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterAluno.html')
 
-            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
                                                   password=senha, user_type=permissao)
             if user is not None:
                 userForm = form.save(commit=False)
@@ -142,7 +144,7 @@ def authRegisterAluno(request):
                 userForm.save()
                 user.save()
                 messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
-                
+                \n
                 por favor, aguarde 24 horas para logar no sistema.''')
                 return redirect("authLogin")
             else:
@@ -176,7 +178,7 @@ def authRegisterMonitor(request):
             matricula = request.POST.get('mon_matricula')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
-            permissao = 2
+            permissao = 3
 
             if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -226,7 +228,7 @@ def authRegisterMonitor(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterMonitor.html')
 
-            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
                                                   password=senha, user_type=permissao)
 
             if user is not None:
@@ -269,7 +271,7 @@ def authRegisterTutor(request):
             matricula = request.POST.get('tut_matricula')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
-            permissao = 3
+            permissao = 4
 
             if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -319,7 +321,7 @@ def authRegisterTutor(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterTutor.html')
 
-            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
                                                   password=senha, user_type=permissao)
 
             if user is not None:
@@ -356,7 +358,7 @@ def authRegisterInterprete(request):
             telefone = request.POST.get('int_telefone')
             senha = request.POST.get('senha')
             senha2 = request.POST.get('senha2')
-            permissao = 4
+            permissao = 5
 
             if not nome or not usuario or not sexo or not email_pessoal or not email_instituicao or not telefone or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
@@ -406,7 +408,7 @@ def authRegisterInterprete(request):
                 messages.error(request, 'Senhas diferentes, tente novamente!')
                 return render(request, 'authenticate/authRegisterInterprete.html')
 
-            user = CustomUser.objects.create_user(username=usuario, email=email_pessoal,
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
                                                   password=senha, user_type=permissao)
 
             if user is not None:

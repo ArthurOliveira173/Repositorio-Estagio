@@ -1,6 +1,22 @@
 from django import forms
 from django.forms import ModelForm
-from .models import AlunoPcd, Monitor, Tutor, Interprete
+from .models import AlunoPcd, Monitor, Tutor, Interprete, Administrador
+
+class AdminsForm(ModelForm):
+
+    class Meta:
+        model = Administrador
+        fields = ('adm_nome', 'adm_cpf', 'adm_email')
+        labels = {
+            'adm_nome': 'Digite o nome',
+            'adm_cpf': 'Digite o CPF',
+            'adm_email': 'Digite o email'
+        }
+        widgets = {
+            'adm_nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}),
+            'adm_cpf': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CPF'}),
+            'adm_email': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email'}),
+        }
 
 class AlunosForm(ModelForm):
 
@@ -45,7 +61,7 @@ class AlunosForm(ModelForm):
 class AtualizarAlunosForm(ModelForm):
     class Meta:
         model = AlunoPcd
-        fields = ('alu_genero', 'alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
+        fields = ('alu_email_pessoal', 'alu_email_institucional', 'alu_telefone',
                   'alu_endereco_cep', 'alu_endereco_descricao', 'alu_endereco_cidade')
         labels = {
             'alu_email_pessoal': 'Digite o email pessoal',
@@ -100,6 +116,29 @@ class MonitoresForm(ModelForm):
             'mon_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
         }
 
+class AtualizarMonitoresForm(ModelForm):
+
+    class Meta:
+        model = Monitor
+        fields = ('mon_email_pessoal', 'mon_email_institucional', 'mon_telefone',
+                  'mon_endereco_cep', 'mon_endereco_descricao', 'mon_endereco_cidade')
+        labels = {
+            'mon_email_pessoal': 'Digite o email pessoal',
+            'mon_email_institucional': 'Digite o email institucional',
+            'mon_telefone': 'Digite o contato',
+            'mon_endereco_cep': 'Digite o CEP do endereco',
+            'mon_endereco_descricao': 'Digite o endereco',
+            'mon_endereco_cidade': 'Defina a cidade',
+        }
+        widgets = {
+            'mon_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
+            'mon_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
+            'mon_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+            'mon_endereco_cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CEP'}),
+            'mon_endereco_descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'mon_endereco_cidade': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Cidade'}),
+        }
+
 class TutoresForm(ModelForm):
 
     class Meta:
@@ -136,6 +175,29 @@ class TutoresForm(ModelForm):
             'tut_periodo_academico': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Periodo'}),
         }
 
+class AtualizarTutoresForm(ModelForm):
+
+    class Meta:
+        model = Tutor
+        fields = ('tut_email_pessoal', 'tut_email_institucional', 'tut_telefone',
+                  'tut_endereco_cep', 'tut_endereco_descricao', 'tut_endereco_cidade')
+        labels = {
+            'tut_email_pessoal': 'Digite o email pessoal',
+            'tut_email_institucional': 'Digite o email institucional',
+            'tut_telefone': 'Digite o contato',
+            'tut_endereco_cep': 'Digite o CEP do endereco',
+            'tut_endereco_descricao': 'Digite o endereco',
+            'tut_endereco_cidade': 'Defina a cidade',
+        }
+        widgets = {
+            'tut_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
+            'tut_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
+            'tut_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+            'tut_endereco_cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CEP'}),
+            'tut_endereco_descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Endereco'}),
+            'tut_endereco_cidade': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Cidade'}),
+        }
+
 class InterpretesForm(ModelForm):
 
     class Meta:
@@ -153,6 +215,22 @@ class InterpretesForm(ModelForm):
             'int_nome': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome'}),
             'int_cpf': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'CPF'}),
             'int_genero': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Gênero'}),
+            'int_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
+            'int_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
+            'int_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),
+        }
+
+class AtualizarInterpretesForm(ModelForm):
+
+    class Meta:
+        model = Interprete
+        fields = ('int_email_pessoal', 'int_email_institucional', 'int_telefone')
+        labels = {
+            'int_email_pessoal': 'Digite o email pessoal',
+            'int_email_institucional': 'Digite o email institucional',
+            'int_telefone': 'Digite o contato',
+        }
+        widgets = {
             'int_email_pessoal': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email pessoal'}),
             'int_email_institucional': forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Email Institucional'}),
             'int_telefone': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Telefone'}),

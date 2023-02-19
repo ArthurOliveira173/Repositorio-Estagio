@@ -1,13 +1,13 @@
 import os
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, HttpResponse
 from .models import Avisos
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.contrib import messages
 from .forms import AvisosForm
-from membros.models import AlunoPcd
+from membros.models import AlunoPcd, Administrador
 import mimetypes
 import pickle
 
@@ -60,23 +60,16 @@ def adicionarAviso(request):
     if request.POST:
         form = AvisosForm(request.POST, request.FILES)
         if form.is_valid():
-            if form.cleaned_data['avi_arquivos']:
-                arquivo = form.cleaned_data['avi_arquivos']
-                arquivo_nome = str(arquivo)
-
-                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                filepath = BASE_DIR + '\\uploads\\' + arquivo_nome
-
-                with open(filepath, 'wb') as f:
-                    pickle.dump(arquivo, f)
             # handle_uploaded_file(request.FILES["avi_arquivos"])
-            form.save()
+            avisoForm = form.save(commit=False)
+            administrador = get_object_or_404(Administrador, adm_cpf=request.user.username)
+            avisoForm.avi_administrador = administrador
+            avisoForm.save()
             return HttpResponseRedirect('adicionarAviso?submitted=True')
         else:
             form = AvisosForm()
 
-            form.save()
-            return HttpResponseRedirect('adicionarAviso?submitted=True')
+            messages.error("As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AvisosForm()
         if 'submitted' in request.GET:
@@ -137,7 +130,11 @@ def atualizarAviso(request, aviso_id):
 
 def deletarAviso(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    arquivo_nome = aviso.avi_arquivos
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filepath = BASE_DIR + '\\uploads\\' + str(arquivo_nome)
     aviso.delete()
+    os.remove(filepath)
     return redirect('aviIndex')
 
 

@@ -1,11 +1,16 @@
+import os
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic.list import ListView
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import AlunoPcd, Monitor, Tutor, Interprete
-from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
+from django.core.validators import validate_email
+from django.contrib import messages
+from .models import AlunoPcd, Monitor, Tutor, Interprete, Administrador, CustomUser
+from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm, AdminsForm, AtualizarAlunosForm, AtualizarMonitoresForm, AtualizarTutoresForm, AtualizarInterpretesForm
+from authentication.views import valida_cpf, valida_string
 from acompanhamentos.models import Acompanhamentos
 from feedbacks.forms import FeedbacksForm
 from feedbacks.models import Feedbacks
@@ -257,6 +262,113 @@ def deletarInterpreteInativo(request, interprete_id):
     interprete.delete()
     return redirect('homologarInativo')
 
+def administradores(request):
+    administradores = Administrador.objects.all().order_by('adm_nome')
+
+    paginator = Paginator(administradores, 10)
+    page = request.GET.get('p')
+    administradores = paginator.get_page(page)
+
+    return render(request, 'administrador/administradores.html', {
+        'administradores': administradores
+    })
+
+def adicionarAdmin(request):
+    if request.method == "POST":
+        form = AdminsForm(request.POST, request.FILES)
+        if form.is_valid():
+            nome = request.POST.get('adm_nome')
+            usuario = request.POST.get('adm_cpf')
+            email = request.POST.get('adm_email')
+            senha = request.POST.get('senha')
+            senha2 = request.POST.get('senha2')
+            permissao = 1
+
+            if not nome or not usuario or not email or not senha or not senha2:
+                messages.error(request, 'Todos os campos devem ser preenchidos!')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            try:
+                valida_string(nome)
+            except:
+                messages.error(request, 'Por favor digite somente letras e espaços')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            try:
+                validate_email(email)
+            except:
+                messages.error(request, 'Email pessoal invalido!')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            try:
+                valida_cpf(usuario)
+            except:
+                messages.error(request, 'O Cpf informado não é valido, tente novamente!')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            if CustomUser.objects.filter(username=usuario).exists():
+                messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email).exists():
+                messages.error(request, 'Email já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            if len(senha) < 6:
+                messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
+                return render(request, 'administrador/adicionarAdmin.html', {'form': form})
+
+            if senha != senha2:
+                messages.error(request, 'Senhas diferentes, tente novamente!')
+                return render(request, 'administrador/adicionarAdmin.html')
+
+            user = CustomUser.objects.create_user(username=usuario, email=email, user_type=permissao, password=senha)
+            if user is not None:
+                userForm = form.save(commit=False)
+                userForm.adm_usuario = user
+                userForm.save()
+                user.is_active = True
+                user.save()
+                messages.success(request, '''Cadastro de usuário admin realizado com sucesso!''')
+                return redirect("administradores")
+            else:
+                messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
+                return redirect("administradores")
+        else:
+            messages.error(request, 'Informações invalidas, tente novamente!')
+            form = AdminsForm(request.POST)
+    else:
+        form = AdminsForm()
+
+    return render(request, 'administrador/adicionarAdmin.html', {
+        'form': form,
+    })
+
+def buscarAdmin(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            try:
+                administradores = Administrador.objects.order_by('adm_nome').filter(Q(adm_nome__icontains=searched) | Q(adm_email__icontains=searched))
+            except:
+                administradores = Administrador.objects.order_by('adm_nome').filter(Q(adm_nome__icontains=searched))
+        else:
+            administradores = None
+
+        return render(request, 'administrador/buscarAdmin.html', {
+            'searched': searched,
+            'administradores': administradores
+        })
+    else:
+        return render(request, 'administrador/buscarAdmin.html', {
+
+        })
+
+def deletarAdmin(request, admin_id):
+    administrador = get_object_or_404(Administrador, adm_id=admin_id)
+    administrador.delete()
+    return redirect('administradores')
+
 def adminAlunos(request):
     alunos = AlunoPcd.objects.all().order_by('alu_nome')
 
@@ -270,62 +382,96 @@ def adminAlunos(request):
     })
 
 def adicionarAluno(request):
-    submitted = False
-
-    context = {}
-    if request.POST:
-        form = AlunosForm(request.POST)
+    if request.method == "POST":
+        form = AlunosForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('adicionarAluno?submitted=True')
+            nome = request.POST.get('alu_nome')
+            usuario = request.POST.get('alu_cpf')
+            data_nascimento = request.POST.get('alu_data_nascimento')
+            genero = request.POST.get('alu_genero')
+            email_pessoal = request.POST.get('alu_email_pessoal')
+            email_instituicao = request.POST.get('alu_email_institucional')
+            telefone = request.POST.get('alu_telefone')
+            cep = request.POST.get('alu_endereco_cep')
+            endereco_des = request.POST.get('alu_endereco_descricao')
+            cidade = request.POST.get('alu_endereco_cidade')
+            curso = request.POST.get('alu_curso')
+            periodo = request.POST.get('alu_periodo_academico')
+            matricula = request.POST.get('alu_matricula')
+            deficiencias = request.POST.get('alu_deficiencias')
+            senha = request.POST.get('senha')
+            senha2 = request.POST.get('senha2')
+            permissao = 2
+
+            if not nome or not usuario or not data_nascimento or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
+                messages.error(request, 'Todos os campos devem ser preenchidos!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            try:
+                valida_string(nome)
+            except:
+                messages.error(request, 'Por favor digite somente letras e espaços')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            try:
+                validate_email(email_pessoal)
+            except:
+                messages.error(request, 'Email pessoal invalido!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            try:
+                validate_email(email_instituicao)
+            except:
+                messages.error(request, 'Email institucional invalido!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            try:
+                valida_cpf(usuario)
+            except:
+                messages.error(request, 'O Cpf informado não é valido, tente novamente!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            if CustomUser.objects.filter(username=usuario).exists():
+                messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_pessoal).exists():
+                messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_instituicao).exists():
+                messages.error(request, 'Email institucional já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            if len(senha) < 6:
+                messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
+                return render(request, 'administrador/adicionarAluno.html', {'form': form})
+
+            if senha != senha2:
+                messages.error(request, 'Senhas diferentes, tente novamente!')
+                return render(request, 'administrador/adicionarAluno.html')
+
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
+                                                  password=senha, user_type=permissao)
+            if user is not None:
+                userForm = form.save(commit=False)
+                userForm.alu_usuario = user
+                userForm.save()
+                user.save()
+                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.''')
+                return redirect("alunos")
+            else:
+                messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
+                return redirect("alunos")
         else:
-            form = AlunosForm()
-            form.save()
-            return HttpResponseRedirect('adicionarAluno?submitted=True')
+            messages.error(request, 'Informações invalidas, tente novamente!')
+            form = AlunosForm(request.POST)
     else:
         form = AlunosForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    context['form'] = form
-    context['submitted'] = submitted
-    return render(request, 'administrador/adicionarAluno.html', context)
 
-# def adicionarAluno(request):
-#     submitted = False
-#     endSubmitted = False
-#
-#     context = {}
-#     if 'btnAluno' in request.POST:
-#         aluForm = AlunosForm(request.POST)
-#
-#         if aluForm.is_valid():
-#             aluForm.save()
-#             return HttpResponseRedirect('adicionarAluno?submitted=True')
-#         else:
-#             aluForm = AlunosForm()
-#             aluForm.save()
-#             return HttpResponseRedirect('adicionarAluno?submitted=True')
-#     elif 'btnEndereco' in request.POST:
-#         endForm = EnderecosForm(request.POST)
-#         if endForm.is_valid():
-#             endForm.save()
-#             return HttpResponseRedirect('adicionarAluno?endSubmitted=True')
-#         else:
-#             endForm = EnderecosForm()
-#             endForm.save()
-#             return HttpResponseRedirect('adicionarAluno?endSubmitted=True')
-#     elif 'endSubmitted' in request.GET:
-#         aluForm = AlunosForm
-#         endForm = EnderecosForm()
-#     else:
-#         aluForm = AlunosForm()
-#         endForm = EnderecosForm()
-#         if 'submitted' in request.GET:
-#             submitted = True
-#     context['aluForm'] = aluForm
-#     context['endForm'] = endForm
-#     context['submitted'] = submitted
-#     return render(request, 'administrador/adicionarAluno.html', context)
+    return render(request, 'administrador/adicionarAluno.html', {
+        'form': form,
+    })
 
 def buscarAluno(request):
     if request.POST:
@@ -358,7 +504,7 @@ def admAluno(request, aluno_id):
 def atualizarAluno(request, aluno_id):
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
 
-    form = AlunosForm(request.POST or None, instance=aluno)
+    form = AtualizarAlunosForm(request.POST or None, instance=aluno)
     if form.is_valid():
         form.save()
         return redirect('alunos')
@@ -386,25 +532,95 @@ def adminMonitores(request):
 
 
 def adicionarMonitor(request):
-    submitted = False
-
-    context = {}
-    if request.POST:
-        form = MonitoresForm(request.POST)
+    if request.method == "POST":
+        form = MonitoresForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('adicionarMonitor?submitted=True')
+            nome = request.POST.get('mon_nome')
+            usuario = request.POST.get('mon_cpf')
+            genero = request.POST.get('mon_genero')
+            email_pessoal = request.POST.get('mon_email_pessoal')
+            email_instituicao = request.POST.get('mon_email_institucional')
+            telefone = request.POST.get('mon_telefone')
+            cep = request.POST.get('mon_endereco_cep')
+            endereco_des = request.POST.get('mon_endereco_descricao')
+            cidade = request.POST.get('mon_endereco_cidade')
+            curso = request.POST.get('mon_curso')
+            periodo = request.POST.get('mon_periodo_academico')
+            matricula = request.POST.get('mon_matricula')
+            senha = request.POST.get('senha')
+            senha2 = request.POST.get('senha2')
+            permissao = 3
+
+            if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
+                messages.error(request, 'Todos os campos devem ser preenchidos!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            try:
+                valida_string(nome)
+            except:
+                messages.error(request, 'Por favor digite somente letras e espaços')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            try:
+                validate_email(email_pessoal)
+            except:
+                messages.error(request, 'Email pessoal invalido!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            try:
+                validate_email(email_instituicao)
+            except:
+                messages.error(request, 'Email institucional invalido!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            try:
+                valida_cpf(usuario)
+            except:
+                messages.error(request, 'O Cpf informado não é valido, tente novamente!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            if CustomUser.objects.filter(username=usuario).exists():
+                messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_pessoal).exists():
+                messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_instituicao).exists():
+                messages.error(request, 'Email institucional já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            if len(senha) < 6:
+                messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
+                return render(request, 'administrador/adicionarMonitor.html', {'form': form})
+
+            if senha != senha2:
+                messages.error(request, 'Senhas diferentes, tente novamente!')
+                return render(request, 'administrador/adicionarMonitor.html')
+
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
+                                                  password=senha, user_type=permissao)
+
+            if user is not None:
+                userForm = form.save(commit=False)
+                userForm.mon_usuario = user
+                userForm.save()
+                user.save()
+                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.''')
+                return redirect("monitores")
+            else:
+                messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
+                return redirect("monitores")
         else:
-            form = MonitoresForm()
-            form.save()
-            return HttpResponseRedirect('adicionarMonitor?submitted=True')
+            messages.error(request, 'Informações invalidas, tente novamente!')
+            form = MonitoresForm(request.POST)
     else:
         form = MonitoresForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    context['form'] = form
-    context['submitted'] = submitted
-    return render(request, 'administrador/adicionarMonitor.html', context)
+
+    return render(request, 'administrador/adicionarMonitor.html', {
+        'form': form,
+    })
 
 
 def buscarMonitor(request):
@@ -440,7 +656,7 @@ def admMonitor(request, monitor_id):
 def atualizarMonitor(request, monitor_id):
     monitor = get_object_or_404(Monitor, mon_id=monitor_id)
 
-    form = MonitoresForm(request.POST or None, instance=monitor)
+    form = AtualizarMonitoresForm(request.POST or None, instance=monitor)
     if form.is_valid():
         form.save()
         return redirect('monitores')
@@ -469,25 +685,97 @@ def adminTutores(request):
 
 
 def adicionarTutor(request):
-    submitted = False
-
-    context = {}
-    if request.POST:
-        form = TutoresForm(request.POST)
+    if request.method == "POST":
+        form = TutoresForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('adicionarTutor?submitted=True')
+            nome = request.POST.get('tut_nome')
+            usuario = request.POST.get('tut_cpf')
+            genero = request.POST.get('tut_genero')
+            email_pessoal = request.POST.get('tut_email_pessoal')
+            email_instituicao = request.POST.get('tut_email_institucional')
+            telefone = request.POST.get('tut_telefone')
+            cep = request.POST.get('tut_endereco_cep')
+            endereco_des = request.POST.get('tut_endereco_descricao')
+            cidade = request.POST.get('tut_endereco_cidade')
+            curso = request.POST.get('tut_curso')
+            periodo = request.POST.get('tut_periodo_academico')
+            matricula = request.POST.get('tut_matricula')
+            senha = request.POST.get('senha')
+            senha2 = request.POST.get('senha2')
+            permissao = 4
+
+            if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
+                messages.error(request, 'Todos os campos devem ser preenchidos!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            try:
+                valida_string(nome)
+            except:
+                messages.error(request, 'Por favor digite somente letras e espaços')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            try:
+                validate_email(email_pessoal)
+            except:
+                messages.error(request, 'Email pessoal invalido!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            try:
+                validate_email(email_instituicao)
+            except:
+                messages.error(request, 'Email institucional invalido!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            try:
+                valida_cpf(usuario)
+            except:
+                messages.error(request, 'O Cpf informado não é valido, tente novamente!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            if CustomUser.objects.filter(username=usuario).exists():
+                messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_pessoal).exists():
+                messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_instituicao).exists():
+                messages.error(request, 'Email institucional já cadastrado, tente novamente!')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            if len(senha) < 6:
+                messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
+                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+
+            if senha != senha2:
+                messages.error(request, 'Senhas diferentes, tente novamente!')
+                return render(request, 'authenticate/authRegisterTutor.html')
+
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
+                                                  password=senha, user_type=permissao)
+
+            if user is not None:
+                userForm = form.save(commit=False)
+                userForm.tut_usuario = user
+                userForm.save()
+                user.save()
+                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
+
+                por favor, aguarde 24 horas para logar no sistema.''')
+                return redirect("authLogin")
+            else:
+                messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
+                return redirect("authLogin")
         else:
-            form = TutoresForm()
-            form.save()
-            return HttpResponseRedirect('adicionarTutor?submitted=True')
+            messages.error(request, 'Informações invalidas, tente novamente!')
+            form = TutoresForm(request.POST)
     else:
         form = TutoresForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    context['form'] = form
-    context['submitted'] = submitted
-    return render(request, 'administrador/adicionarTutor.html', context)
+
+    return render(request, 'authenticate/authRegisterTutor.html', {
+        'form': form,
+    })
 
 
 def buscarTutor(request):
@@ -523,7 +811,7 @@ def admTutor(request, tutor_id):
 def atualizarTutor(request, tutor_id):
     tutor = get_object_or_404(Tutor, tut_id=tutor_id)
 
-    form = TutoresForm(request.POST or None, instance=tutor)
+    form = AtualizarTutoresForm(request.POST or None, instance=tutor)
     if form.is_valid():
         form.save()
         return redirect('tutores')
@@ -552,25 +840,90 @@ def adminInterpretes(request):
 
 
 def adicionarInterprete(request):
-    submitted = False
-
-    context = {}
-    if request.POST:
-        form = InterpretesForm(request.POST)
+    if request.method == "POST":
+        form = InterpretesForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('adicionarInterprete?submitted=True')
+            nome = request.POST.get('int_nome')
+            usuario = request.POST.get('int_cpf')
+            genero = request.POST.get('int_genero')
+            email_pessoal = request.POST.get('int_email_pessoal')
+            email_instituicao = request.POST.get('int_email_institucional')
+            telefone = request.POST.get('int_telefone')
+            senha = request.POST.get('senha')
+            senha2 = request.POST.get('senha2')
+            permissao = 5
+
+            if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not senha or not senha2:
+                messages.error(request, 'Todos os campos devem ser preenchidos!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            try:
+                valida_string(nome)
+            except:
+                messages.error(request, 'Por favor digite somente letras e espaços')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            try:
+                validate_email(email_pessoal)
+            except:
+                messages.error(request, 'Email pessoal invalido!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            try:
+                validate_email(email_instituicao)
+            except:
+                messages.error(request, 'Email institucional invalido!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            try:
+                valida_cpf(usuario)
+            except:
+                messages.error(request, 'O Cpf informado não é valido, tente novamente!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            if CustomUser.objects.filter(username=usuario).exists():
+                messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_pessoal).exists():
+                messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            if CustomUser.objects.filter(email=email_instituicao).exists():
+                messages.error(request, 'Email institucional já cadastrado, tente novamente!')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            if len(senha) < 6:
+                messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
+                return render(request, 'administrador/adicionarInterprete.html', {'form': form})
+
+            if senha != senha2:
+                messages.error(request, 'Senhas diferentes, tente novamente!')
+                return render(request, 'administrador/adicionarInterprete.html')
+
+            user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
+                                                  password=senha, user_type=permissao)
+            if user is not None:
+                userForm = form.save(commit=False)
+                userForm.int_ativo = True
+                userForm.int_usuario = user
+                userForm.save()
+                user.is_active = True
+                user.save()
+                messages.success(request, '''Cadastro de usuário interprete realizado com sucesso!''')
+                return redirect("interpretes")
+            else:
+                messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
+                return redirect("interpretes")
         else:
-            form = InterpretesForm()
-            form.save()
-            return HttpResponseRedirect('adicionarInterprete?submitted=True')
+            messages.error(request, 'Informações invalidas, tente novamente!')
+            form = InterpretesForm(request.POST)
     else:
         form = InterpretesForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    context['form'] = form
-    context['submitted'] = submitted
-    return render(request, 'administrador/adicionarInterprete.html', context)
+
+    return render(request, 'administrador/adicionarInterprete.html', {
+        'form': form,
+    })
 
 
 def buscarInterprete(request):
@@ -606,7 +959,7 @@ def admInterprete(request, interprete_id):
 def atualizarInterprete(request, interprete_id):
     interprete = get_object_or_404(Interprete, int_id=interprete_id)
 
-    form = InterpretesForm(request.POST or None, instance=interprete)
+    form = AtualizarInterpretesForm(request.POST or None, instance=interprete)
     if form.is_valid():
         form.save()
         return redirect('interpretes')

@@ -12,16 +12,23 @@ cidades = (
     ('CS', 'Cruzeiro do Sul'),
 )
 PERMISSOES = (
-    (0, 'Admin'),
-    (1, 'Aluno'),
-    (2, 'Monitor'),
-    (3, 'Tutor'),
-    (4, 'Interprete'),
+    (1, 'Admin'),
+    (2, 'Aluno'),
+    (3, 'Monitor'),
+    (4, 'Tutor'),
+    (5, 'Interprete'),
 )
 
 # Create your models here.
 
 class CustomUserManager(BaseUserManager):
+    #USER_TYPE = (
+    #     (1, 'Admin'),
+    #     (2, 'Aluno'),
+    #     (3, 'Monitor'),
+    #     (4, 'Tutor'),
+    #     (5, 'Interprete'),
+    #)
     def create_user(self, username, email, user_type, password=None):
         if not user_type:
             raise ValueError('Users must have a type')
@@ -50,7 +57,7 @@ class CustomUserManager(BaseUserManager):
         )
         user.set_password(password)
         user.is_active = True
-        user.user_type = 0
+        user.user_type = 1
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -66,7 +73,8 @@ class Administrador(models.Model):
     adm_nome = models.CharField(db_column='adm_nome', max_length=255)
     adm_cpf = models.CharField(db_column='adm_cpf', max_length=11)
     adm_email = models.EmailField(db_column='adm_email', max_length=255)
-    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=0)
+    adm_usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column='adm_usuario')
+    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=1)
 
     class Meta:
         managed = False
@@ -92,7 +100,7 @@ class AlunoPcd(models.Model):
     alu_data_nascimento = models.DateField(db_column='alu_data_nascimento')
     alu_ativo = models.BooleanField(db_column="alu_ativo", default=False)
     alu_usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column='alu_usuario')
-    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=1)
+    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=2)
 
     class Meta:
         managed = False
@@ -129,7 +137,7 @@ class Monitor(models.Model):
     mon_periodo_academico = models.CharField(db_column='mon_periodo_academico', max_length=255)
     mon_ativo = models.BooleanField(db_column="mon_ativo", default=False)
     mon_usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column='mon_usuario')
-    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=2)
+    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=3)
 
     class Meta:
         managed = False
@@ -166,7 +174,7 @@ class Tutor(models.Model):
     tut_periodo_academico = models.CharField(db_column='tut_periodo_academico', max_length=255)
     tut_ativo = models.BooleanField(db_column="tut_ativo", default=False)
     tut_usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column='tut_usuario')
-    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=3)
+    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=4)
 
     class Meta:
         managed = False
@@ -196,7 +204,7 @@ class Interprete(models.Model):
     int_telefone = models.CharField(db_column='int_telefone', max_length=255)
     int_ativo = models.BooleanField(db_column="int_ativo", default=True)
     int_usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column='int_usuario')
-    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=4)
+    permissao = models.IntegerField(db_column='permissao', choices=PERMISSOES, default=5)
 
     class Meta:
         managed = False

@@ -10,15 +10,15 @@
   </style>
   <h1 class="mt-3 mb-3" align="center">Cadastro</h1>
     {% if user.is_authenticated %}
-      {% if user.user_type == 0 %}
+      {% if user.user_type == 1 %}
           <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
-      {% elif user.user_type == 1 %}
-          <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexAluno' %}">Retorne ao site aqui!</a></p>
       {% elif user.user_type == 2 %}
-          <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+          <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexAluno' %}">Retorne ao site aqui!</a></p>
       {% elif user.user_type == 3 %}
           <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
       {% elif user.user_type == 4 %}
+          <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
+      {% elif user.user_type == 5 %}
           <p>Você já realizou login como {{ user.username }}! <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">Retorne ao site aqui!</a></p>
       {% endif %}
       <br>
