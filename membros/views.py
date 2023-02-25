@@ -1,5 +1,4 @@
 import os
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic.list import ListView
@@ -1062,8 +1061,8 @@ def alunoOpenfeedback(request, feedback_id, aluno_id):
         'aluno': aluno,
         'acompanhamento': acompanhamento,
     })
-#MONITOR_TUTOR========================================================================================
 
+#MONITOR_TUTOR========================================================================================
 def index_mon(request):
     monitores = Monitor.objects.all()
     paginator = Paginator(monitores, 10)
@@ -1077,10 +1076,11 @@ def index_mon(request):
 def monAluno(request):
     return render(request, 'monitor_tutor/monAluno.html')
 
-def monitor(request, monitor_id):
-    monitor = get_object_or_404(Monitor, mon_id=monitor_id)
+def monitor(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    monitor = get_object_or_404(Monitor, mon_usuario=user)
     return render(request, 'monitor_tutor/monitor.html', {
-        'monitor' : monitor
+        'monitor': monitor
     })
 
 def index_tut(request):
@@ -1096,8 +1096,9 @@ def index_tut(request):
 def tutAluno(request):
     return render(request, 'monitor_tutor/tutAluno.html')
 
-def tutor(request, tutor_id):
-    tutor = get_object_or_404(Tutor, tut_id=tutor_id)
+def tutor(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    tutor = get_object_or_404(Tutor, tut_usuario=user)
     return render(request, 'monitor_tutor/tutor.html', {
         'tutor' : tutor
     })
@@ -1117,8 +1118,9 @@ def intIndex(request):
 def intAluno(request):
     return render(request, 'interpretes/intAluno.html')
 
-def interprete(request, interprete_id):
-    interprete = get_object_or_404(Interprete, int_id=interprete_id)
+def interprete(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    interprete = get_object_or_404(Interprete, int_usuario=user)
     return render(request, 'interpretes/interprete.html', {
         'interprete' : interprete
     })

@@ -74,12 +74,12 @@ urlpatterns = [
     #Monitor_tutor
     path('monitores', views.index_mon, name='index_mon'),
     path('monitores/monAluno', views.monAluno, name='monAluno'),
-    path('monitores/monitor/<int:monitor_id>', views.monitor, name='monitor'),
+    path('monitores/<int:user_id>', views.monitor, name='monitor'),
     path('tutores', views.index_tut, name='index_tut'),
     path('tutores/tutAluno', views.tutAluno, name='tutAluno'),
-    path('tutores/tutor/<int:tutor_id>', views.tutor, name='tutor'),
+    path('tutores/<int:user_id>', views.tutor, name='tutor'),
     #Interpretes
     path('interpretes', views.intIndex, name='intIndex'),
     path('interpretes/intAluno', views.intAluno, name='intAluno'),
-    path('interpretes/<int:interprete_id>', views.interprete, name='interprete')
+    path('interpretes/<int:user_id>', views.interprete, name='interprete')
 ]

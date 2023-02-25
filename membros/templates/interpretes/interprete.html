@@ -1,22 +1,61 @@
-{% extends 'base.html' %}
+{% extends 'baseInterprete.html' %}
+<html lang="pt">
+
+{%block opcoes%}
+    <a class="btn btn-primary text-white" href="{% url 'atualizarInterprete' interprete.int_id %}" role="button">Editar Perfil</a>
+{%endblock%}
 
 {%block conteudo%}
-<body>
-    <h1 class="mt-5">{{ interprete.int_nome }}</h1>
-    <dl>
+    {% if user.username == Interprete.int_cpf %}
+        <div class="container">
+            <div class="card mt-5"
+                 style="border-color: blue; margin-top: -30px; margin-left: 100px; margin-right: 100px;">
+                <div class="card-header align-items-center bg-secondary text-white">
+                    <h3 class="card-title">Informações de Perfil</h3>
+                </div>
+                <div class="card-body" style="margin-left: 25px; margin-right: 25px;">
+                    <div class="d-flex flex-row justify-content-between p-md-1">
+                        <div class="d-flex flex-row" style="text-align: left;">
+                            <h5 style="margin-left: 5px; padding-top: 5px">Nome completo:</h5>
+                            <p class="h5 mb-0" style="margin-left: 5px; padding-top: 5px">{{ Interprete.int_nome }}</p>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <h5 style="margin-left: 5px; padding-top: 5px">CPF:</h5>
+                            <p class="h5 mb-0" style="margin-left: 5px; padding-top: 5px">{{ Interprete.int_cpf }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between p-md-1" style="text-align: left;">
+                        <div class="d-flex flex-row">
+                            <h5 style="margin-left: 5px; padding-top: 5px">Email Pessoal:</h5>
+                            <p class="h5 mb-0" style="margin-left: 5px; padding-top: 5px">{{ Interprete.int_email_pessoal }}</p>
+                        </div>
+                        <div class="d-flex flex-row">
 
-      <dt>CPF</dt>
-      <dd>{{  interprete.int_cpf  }}</dd>
-
-      <dt>Sexo</dt>
-      <dd>{{  interprete.int_genero }}</dd>
-
-      <dt>Email</dt>
-      <dd>{{  interprete.int_email }}</dd>
-
-      <dt>Telefone</dt>
-      <dd>{{ interprete.int_telefone }}</dd>
-
-    </dl>
-
+                            <h5 style="margin-left: 5px; padding-top: 5px">Gênero:</h5>
+                            <p class="h5 mb-0" style="margin-left: 5px; padding-top: 5px">{{ Interprete.int_genero }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between p-md-1" style="text-align: left;">
+                        <div class="d-flex flex-row">
+                            <h5 class="" style="margin-left: 5px; padding-top: 5px">Email Institucional:</h5>
+                            <p class="h5 mb-0" style="margin-left: 5px; padding-top: 5px">{{ Interprete.int_email_institucional}}</p>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <h5 style="margin-left: 5px; padding-top: 5px">Contato:</h5>
+                            <p class="h5 mb-0" style="margin-left: 5px; padding-top: 5px">{{ Interprete.int_telefone }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container-fluid">
+            <div class="alert alert-warning" role="alert">
+                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexInterprete' %}">retorne para a página inicial aqui!</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
 {%endblock%}
