@@ -29,10 +29,13 @@
         <h1 style="text-align: center;">Crie um novo aviso</h1>
         <br>
         {% if submitted %}
-            Aviso enviado com sucesso!
-
+            <div class="alert alert-info" role="alert">
+                Aviso enviado com sucesso!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         {% else %}
-
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 

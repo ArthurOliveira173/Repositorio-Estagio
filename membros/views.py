@@ -991,8 +991,9 @@ def aluIndex(request):
 def acompanhantes(request):
     return render(request, 'alunos/acompanhantes.html')
 
-def aluno(request, aluno_id):
-    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+def aluno(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_usuario=user)
     return render(request, 'alunos/aluno.html', {
         'aluno' : aluno
     })

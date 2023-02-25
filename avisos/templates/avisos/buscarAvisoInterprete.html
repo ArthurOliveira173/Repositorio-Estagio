@@ -1,9 +1,9 @@
-{% extends 'baseAluno.html' %}
+{% extends 'baseInterprete.html' %}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/avisos/aviIndexAluno" role="button">Voltar</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/avisos/aviIndexInterprete" role="button">Voltar</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarAvisoAluno' %}">
+          method="POST" action="{% url 'buscarAvisoInterprete' %}">
         <div class="input-group">
             {% csrf_token %}
             <input type="search" class="form-control bg-light border-0 small" placeholder="Busque avisos aqui..."
@@ -75,7 +75,7 @@
                       <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
                           <div class="card d-flex flex-row mb-3 rounded" style="">
                             <div class="d-flex flex-row w-100 rounded-0">
-                              <a class="rounded-0 w-100" href="{% url 'avisoAluno' aviso.avi_id %}" role="button">
+                              <a class="rounded-0 w-100" href="{% url 'avisoInterprete' aviso.avi_id %}" role="button">
                                 <div class="card-body text-white bg-primary">
                                   <div class="d-flex justify-content-between p-md-1">
                                     <div class="d-flex flex-row">

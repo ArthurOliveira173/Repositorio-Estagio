@@ -141,7 +141,7 @@
                                                 <span class="font-weight-bold">Olá mundo</span>
                                             </div>
                                         </a>
-                                        <a class="dropdown-item text-center small text-gray-500" href="/avisos">Mostrar todos os avisos</a>
+                                        <a class="dropdown-item text-center small text-gray-500" href="/avisos/aviIndexAluno">Mostrar todos os avisos</a>
                                     </div>
                                 </li>
 
@@ -233,7 +233,7 @@
                      {% elif user.user_type == 3 %}
                         <div class="container-fluid">
                             <div class="alert alert-warning" role="alert">
-                                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">retorne para a página inicial aqui!</a>
+                                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexMonitor' %}">retorne para a página inicial aqui!</a>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -242,7 +242,7 @@
                      {% elif user.user_type == 4 %}
                         <div class="container-fluid">
                             <div class="alert alert-warning" role="alert">
-                                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">retorne para a página inicial aqui!</a>
+                                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexTutor' %}">retorne para a página inicial aqui!</a>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -251,7 +251,7 @@
                      {% elif user.user_type == 5 %}
                         <div class="container-fluid">
                             <div class="alert alert-warning" role="alert">
-                                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndex' %}">retorne para a página inicial aqui!</a>
+                                Você não tem permissão para acessar essa página. Por favor, <a style="color:black;" type="button" class="btn-link" href="{% url 'aviIndexInterprete' %}">retorne para a página inicial aqui!</a>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>

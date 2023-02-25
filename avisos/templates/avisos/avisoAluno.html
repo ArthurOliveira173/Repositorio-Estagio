@@ -41,7 +41,9 @@
                         <div class="d-flex flex-row" style="text-align: left;">
                             <div class="d-flex flex-row">
                                 <h4>Anexo:</h4>
-                                <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ aviso.avi_arquivos }}</p>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 5px">
+                                    <a style="color:black;" type="button" class="btn-link" href="{% url 'baixarFileAviso' aviso.avi_arquivos %}">{{ aviso.avi_arquivos }}</a>
+                                </p>
                             </div>
                         </div>
                         <br>

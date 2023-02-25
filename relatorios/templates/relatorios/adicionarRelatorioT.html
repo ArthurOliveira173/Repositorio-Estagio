@@ -1,21 +1,35 @@
-{% extends 'baseAvisos.html' %}
+{% extends 'baseTutor.html' %}
+
+{%block opcoes%}
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/relatorios/relTIndex" role="button">Voltar</a>
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+          method="POST" action="{% url 'buscarAviso' %}">
+        <div class="input-group">
+            {% csrf_token %}
+            <input type="search" class="form-control bg-light border-0 small" placeholder="Busque relatórios aqui..."
+                   aria-label="Search" aria-describedby="basic-addon2" name="searched">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+{%endblock%}
 
 {%block conteudo%}
 <style>
 
 </style>
 <body style="background-color: #f5f7fa">
-    <br>
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <div class="d-flex align-items-center">
-        <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/relatorios/T" role="button">Voltar</a>
-      </div>
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Relatórios de Tutoria</h1>
     </div>
     <div style="margin-left: 250px; margin-right: 250px">
-        <h1 style="text-align: center;">Envie um novo relatorio</h1>
+        <h1 style="text-align: center;">Envie um novo relatório</h1>
         <br>
         {% if submitted %}
-            Relatorio enviado com sucesso!
+            Relatório enviado com sucesso!
 
         {% else %}
 
@@ -30,7 +44,6 @@
             </form>
         {% endif %}
     </div>
-
 </body>
 
 {%endblock%}

@@ -6,10 +6,6 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from .forms import RelatoriosMonForm, RelatoriosTutForm
 
-# def handle_uploaded_file(f):
-#     with open('avisos/uploads/'+f.name, 'wb+') as destination:
-#         for chunk in f.chunks():
-#             destination.write(chunk)
 def relMIndex(request):
     relatoriosM = RelatoriosMon.objects.order_by('-relM_id')
     paginator = Paginator(relatoriosM, 10)

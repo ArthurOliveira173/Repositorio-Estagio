@@ -16,7 +16,7 @@ import pickle
 #         for chunk in f.chunks():
 #             destination.write(chunk)
 
-def baixar(request, filename):
+def baixarFileAviso(request, filename):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filename = str(filename)
     filepath = BASE_DIR + '\\uploads\\' + filename
@@ -36,21 +36,6 @@ def aviIndex(request):
     avisos = paginator.get_page(page)
     return render(request, 'avisos/aviIndex.html', {
         'avisos': avisos
-    })
-
-def aviIndexAluno(request):
-    avisos = Avisos.objects.order_by('-avi_id').filter(
-        avi_mostrar = True
-    )
-    aluno = get_object_or_404(AlunoPcd, alu_id=1)
-
-    paginator = Paginator(avisos, 10)
-
-    page = request.GET.get('p')
-    avisos = paginator.get_page(page)
-    return render(request, 'avisos/aviIndexAluno.html', {
-        'avisos': avisos,
-        'aluno': aluno
     })
 
 def adicionarAviso(request):
@@ -111,15 +96,6 @@ def atualizarAviso(request, aviso_id):
 
     form = AvisosForm(request.POST or None, instance=aviso)
     if form.is_valid():
-        if form.cleaned_data['avi_arquivos']:
-            arquivo = form.cleaned_data['avi_arquivos']
-            arquivo_nome = str(arquivo)
-
-            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            filepath = BASE_DIR + '\\uploads\\' + arquivo_nome
-
-            with open(filepath, 'wb') as f:
-                pickle.dump(arquivo, f)
         form.save()
         return redirect('aviIndex')
 
@@ -139,8 +115,7 @@ def deletarAviso(request, aviso_id):
 
 
 
-#ALUNO
-
+#ALUNO==============================================================================================
 def aviIndexAluno(request):
     avisos = Avisos.objects.order_by('-avi_id').filter(
         avi_mostrar = True
@@ -180,11 +155,122 @@ def buscarAvisoAluno(request):
 
         })
 
-def avisoAluno(request, aviso_id):
+#MONITOR============================================================================================
+def aviIndexMonitor(request):
+    avisos = Avisos.objects.order_by('-avi_id').filter(
+        avi_mostrar = True
+    )
+    paginator = Paginator(avisos, 10)
+
+    page = request.GET.get('p')
+    avisos = paginator.get_page(page)
+    return render(request, 'avisos/aviIndexMonitor.html', {
+        'avisos': avisos
+    })
+
+def avisoMonitor(request, aviso_id):
     aviso = get_object_or_404(Avisos, avi_id=aviso_id)
     if not aviso.avi_mostrar:
         raise Http404()
 
-    return render(request, 'avisos/avisoAluno.html', {
+    return render(request, 'avisos/avisoMonitor.html', {
         'aviso': aviso
     })
+
+
+def buscarAvisoMonitor(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+        else:
+            avisos = None
+
+        return render(request, 'avisos/buscarAvisoMonitor.html', {
+            'searched': searched,
+            'avisos': avisos
+        })
+    else:
+        return render(request, 'avisos/buscarAvisoMonitor.html', {
+
+        })
+
+#TUTOR==============================================================================================
+def aviIndexTutor(request):
+    avisos = Avisos.objects.order_by('-avi_id').filter(
+        avi_mostrar = True
+    )
+    paginator = Paginator(avisos, 10)
+
+    page = request.GET.get('p')
+    avisos = paginator.get_page(page)
+    return render(request, 'avisos/aviIndexTutor.html', {
+        'avisos': avisos
+    })
+
+def avisoTutor(request, aviso_id):
+    aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    if not aviso.avi_mostrar:
+        raise Http404()
+
+    return render(request, 'avisos/avisoTutor.html', {
+        'aviso': aviso
+    })
+
+
+def buscarAvisoTutor(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+        else:
+            avisos = None
+
+        return render(request, 'avisos/buscarAvisoTutor.html', {
+            'searched': searched,
+            'avisos': avisos
+        })
+    else:
+        return render(request, 'avisos/buscarAvisoTutor.html', {
+
+        })
+
+#INTERPRETE=========================================================================================
+def aviIndexInterprete(request):
+    avisos = Avisos.objects.order_by('-avi_id').filter(
+        avi_mostrar = True
+    )
+    paginator = Paginator(avisos, 10)
+
+    page = request.GET.get('p')
+    avisos = paginator.get_page(page)
+    return render(request, 'avisos/aviIndexInterprete.html', {
+        'avisos': avisos
+    })
+
+def avisoInterprete(request, aviso_id):
+    aviso = get_object_or_404(Avisos, avi_id=aviso_id)
+    if not aviso.avi_mostrar:
+        raise Http404()
+
+    return render(request, 'avisos/avisoInterprete.html', {
+        'aviso': aviso
+    })
+
+
+def buscarAvisoInterprete(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            avisos = Avisos.objects.order_by('-avi_id').filter(Q(avi_titulo__icontains=searched) | Q(avi_descricao__icontains=searched) )
+        else:
+            avisos = None
+
+        return render(request, 'avisos/buscarAvisoInterprete.html', {
+            'searched': searched,
+            'avisos': avisos
+        })
+    else:
+        return render(request, 'avisos/buscarAvisoInterprete.html', {
+
+        })
