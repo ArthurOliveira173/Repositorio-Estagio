@@ -1,4 +1,4 @@
-<!-- {% extends 'baseAvisos.html' %} !-->
+{% extends 'baseAdminFeedbacks.html' %}
 
 {%block conteudo%}
 <body style="background-color: #f5f7fa">
@@ -17,9 +17,9 @@
                 <div class="card-body">
                     <div class="justify-content-between p-md-1">
                         <div class="d-flex flex-row" style="text-align: left;">
-                            <div>
+                            <div class="">
                                 <h4>Contéudo:</h4>
-                                <p class="card" style="border-color: blue; min-height: 200px; min-width: 1055px;">{{ feedback.fee_descricao }}</p>
+                                <textarea class="form-control col-12" align="center" rows="5" disabled>{{ feedback.fee_descricao }}</textarea>
                             </div>
                         </div>
                         <br>

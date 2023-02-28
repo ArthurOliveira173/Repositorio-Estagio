@@ -7,7 +7,7 @@ from django.db.models import Q
 from .models import AlunoPcd, Monitor, Tutor, Interprete
 from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
 from acompanhamentos.models import Acompanhamentos
-from feedbacks.forms import FeedbacksForm
+from feedbacks.forms import FeedbacksForm, FeedbacksRespostaForm
 from feedbacks.models import Feedbacks
 
 # Create your views here.
@@ -699,15 +699,48 @@ def alunoOpenfeedback(request, feedback_id, aluno_id):
 
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     feedbacks = get_object_or_404(Feedbacks, fee_id=feedback_id)
-    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=feedbacks.fee_acompanhamento.aco_id)
+    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
+    print(feedbacks)
+    if feedbacks.fee_anterior == None:
+        return render(request, 'alunos/alunoOpenfeedback.html', {
+            'feedbacks': feedbacks,
+            'aluno': aluno,
+            'acompanhamento': acompanhamento,
+        })
 
-    print(acompanhamento)
-
+    feedbacks2 = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
+    print(feedbacks2)
     return render(request, 'alunos/alunoOpenfeedback.html', {
-        'feedbacks': feedbacks,
+        'feedbacks2': feedbacks2,
         'aluno': aluno,
         'acompanhamento': acompanhamento,
     })
+
+
+'''https://django-portuguese.readthedocs.io/en/1.0/topics/forms/modelforms.html'''
+def alunoRespostaFeedback(request):
+    submitted = False
+    context = {}
+
+    if request.POST:
+        form = FeedbacksRespostaForm(request.POST, request.FILES)
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES["avi_arquivos"])
+            form.instance.fee_anterior = 1
+            form.save()
+            return HttpResponseRedirect('alunoRespostaFeedback?submitted=True')
+        else:
+            form = FeedbacksRespostaForm()
+            form.save()
+            return HttpResponseRedirect('alunoRespostaFeedback?submitted=True')
+    else:
+        form = FeedbacksRespostaForm()
+        if 'submitted' in request.GET:
+            submitted = True
+    context['form'] = form
+    context['submitted'] = submitted
+
+    return render (request, 'alunos/alunoRespostaFeedback.html', context)
 #MONITOR_TUTOR========================================================================================
 
 def index_mon(request):
