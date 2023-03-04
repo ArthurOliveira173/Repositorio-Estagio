@@ -683,7 +683,7 @@ def alunoFeedbackAll(request, aluno_id):
 
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
-    feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
+    feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()], fee_anterior=None )
 
     paginator = Paginator(feedback, 7)
     page = request.GET.get('p')
@@ -695,26 +695,42 @@ def alunoFeedbackAll(request, aluno_id):
         'acompanhamento': acompanhamento,
     })
 
+def alunoOpenAllfeedback(request, feedback_id, aluno_id):
+
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
+    list_feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()] )
+
+    feedback = []
+    f0 = list_feedback[feedback_id - 1]
+    feedback.append(f0)
+
+    for f1 in list_feedback:
+        if f1.fee_anterior == f0.fee_id:
+            feedback.append(f1)
+            f0=f1
+
+
+    return render(request, 'alunos/alunoOpenAllfeedback.html', {
+        'feedback': feedback,
+        'aluno': aluno,
+        'acompanhamento': acompanhamento,
+
+    })
 def alunoOpenfeedback(request, feedback_id, aluno_id):
 
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
-    feedbacks = get_object_or_404(Feedbacks, fee_id=feedback_id)
-    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
-    print(feedbacks)
-    if feedbacks.fee_anterior == None:
-        return render(request, 'alunos/alunoOpenfeedback.html', {
-            'feedbacks': feedbacks,
-            'aluno': aluno,
-            'acompanhamento': acompanhamento,
-        })
+    feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
+    acompanhamento = get_object_or_404(Acompanhamentos, aco_id = feedback.fee_acompanhamento.aco_id)
 
-    feedbacks2 = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
-    print(feedbacks2)
+    if feedback.fee_proximo != None:
+        return alunoOpenAllfeedback(request, feedback_id, aluno_id)
     return render(request, 'alunos/alunoOpenfeedback.html', {
-        'feedbacks2': feedbacks2,
+        'feedback': feedback,
         'aluno': aluno,
         'acompanhamento': acompanhamento,
     })
+
 
 
 '''https://django-portuguese.readthedocs.io/en/1.0/topics/forms/modelforms.html'''
@@ -724,11 +740,12 @@ def alunoRespostaFeedback(request):
 
     if request.POST:
         form = FeedbacksRespostaForm(request.POST, request.FILES)
+
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
-            form.instance.fee_anterior = 1
             form.save()
             return HttpResponseRedirect('alunoRespostaFeedback?submitted=True')
+
         else:
             form = FeedbacksRespostaForm()
             form.save()
@@ -737,6 +754,7 @@ def alunoRespostaFeedback(request):
         form = FeedbacksRespostaForm()
         if 'submitted' in request.GET:
             submitted = True
+
     context['form'] = form
     context['submitted'] = submitted
 

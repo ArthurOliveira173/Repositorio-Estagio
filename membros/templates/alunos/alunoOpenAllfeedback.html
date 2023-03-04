@@ -23,43 +23,41 @@
                 <h5 class="text-uppercase" align="center">FEEDBACK DE NÚMERO: {{feedback.fee_id}}</h5>
             </div>
         </div>
-
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'alunoRespostaFeedback' %}" methods="POST" class="btn btn-primary mt-3">Enviar nova mensagem</a>
+        </div>
+        {% for f in feedback %}
          <div class="row" style="">
             <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
                 <div class="card mb-3">
                     <div class="card-header bg-success text-white">
                         <div class="row">
                             <div class="me-auto p-2 bd-highlight">
-                                Data: {{ feedback.fee_data|date:'d/m/Y H:i:s' }}
-                                Data: {{ feedback.fee_data|date:'d/m/Y H:i:s' }}
+                                Data: {{ f.fee_data|date:'d/m/Y H:i:s' }}
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Tipo de Feedback: {{ feedback.fee_titulo }}</h5>
-                        <textarea class="form-control " rows="5" disabled>{{feedback.fee_descricao}}</textarea>
+                        <h5 class="card-title">Tipo de Feedback: {{ f.fee_titulo }}</h5>
+                        <textarea class="form-control " rows="5" disabled>{{f.fee_descricao}}</textarea>
                         <div class="row">
                             <h5 class="col-12">Esse feedback foi gerado durante:</h5>
                             <div class="ms-auto p-2 bd-highlight flex-row-reverse col-6">
-                                <p class="flex-row-reverse">Acompanhamento de Número: {{ acompanhamento.aco_id}}</p>
-                                <p class="flex-row-reverse">Inicio do acompanhamento: {{ acompanhamento.aco_inicio|date:'d/m/Y' }}</p>
-                                <p class="flex-row-reverse">Fim do acompanhamento: {{ acompanhamento.aco_fim|date:'d/m/Y' }}</p>
+                                <p class="flex-row-reverse">Acompanhamento de Número: {{ f.fee_acompanhamento.aco_id}}</p>
+                                <p class="flex-row-reverse">Inicio do acompanhamento: {{ f.fee_acompanhamento.aco_inicio|date:'d/m/Y' }}</p>
+                                <p class="flex-row-reverse">Fim do acompanhamento: {{ f.fee_acompanhamento.aco_fim|date:'d/m/Y' }}</p>
                             </div>
                             <div class="ms-auto p-2 bd-highlight flex-row-reverse">
-                                <p class="flex-row-reverse">ID: {{ feedback.fee_id }}</p>
-                                <p class="flex-row-reverse">anterior: {{ feedback.fee_anterior }}</p>
-                                <p class="flex-row-reverse">proximos: {{ feedback.fee_proximo }}</p>
+                                <p class="flex-row-reverse">ID: {{ f.fee_id }}</p>
+                                <p class="flex-row-reverse">anterior: {{ f.fee_anterior }}</p>
+                                <p class="flex-row-reverse">proximos: {{ f.fee_proximo }}</p>
                             </div>
-                        </div>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'alunoFeedback'%}" methods="GET"
-                               class="btn btn-primary mt-3">Responder</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        {% endfor %}
     </section>
 </div>
 {%endblock%}
