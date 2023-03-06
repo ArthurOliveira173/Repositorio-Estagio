@@ -11,7 +11,7 @@ from .forms import AcompanhamentosForm, AcoMonitoriasForm, AcoTutoriasForm, AcoI
 #         for chunk in f.chunks():
 #             destination.write(chunk)
 
-#ALUNOS========================================================================================
+#ADMIN=========================================================================================
 
 def acoIndex(request):
     acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
@@ -109,8 +109,6 @@ def deletarAcompanhamento(request, acompanhamento_id):
     acompanhamento.delete()
     return redirect('acoIndex')
 
-#DISCIPLINAS===================================================================================
-
 def acoDisIndex(request):
     disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
     paginator = Paginator(disciplinas, 10)
@@ -181,8 +179,6 @@ def deletarDisciplina(request, disciplina_id):
     disciplina = get_object_or_404(AcompanhamentoDisciplinas, AsDis_id=disciplina_id)
     disciplina.delete()
     return redirect('acoDisIndex')
-
-#INTERPRETES===================================================================================
 
 def acoIntIndex(request):
     interpretacoes = AcompanhamentoInterpretes.objects.order_by('-AsInt_id')
@@ -255,8 +251,6 @@ def deletarInterpretacao(request, interpretacao_id):
     interpretacao.delete()
     return redirect('acoIntIndex')
 
-#MONITORES=====================================================================================
-
 def acoMonIndex(request):
     monitorias = AcompanhamentoMonitores.objects.order_by('-AsMon_id')
     paginator = Paginator(monitorias, 10)
@@ -328,8 +322,6 @@ def deletarMonitoria(request, monitoria_id):
     monitoria.delete()
     return redirect('acoMonIndex')
 
-#TUTORES=======================================================================================
-
 def acoTutIndex(request):
     tutorias = AcompanhamentoTutores.objects.order_by('-AsTut_id')
     paginator = Paginator(tutorias, 10)
@@ -400,3 +392,267 @@ def deletarTutoria(request, tutoria_id):
     tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_id=tutoria_id)
     tutoria.delete()
     return redirect('acoTutIndex')
+
+#MONITORES=====================================================================================
+def acoIndexMonitor(request):
+    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
+    paginator = Paginator(acompanhamentos, 10)
+
+    page = request.GET.get('p')
+    acompanhamentos = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoIndexMonitor.html', {
+        'acompanhamentos': acompanhamentos
+    })
+
+def acoDisIndexMonitor(request):
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
+    paginator = Paginator(disciplinas, 10)
+
+    page = request.GET.get('p')
+    disciplinas = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoDisIndexMonitor.html', {
+        'disciplinas': disciplinas
+    })
+
+def acompanhamentoMonitor(request, acompanhamento_id):
+    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
+    try:
+        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+    except:
+        monitoria = None
+    try:
+        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+    except:
+        tutoria = None
+    try:
+        interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_acompanhamento=acompanhamento)
+    except:
+        interpretacoes = None
+    try:
+        disciplinas = AcompanhamentoDisciplinas.objects.filter(AsDis_acompanhamento=acompanhamento)
+    except:
+        disciplinas = None
+
+    return render(request, 'acompanhamentos/acompanhamentoMonitor.html', {
+        'acompanhamento': acompanhamento,
+        'monitoria': monitoria,
+        'tutoria': tutoria,
+        'interpretacoes': interpretacoes,
+        'disciplinas': disciplinas
+    })
+
+def buscarAcompanhamentoMonitor(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
+                Q(aco_semestre__icontains=searched) | Q(aco_aluno_pcd__alu_nome__icontains=searched)
+            )
+        else:
+            acompanhamentos = None
+
+        return render(request, 'acompanhamentos/buscarAcompanhamentoMonitor.html', {
+            'searched': searched,
+            'acompanhamentos': acompanhamentos
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarAcompanhamentoMonitor.html', {
+
+        })
+
+def buscarDisciplinaMonitor(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+                Q(AsDis_disciplina__dis_nome__icontains=searched) |
+                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+            )
+        else:
+            disciplinas = None
+
+        return render(request, 'acompanhamentos/buscarDisciplinaMonitor.html', {
+            'searched': searched,
+            'disciplinas': disciplinas
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarDisciplinaMonitor.html', {
+
+        })
+
+#TUTORES=======================================================================================
+def acoIndexTutor(request):
+    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
+    paginator = Paginator(acompanhamentos, 10)
+
+    page = request.GET.get('p')
+    acompanhamentos = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoIndexTutor.html', {
+        'acompanhamentos': acompanhamentos
+    })
+
+def acoDisIndexTutor(request):
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
+    paginator = Paginator(disciplinas, 10)
+
+    page = request.GET.get('p')
+    disciplinas = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoDisIndexTutor.html', {
+        'disciplinas': disciplinas
+    })
+
+def acompanhamentoTutor(request, acompanhamento_id):
+    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
+    try:
+        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+    except:
+        monitoria = None
+    try:
+        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+    except:
+        tutoria = None
+    try:
+        interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_acompanhamento=acompanhamento)
+    except:
+        interpretacoes = None
+    try:
+        disciplinas = AcompanhamentoDisciplinas.objects.filter(AsDis_acompanhamento=acompanhamento)
+    except:
+        disciplinas = None
+
+    return render(request, 'acompanhamentos/acompanhamentoTutor.html', {
+        'acompanhamento': acompanhamento,
+        'monitoria': monitoria,
+        'tutoria': tutoria,
+        'interpretacoes': interpretacoes,
+        'disciplinas': disciplinas
+    })
+
+def buscarAcompanhamentoTutor(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
+                Q(aco_semestre__icontains=searched) | Q(aco_aluno_pcd__alu_nome__icontains=searched)
+            )
+        else:
+            acompanhamentos = None
+
+        return render(request, 'acompanhamentos/buscarAcompanhamentoTutor.html', {
+            'searched': searched,
+            'acompanhamentos': acompanhamentos
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarAcompanhamentoTutor.html', {
+
+        })
+
+def buscarDisciplinaTutor(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+                Q(AsDis_disciplina__dis_nome__icontains=searched) |
+                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+            )
+        else:
+            disciplinas = None
+
+        return render(request, 'acompanhamentos/buscarDisciplinaTutor.html', {
+            'searched': searched,
+            'disciplinas': disciplinas
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarDisciplinaTutor.html', {
+
+        })
+
+#INTERPRETES===================================================================================
+def acoIndexInterprete(request):
+    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
+    paginator = Paginator(acompanhamentos, 10)
+
+    page = request.GET.get('p')
+    acompanhamentos = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoIndexInterprete.html', {
+        'acompanhamentos': acompanhamentos
+    })
+
+def acoDisIndexInterprete(request):
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
+    paginator = Paginator(disciplinas, 10)
+
+    page = request.GET.get('p')
+    disciplinas = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoDisIndexInterprete.html', {
+        'disciplinas': disciplinas
+    })
+
+def acompanhamentoInterprete(request, acompanhamento_id):
+    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
+    try:
+        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+    except:
+        monitoria = None
+    try:
+        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+    except:
+        tutoria = None
+    try:
+        interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_acompanhamento=acompanhamento)
+    except:
+        interpretacoes = None
+    try:
+        disciplinas = AcompanhamentoDisciplinas.objects.filter(AsDis_acompanhamento=acompanhamento)
+    except:
+        disciplinas = None
+
+    return render(request, 'acompanhamentos/acompanhamentoInterprete.html', {
+        'acompanhamento': acompanhamento,
+        'monitoria': monitoria,
+        'tutoria': tutoria,
+        'interpretacoes': interpretacoes,
+        'disciplinas': disciplinas
+    })
+
+def buscarAcompanhamentoInterprete(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
+                Q(aco_semestre__icontains=searched) | Q(aco_aluno_pcd__alu_nome__icontains=searched)
+            )
+        else:
+            acompanhamentos = None
+
+        return render(request, 'acompanhamentos/buscarAcompanhamentoInterprete.html', {
+            'searched': searched,
+            'acompanhamentos': acompanhamentos
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarAcompanhamentoInterprete.html', {
+
+        })
+
+def buscarDisciplinaInterprete(request):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+                Q(AsDis_disciplina__dis_nome__icontains=searched) |
+                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+            )
+        else:
+            disciplinas = None
+
+        return render(request, 'acompanhamentos/buscarDisciplinaInterprete.html', {
+            'searched': searched,
+            'disciplinas': disciplinas
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarDisciplinaInterprete.html', {
+
+        })

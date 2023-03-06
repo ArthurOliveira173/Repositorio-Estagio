@@ -1,10 +1,9 @@
-{% extends 'baseAdmin.html' %}
+{% extends 'baseInterprete.html' %}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos" role="button">Voltar</a>
-    <a class="btn btn-primary" style="margin-right: 30px" href="/acompanhamentos/adicionarAcompanhamento" role="button">Iniciar acompanhamento</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos/acoIndexInterprete" role="button">Voltar</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarAcompanhamento' %}">
+          method="POST" action="{% url 'buscarAcompanhamentoInterprete' %}">
         <div class="input-group">
             {% csrf_token %}
             <input type="search" class="form-control bg-light border-0 small" placeholder="Busque acompanhamentos aqui..."
@@ -79,7 +78,6 @@
                                     <th scope="col">Semestre</th>
                                     <th scope="col">Data de Início</th>
                                     <th scope="col">Data de Encerramento</th>
-                                    <th scope="col">Operações</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -91,40 +89,6 @@
                                       <td>{{ acompanhamento.aco_semestre }}</td>
                                       <td>{{ acompanhamento.aco_inicio }}</td>
                                       <td>{{ acompanhamento.aco_fim }}</td>
-                                      <td>
-                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarAcompanhamento' acompanhamento.aco_id %}" role="button">
-                                          Editar
-                                        </a>
-                                        <!-- Button trigger modal -->
-                                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ acompanhamento.aco_id }}" role="button">
-                                          Excluir
-                                        </a>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteModal{{ acompanhamento.aco_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
-                                                <h5 class="modal-title" id="deleteModalLabel">Excluindo acompanhamento</h5>
-                                                <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                Tem certeza que deseja excluir o acompanhamento {{ acompanhamento }}?
-                                              </div>
-                                              <div class="modal-body" style="color: red;">
-                                                Esta ação é permanente.
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <a class="btn btn-danger text-white" href="{% url 'deletarAcompanhamento' acompanhamento.aco_id %}" role="button">
-                                                  Excluir
-                                                </a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
                                     </tr>
                                   {% endfor %}
                                 </tbody>

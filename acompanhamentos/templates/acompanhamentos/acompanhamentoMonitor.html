@@ -1,9 +1,9 @@
-{% extends 'baseAdmin.html' %}
+{% extends 'baseMonitor.html' %}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos" role="button">Voltar</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos/acoIndexMonitor" role="button">Voltar</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarAcompanhamento' %}">
+          method="POST" action="{% url 'buscarAcompanhamentoMonitor' %}">
         <div class="input-group">
             {% csrf_token %}
             <input type="search" class="form-control bg-light border-0 small" placeholder="Busque acompanhamentos aqui..."
@@ -45,11 +45,11 @@
                         <div class="d-flex flex-row justify-content-between" style="text-align: left;">
                             <div class="d-flex flex-row">
                                 <h4>Monitor atual:</h4>
-                                <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ monitoria.AsMon_monitor }} ({{ monitoria.AsMon_monitor.mon_cpf }})</p>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ monitoria.AsMon_monitor }}</p>
                             </div>
                             <div class="d-flex flex-row">
                                 <h4>Tutor atual:</h4>
-                                <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutoria.AsTut_tutor }} ({{ tutoria.AsTut_tutor.tut_cpf }})</p>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 5px">{{ tutoria.AsTut_tutor }}</p>
                             </div>
                         </div>
                     </div>

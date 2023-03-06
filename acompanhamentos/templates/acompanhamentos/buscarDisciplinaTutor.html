@@ -1,10 +1,9 @@
-{% extends 'baseAdmin.html' %}
+{% extends 'baseTutor.html' %}
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos/disciplinas" role="button">Voltar</a>
-    <a class="btn btn-primary" style="margin-right: 30px" href="/acompanhamentos/adicionarDisciplina" role="button">Vincular disciplina</a>
+    <a class="btn btn-secondary" style="margin-right: 30px; margin-left: 30px;" href="/acompanhamentos/disciplinasTutor" role="button">Voltar</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarDisciplina' %}">
+          method="POST" action="{% url 'buscarDisciplinaTutor' %}">
         <div class="input-group">
             {% csrf_token %}
             <input type="search" class="form-control bg-light border-0 small" placeholder="Busque disciplinas aqui..."
@@ -77,7 +76,6 @@
                                     <th scope="col">Disciplina</th>
                                     <th scope="col">Acompanhamento</th>
                                     <th scope="col">Carga Horária</th>
-                                    <th scope="col">Operações</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -86,40 +84,6 @@
                                       <td>{{ disciplina.AsDis_disciplina }}</td>
                                       <td>{{ disciplina.AsDis_acompanhamento }}</td>
                                       <td>{{ disciplina.AsDis_disciplina.dis_carga_horaria }} Horas</td>
-                                      <td>
-                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarDisciplina' disciplina.AsDis_id %}" role="button">
-                                          Editar
-                                        </a>
-                                        <!-- Button trigger modal -->
-                                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ disciplina.AsDis_id }}" role="button">
-                                          Excluir
-                                        </a>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteModal{{ disciplina.AsDis_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
-                                                <h5 class="modal-title" id="deleteModalLabel">Excluindo disciplina</h5>
-                                                <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                Tem certeza que deseja excluir a disciplina {{ disciplina.AsDis_disciplina }} do acompanhamento {{ disciplina.AsDis_acompanhamento }}?
-                                              </div>
-                                              <div class="modal-body" style="color: red;">
-                                                Esta ação é permanente.
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <a class="btn btn-danger text-white" href="{% url 'deletarDisciplina' disciplina.AsDis_id %}" role="button">
-                                                  Excluir
-                                                </a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
                                     </tr>
                                   {% endfor %}
                                 </tbody>
