@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="{% url 'alunoRespostaFeedback' %}" methods="POST" class="btn btn-primary mt-3">Enviar nova mensagem</a>
+            <a href="{% url 'alunoRespostaFeedback' ultimo_feedback.fee_id %}" methods="GET" class="btn btn-primary mt-3">Enviar nova mensagem</a>
         </div>
         {% for f in feedback %}
          <div class="row" style="">

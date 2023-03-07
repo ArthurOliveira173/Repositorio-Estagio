@@ -9,7 +9,7 @@ from .forms import AlunosForm, MonitoresForm, TutoresForm, InterpretesForm
 from acompanhamentos.models import Acompanhamentos
 from feedbacks.forms import FeedbacksForm, FeedbacksRespostaForm
 from feedbacks.models import Feedbacks
-
+from django.contrib import messages
 # Create your views here.
 #ADMIN================================================================================================
 
@@ -699,23 +699,24 @@ def alunoOpenAllfeedback(request, feedback_id, aluno_id):
 
     aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
-    list_feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()] )
+    list_feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
 
     feedback = []
     f0 = list_feedback[feedback_id - 1]
     feedback.append(f0)
-
+    ultimo_feedback = None
     for f1 in list_feedback:
         if f1.fee_anterior == f0.fee_id:
             feedback.append(f1)
             f0=f1
-
+        if f1.fee_proximo == None:
+            ultimo_feedback = f1
 
     return render(request, 'alunos/alunoOpenAllfeedback.html', {
         'feedback': feedback,
         'aluno': aluno,
         'acompanhamento': acompanhamento,
-
+        'ultimo_feedback': ultimo_feedback,
     })
 def alunoOpenfeedback(request, feedback_id, aluno_id):
 
@@ -729,12 +730,13 @@ def alunoOpenfeedback(request, feedback_id, aluno_id):
         'feedback': feedback,
         'aluno': aluno,
         'acompanhamento': acompanhamento,
+        'ultimo_feedback': feedback,
     })
 
 
 
 '''https://django-portuguese.readthedocs.io/en/1.0/topics/forms/modelforms.html'''
-def alunoRespostaFeedback(request):
+def alunoRespostaFeedback(request, feedback_id):
     submitted = False
     context = {}
 
@@ -742,9 +744,18 @@ def alunoRespostaFeedback(request):
         form = FeedbacksRespostaForm(request.POST, request.FILES)
 
         if form.is_valid():
-            # handle_uploaded_file(request.FILES["avi_arquivos"])
-            form.save()
-            return HttpResponseRedirect('alunoRespostaFeedback?submitted=True')
+            Feedbackform = form.save(commit=False)
+            ultimo_feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
+
+            Feedbackform.fee_anterior = ultimo_feedback.fee_id
+            Feedbackform.fee_acompanhamento = ultimo_feedback.fee_acompanhamento
+
+
+            Feedbackform.save()
+            print(Feedbackform.fee_id)
+            ultimo_feedback.fee_proximo = Feedbackform.fee_id
+            ultimo_feedback.save()
+            return redirect('alunoFeedbackAll', aluno_id=1)
 
         else:
             form = FeedbacksRespostaForm()
@@ -758,7 +769,7 @@ def alunoRespostaFeedback(request):
     context['form'] = form
     context['submitted'] = submitted
 
-    return render (request, 'alunos/alunoRespostaFeedback.html', context)
+    return render(request, 'alunos/alunoRespostaFeedback.html', context)
 #MONITOR_TUTOR========================================================================================
 
 def index_mon(request):
