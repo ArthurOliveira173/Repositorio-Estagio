@@ -711,7 +711,7 @@ def alunoOpenAllfeedback(request, feedback_id, aluno_id):
             f0=f1
         if f1.fee_proximo == None:
             ultimo_feedback = f1
-
+    feedback = reversed(feedback)
     return render(request, 'alunos/alunoOpenAllfeedback.html', {
         'feedback': feedback,
         'aluno': aluno,
@@ -736,7 +736,7 @@ def alunoOpenfeedback(request, feedback_id, aluno_id):
 
 
 '''https://django-portuguese.readthedocs.io/en/1.0/topics/forms/modelforms.html'''
-def alunoRespostaFeedback(request, feedback_id):
+def alunoRespostaFeedback(request, aluno_id, feedback_id):
     submitted = False
     context = {}
 
@@ -766,8 +766,10 @@ def alunoRespostaFeedback(request, feedback_id):
         if 'submitted' in request.GET:
             submitted = True
 
+    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
     context['form'] = form
     context['submitted'] = submitted
+    context['aluno'] = aluno
 
     return render(request, 'alunos/alunoRespostaFeedback.html', context)
 #MONITOR_TUTOR========================================================================================

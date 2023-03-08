@@ -65,7 +65,7 @@ urlpatterns = [
     path('alunos/alunoFeedbackAll/<int:aluno_id>', views.alunoFeedbackAll, name='alunoFeedbackAll'),
     path('alunos/alunoFeedbackAll/<int:aluno_id>/alunoOpenfeedback/<int:feedback_id>', views.alunoOpenfeedback, name='alunoOpenfeedback'),
     path('alunos/alunoFeedbackAll/<int:aluno_id>/alunoOpenAllfeedback/<int:feedback_id>', views.alunoOpenAllfeedback, name='alunoOpenAllfeedback'),
-    path('alunos/alunoRespostaFeedback/<int:feedback_id>/', views.alunoRespostaFeedback, name='alunoRespostaFeedback'),
+    path('alunos/alunoRespostaFeedback/<int:aluno_id><int:feedback_id>/', views.alunoRespostaFeedback, name='alunoRespostaFeedback'),
 
 
     #Monitor_tutor

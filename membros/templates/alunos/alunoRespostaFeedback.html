@@ -10,6 +10,10 @@
 </a>
 {%endblock%}
 
+{%block opcoes%}
+    <a class="btn btn-secondary" style="margin-right: 30px"href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">Voltar</a>
+{%endblock%}
+
 {%block conteudo%}
 <div style=" margin-right: 150px; margin-left: 150px; margin-top: 50px">
     <h1 style="text-align: center;">Reportar Feedback</h1>

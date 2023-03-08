@@ -11,7 +11,7 @@
 {%endblock%}
 
 {%block opcoes%}
-    <a class="btn btn-primary" style="margin-right: 30px"href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">Voltar</a>
+    <a class="btn btn-secondary" style="margin-right: 30px"href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">Voltar</a>
 {%endblock%}
 
 {%block conteudo%}
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'alunoRespostaFeedback' feedback.fee_id %}" methods="GET"
+                            <a href="{% url 'alunoRespostaFeedback' aluno.alu_id feedback.fee_id %}" methods="GET"
                                class="btn btn-primary mt-3">Responder</a>
                         </div>
                     </div>

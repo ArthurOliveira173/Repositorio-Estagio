@@ -9,6 +9,11 @@
     <div class="sidebar-brand-text mx-3">Sistema Estágio</sup></div>
 </a>
 {%endblock%}
+
+{%block opcoes%}
+    <a class="btn btn-secondary" style="margin-right: 30px"href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">Voltar</a>
+{%endblock%}
+
 {%block conteudo%}
 
 <div class="container-fluid" align="">

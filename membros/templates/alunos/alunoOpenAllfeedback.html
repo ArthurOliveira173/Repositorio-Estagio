@@ -11,7 +11,10 @@
 {%endblock%}
 
 {%block opcoes%}
-    <a class="btn btn-primary" style="margin-right: 30px"href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">Voltar</a>
+    <a class="btn btn-secondary" style="margin-right: 30px" href="{% url 'alunoFeedbackAll' aluno.alu_id %}" role="button">Voltar</a>
+
+    <a  style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' aluno.alu_id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar nova mensagem</a>
+
 {%endblock%}
 
 {%block conteudo%}
@@ -23,9 +26,7 @@
                 <h5 class="text-uppercase" align="center">FEEDBACK DE NÚMERO: {{feedback.fee_id}}</h5>
             </div>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="{% url 'alunoRespostaFeedback' ultimo_feedback.fee_id %}" methods="GET" class="btn btn-primary mt-3">Enviar nova mensagem</a>
-        </div>
+
         {% for f in feedback %}
          <div class="row" style="">
             <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
