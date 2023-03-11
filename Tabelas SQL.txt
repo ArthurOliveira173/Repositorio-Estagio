@@ -90,6 +90,7 @@ create table if not exists ADMINISTRADOR (
     adm_nome varchar(255) not null,
     adm_cpf char(11) not null,
     adm_email varchar(255) not null,
+    adm_usuario int,
     permissao int,
     primary key(adm_id)
 );
@@ -210,6 +211,7 @@ create table if not exists RELATORIOS_MONITORIA (
 	relM_id int not null auto_increment,
     relM_titulo varchar(255) not null,
     relM_data datetime not null,
+    relM_verificado bool,
     relM_arquivo mediumtext,
     relM_monitoria int,
     primary key(relM_id),
@@ -220,6 +222,7 @@ create table if not exists RELATORIOS_TUTORIA (
 	relT_id int not null auto_increment,
     relT_titulo varchar(255) not null,
     relT_data datetime not null,
+    relT_verificado bool,
     relT_arquivo mediumtext,
     relT_tutoria int,
     primary key(relT_id),
