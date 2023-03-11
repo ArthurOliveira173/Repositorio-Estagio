@@ -11,9 +11,9 @@ class AvisosForm(ModelForm):
 
         labels = {
             'avi_titulo': 'Digite o nome do aviso',
-            'avi_descricao': 'Digite a descricao do aviso',
+            'avi_descricao': 'Digite a descriçâo do aviso',
             'avi_arquivos': 'Anexe um arquivo abaixo',
-            'avi_mostrar': 'Defina o estado de visualizacao',
+            'avi_mostrar': 'Defina o estado de visualização',
         }
         widgets = {
             'avi_titulo': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Titulo'}),

@@ -89,6 +89,7 @@
                                 <th scope="col">Título</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Tutoria</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Arquivo</th>
                                 <th scope="col">Operações</th>
                               </tr>
@@ -99,6 +100,11 @@
                                   <td>{{ relatorioT.relT_titulo }}</td>
                                   <td>{{ relatorioT.relT_data|date:'d/m/Y H:i:s' }}</td>
                                   <td>{{ relatorioT.relT_tutoria }}</td>
+                                  {% if relatorioT.relT_verificado == True %}
+                                      <td>Verificado</td>
+                                  {% else %}
+                                      <td>Pendente</td>
+                                  {% endif %}
                                   <td>
                                       {% if relatorioT.relT_Arquivo %}
                                         <a style="color:black;" type="button" class="btn-link" href="{% url 'baixarFileRelatorio' relatorioT.relT_Arquivo %}">{{ relatorioT.relT_Arquivo }}</a>

@@ -1,8 +1,9 @@
-{% extends 'baseAdmin.html' %}
+{% extends 'baseMonitor.html' %}
 
 {%block opcoes%}
+    <a class="btn btn-primary" style="margin-right: 30px" href="/relatorios/adicionarRelatorioMonitor" role="button">Enviar relatório</a>
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarRelatorioM' %}">
+          method="POST" action="{% url 'buscarRelatorioMonitor' user.id %}">
         <div class="input-group">
             {% csrf_token %}
             <input type="search" class="form-control bg-light border-0 small" placeholder="Busque relatórios aqui..."
@@ -77,6 +78,10 @@
             <h1 class="h3 mb-4 text-gray-800">Relatórios de Monitoria</h1>
         </div>
         <section>
+            {% if searched and relatoriosM %}
+            <div class="col-12 mt-3 mb-1" align="center">
+                <h4>Buscando por "{{ searched }}"</h4>
+            </div>
             <div class="container" style="margin-top:25px">
                 <div class="row justify-content-center">
                   <div class="col-12">
@@ -88,7 +93,6 @@
                               <tr class="text-white">
                                 <th scope="col">Título</th>
                                 <th scope="col">Data</th>
-                                <th scope="col">Monitoria</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Arquivo</th>
                                 <th scope="col">Operações</th>
@@ -99,50 +103,55 @@
                                 <tr>
                                   <td>{{ relatorioM.relM_titulo }}</td>
                                   <td>{{ relatorioM.relM_data|date:'d/m/Y H:i:s' }}</td>
-                                  <td>{{ relatorioM.relM_monitoria }}</td>
-                                  {% if relatorioM.relM_verificado == True %}
-                                      <td>Verificado</td>
-                                  {% else %}
-                                      <td>Pendente</td>
-                                  {% endif %}
                                   <td>
-                                      {% if relatorioM.relM_Arquivo %}
-                                        <a style="color:black;" type="button" class="btn-link" href="{% url 'baixarFileRelatorio' relatorioM.relM_Arquivo %}">{{ relatorioM.relM_Arquivo }}</a>
+                                      {% if relatorioM.relM_verificado == True %}
+                                          Verificado
+                                      {% else %}
+                                          Pendente
+                                      {% endif %}
+                                  </td>
+                                  <td>
+                                      {% if relatorioM.relM_arquivo %}
+                                        <a style="color:black;" type="button" class="btn-link" href="{% url 'baixarFileRelatorio' relatorioM.relM_arquivo %}">{{ relatorioM.relM_arquivo }}</a>
                                       {% else %}
                                         <p class="mb-0">Não há arquivo</p>
                                       {% endif %}
                                   </td>
                                   <td>
-                                    <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioM' relatorioM.relM_id %}" role="button">Editar</a>
-                                    <!-- Button trigger modal -->
-                                    <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ relatorioM.relM_id }}" role="button">
-                                      Excluir
-                                    </a>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="deleteModal{{ relatorioM.relM_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
-                                            <h5 class="modal-title" id="deleteModalLabel">Excluindo relatório</h5>
-                                            <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">&times;</span>
-                                            </button>
-                                          </div>
-                                          <div class="modal-body">
-                                            Tem certeza que deseja excluir {{ relatorioM.relM_titulo }}?
-                                          </div>
-                                          <div class="modal-body" style="color: red;">
-                                            Esta ação é permanente.
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                            <a class="btn btn-danger text-white" href="{% url 'deletarRelatorioM' relatorioM.relM_id %}" role="button">
-                                                Excluir
-                                            </a>
+                                    {% if relatorioM.relM_verificado == True %}
+                                        <a class="btn btn-primary text-white " href="{% url 'ajudaVerificadoM' %}" role="button">Ajuda</a>
+                                    {% else %}
+                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioM' relatorioM.relM_id %}" role="button">Editar</a>
+                                        <!-- Button trigger modal -->
+                                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ relatorioM.relM_id }}" role="button">
+                                          Excluir
+                                        </a>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="deleteModal{{ relatorioM.relM_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                                <h5 class="modal-title" id="deleteModalLabel">Excluindo relatório</h5>
+                                                <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                Tem certeza que deseja excluir {{ relatorioM.relM_titulo }}?
+                                              </div>
+                                              <div class="modal-body" style="color: red;">
+                                                Esta ação é permanente.
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                <a class="btn btn-danger text-white" href="{% url 'deletarRelatorioMonitor' relatorioM.relM_id %}" role="button">
+                                                    Excluir
+                                                </a>
+                                              </div>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </div>
+                                    {% endif %}
                                   </td>
                                 </tr>
                               {% endfor %}
@@ -154,21 +163,11 @@
                   </div>
                 </div>
             </div>
-        </section>
-      <div class="pagination center">
-        <ul class="pagination center">
-          {% for pagina in relatoriosM.paginator.page_range %}
-            {% if relatoriosM.number == pagina %}
-              <li
-                      class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
-              </li>
             {% else %}
-              <li
-                      class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
-              </li>
+                <div align="center">
+                    <h4>Nenhuma busca realizada! Primeiramente digite alguma parte do título do relatório</h4>
+                </div>
             {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
+        </section>
     </body>
 {%endblock%}
