@@ -23,6 +23,30 @@ def baixarFileRelatorio(request, filename):
 
 #ADMIN==============================================================================================
 
+def ativaVerificadoM(request, relM_id):
+    relatorioM = get_object_or_404(RelatoriosMon, relM_id=relM_id)
+    relatorioM.verificar(request)
+    messages.success(request, "Relatório verificado! novas alteraçõees não podem ser realizadas.")
+    return redirect('relMIndex')
+
+def desativaVerificadoM(request, relM_id):
+    relatorioM = get_object_or_404(RelatoriosMon, relM_id=relM_id)
+    relatorioM.reverter(request)
+    messages.success(request, "Verificação revertida! alterações podem ser realizadas novamente.")
+    return redirect('relMIndex')
+
+def ativaVerificadoT(request, relT_id):
+    relatorioT = get_object_or_404(RelatoriosTut, relT_id=relT_id)
+    relatorioT.verificar(request)
+    messages.success(request, "Relatório verificado! novas alteraçõees não podem ser realizadas.")
+    return redirect('relTIndex')
+
+def desativaVerificadoT(request, relT_id):
+    relatorioT = get_object_or_404(RelatoriosTut, relT_id=relT_id)
+    relatorioT.reverter(request)
+    messages.success(request, "Verificação revertida! alterações podem ser realizadas novamente.")
+    return redirect('relTIndex')
+
 def relMIndex(request):
     relatoriosM = RelatoriosMon.objects.order_by('-relM_id')
     paginator = Paginator(relatoriosM, 10)
@@ -101,7 +125,7 @@ def deletarRelatorioM(request, relM_id):
     return redirect('relMIndex')
 
 def deletarRelatorioT(request, relT_id):
-    relatorioT = get_object_or_404(RelatoriosMon, relT_id=relT_id)
+    relatorioT = get_object_or_404(RelatoriosTut, relT_id=relT_id)
     arquivo_nome = relatorioT.relT_arquivo
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filepath = BASE_DIR + '\\uploads\\' + str(arquivo_nome)
@@ -125,9 +149,9 @@ def relMIndexMonitor(request, user_id):
     try:
         user = get_object_or_404(CustomUser, id=user_id)
         monitor = get_object_or_404(Monitor, mon_usuario=user)
-        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_monitor=monitor)
+        monitorias = AcompanhamentoMonitores.objects.filter(AsMon_monitor=monitor)
         relatoriosM = RelatoriosMon.objects.order_by('-relM_id').filter(
-            relM_monitoria=monitoria
+            relM_monitoria__in=[m.AsMon_id for m in monitorias.all()]
         )
         paginator = Paginator(relatoriosM, 10)
 
@@ -143,9 +167,9 @@ def relTIndexTutor(request, user_id):
     try:
         user = get_object_or_404(CustomUser, id=user_id)
         tutor = get_object_or_404(Tutor, tut_usuario=user)
-        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_tutor=tutor)
+        tutorias = AcompanhamentoTutores.objects.filter(AsTut_tutor=tutor)
         relatoriosT = RelatoriosTut.objects.order_by('-relT_id').filter(
-            relT_tutoria=tutoria
+            relT_tutoria__in=[t.AsTut_id for t in tutorias.all()]
         )
         paginator = Paginator(relatoriosT, 10)
 
@@ -184,7 +208,7 @@ def adicionarRelatorioTutor(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Relatório enviado com sucesso!")
-            return redirect('relMIndexTutor', user.id)
+            return redirect('relTIndexTutor', user.id)
         else:
             form = RelatoriosTutForm(request.POST)
             messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
@@ -195,7 +219,7 @@ def adicionarRelatorioTutor(request):
     context['form'] = form
     return render(request, 'relatorios/adicionarRelatorioTutor.html', context)
 
-def atualizarRelatorioM(request, relatorioM_id):
+def atualizarRelatorioMonitor(request, relatorioM_id):
     user = request.user
     relatorioM = get_object_or_404(RelatoriosMon, relM_id=relatorioM_id)
 
@@ -207,12 +231,12 @@ def atualizarRelatorioM(request, relatorioM_id):
     else:
         form = RelatoriosMonForm(instance=relatorioM)
 
-    return render(request, 'relatorios/atualizarRelatorioM.html', {
+    return render(request, 'relatorios/atualizarRelatorioMonitor.html', {
         'relatorioM': relatorioM,
         'form': form
     })
 
-def atualizarRelatorioT(request, relatorioT_id):
+def atualizarRelatorioTutor(request, relatorioT_id):
     user = request.user
     relatorioT = get_object_or_404(RelatoriosTut, relT_id=relatorioT_id)
 
@@ -224,7 +248,7 @@ def atualizarRelatorioT(request, relatorioT_id):
     else:
         form = RelatoriosTutForm(instance=relatorioT)
 
-    return render(request, 'relatorios/atualizarRelatorioT.html', {
+    return render(request, 'relatorios/atualizarRelatorioTutor.html', {
         'relatorioT': relatorioT,
         'form': form
     })
@@ -236,8 +260,9 @@ def buscarRelatorioMonitor(request, user_id):
             try:
                 user = get_object_or_404(CustomUser, id=user_id)
                 monitor = get_object_or_404(Monitor, mon_usuario=user)
-                monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_monitor=monitor)
-                relatoriosM = RelatoriosMon.objects.order_by('-relM_id').filter(Q(relM_titulo__icontains=searched)).filter(relM_monitoria=monitoria)
+                monitorias = AcompanhamentoMonitores.objects.filter(AsMon_monitor=monitor)
+                relatoriosM = RelatoriosMon.objects.order_by('-relM_id').filter(
+                    Q(relM_titulo__icontains=searched)).filter(relM_monitoria__in=[m.AsMon_id for m in monitorias.all()])
             except:
                 relatoriosM = None
         else:
@@ -252,20 +277,27 @@ def buscarRelatorioMonitor(request, user_id):
 
         })
 
-def buscarRelatorioTutor(request):
+def buscarRelatorioTutor(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
-            relatoriosT = RelatoriosTut.objects.order_by('-relT_id').filter(Q(relT_titulo__icontains=searched))
+            try:
+                user = get_object_or_404(CustomUser, id=user_id)
+                tutor = get_object_or_404(Tutor, tut_usuario=user)
+                tutorias = AcompanhamentoTutores.objects.filter(AsTut_tutor=tutor)
+                relatoriosT = RelatoriosTut.objects.order_by('-relT_id').filter(
+                    Q(relT_titulo__icontains=searched)).filter(relT_tutoria__in=[t.AsTut_id for t in tutorias.all()])
+            except:
+                relatoriosT = None
         else:
             relatoriosT = None
 
-        return render(request, 'relatorios/buscarRelatorioT.html', {
+        return render(request, 'relatorios/buscarRelatorioTutor.html', {
             'searched': searched,
             'relatoriosT': relatoriosT
         })
     else:
-        return render(request, 'relatorios/buscarRelatorioT.html', {
+        return render(request, 'relatorios/buscarRelatorioTutor.html', {
 
         })
 
@@ -276,15 +308,21 @@ def deletarRelatorioMonitor(request, relM_id):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filepath = BASE_DIR + '\\uploads\\' + str(arquivo_nome)
     relatorioM.delete()
-    os.remove(filepath)
+    try:
+        os.remove(filepath)
+    except:
+        pass
     return redirect('relMIndexMonitor', user.id)
 
 def deletarRelatorioTutor(request, relT_id):
     user = request.user
-    relatorioT = get_object_or_404(RelatoriosMon, relT_id=relT_id)
+    relatorioT = get_object_or_404(RelatoriosTut, relT_id=relT_id)
     arquivo_nome = relatorioT.relT_arquivo
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filepath = BASE_DIR + '\\uploads\\' + str(arquivo_nome)
     relatorioT.delete()
-    os.remove(filepath)
+    try:
+        os.remove(filepath)
+    except:
+        pass
     return redirect('relTIndexTutor', user.id)

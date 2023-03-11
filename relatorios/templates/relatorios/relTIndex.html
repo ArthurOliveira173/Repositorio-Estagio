@@ -76,6 +76,7 @@
         <div class="container-fluid">
             <h1 class="h3 mb-4 text-gray-800">Relatórios de Tutoria</h1>
         </div>
+        {% if relatoriosT %}
         <section>
             <div class="container" style="margin-top:25px">
                 <div class="row justify-content-center">
@@ -87,8 +88,8 @@
                             <thead style="background-color: #4A6FDC;">
                               <tr class="text-white">
                                 <th scope="col">Título</th>
-                                <th scope="col">Data</th>
                                 <th scope="col">Tutoria</th>
+                                <th scope="col">Data</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Arquivo</th>
                                 <th scope="col">Operações</th>
@@ -98,22 +99,28 @@
                               {% for relatorioT in relatoriosT %}
                                 <tr>
                                   <td>{{ relatorioT.relT_titulo }}</td>
-                                  <td>{{ relatorioT.relT_data|date:'d/m/Y H:i:s' }}</td>
                                   <td>{{ relatorioT.relT_tutoria }}</td>
-                                  {% if relatorioT.relT_verificado == True %}
-                                      <td>Verificado</td>
-                                  {% else %}
-                                      <td>Pendente</td>
-                                  {% endif %}
+                                  <td>{{ relatorioT.relT_data|date:'d/m/Y H:i:s' }}</td>
                                   <td>
-                                      {% if relatorioT.relT_Arquivo %}
-                                        <a style="color:black;" type="button" class="btn-link" href="{% url 'baixarFileRelatorio' relatorioT.relT_Arquivo %}">{{ relatorioT.relT_Arquivo }}</a>
+                                      {% if relatorioT.relT_verificado == True %}
+                                          Verificado
+                                      {% else %}
+                                          Pendente
+                                      {% endif %}
+                                  </td>
+                                  <td>
+                                      {% if relatorioT.relT_arquivo %}
+                                        <a style="color:black;" type="button" class="btn-link" href="{% url 'baixarFileRelatorio' relatorioT.relT_arquivo %}">{{ relatorioT.relT_arquivo }}</a>
                                       {% else %}
                                         <p class="mb-0">Não há arquivo</p>
                                       {% endif %}
                                   </td>
                                   <td>
-                                    <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioT' relatorioT.relT_id %}" role="button">Editar</a>
+                                    {% if relatorioT.relT_verificado == True %}
+                                      <a class="btn btn-primary text-white " href="{% url 'desativaVerificadoT' relatorioT.relT_id %}" role="button">Reverter verificação</a>
+                                    {% else %}
+                                        <a class="btn btn-primary text-white " href="{% url 'ativaVerificadoT' relatorioT.relT_id %}" role="button">Declarar verificado</a>
+                                    {% endif %}
                                     <!-- Button trigger modal -->
                                     <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ relatorioT.relT_id }}" role="button">
                                       Excluir
@@ -155,20 +162,25 @@
                 </div>
             </div>
         </section>
-      <div class="pagination center">
-        <ul class="pagination center">
-          {% for pagina in relatoriosT.paginator.page_range %}
-            {% if relatoriosT.number == pagina %}
-              <li
-                      class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
-              </li>
-            {% else %}
-              <li
-                      class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
+        <div class="pagination center">
+            <ul class="pagination center">
+              {% for pagina in relatoriosT.paginator.page_range %}
+                {% if relatoriosT.number == pagina %}
+                  <li
+                          class="page-item active"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+                  </li>
+                {% else %}
+                  <li
+                          class="page-item"><a class="page-link" href="?p={{ pagina }}">{{pagina}}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Não há tutorias ativas ou não há relatórios postados atualmente.
+            </div>
+        {% endif %}
     </body>
 {%endblock%}

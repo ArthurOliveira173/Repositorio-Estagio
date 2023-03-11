@@ -16,6 +16,14 @@ class RelatoriosMon(models.Model):
         managed = False
         db_table = 'relatorios_monitoria'
 
+    def verificar(self, request):
+        self.relM_verificado = True
+        self.save()
+
+    def reverter(self, request):
+        self.relM_verificado = False
+        self.save()
+
 class RelatoriosTut(models.Model):
     relT_id = models.AutoField(db_column='relT_id', primary_key=True)
     relT_titulo = models.CharField(db_column='relT_titulo', max_length=255)
@@ -29,3 +37,11 @@ class RelatoriosTut(models.Model):
     class Meta:
         managed = False
         db_table = 'relatorios_tutoria'
+
+    def verificar(self, request):
+        self.relT_verificado = True
+        self.save()
+
+    def reverter(self, request):
+        self.relT_verificado = False
+        self.save()

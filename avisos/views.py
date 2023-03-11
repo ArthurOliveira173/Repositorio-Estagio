@@ -84,10 +84,13 @@ def atualizarAviso(request, aviso_id):
     if not aviso.avi_mostrar:
         raise Http404()
 
-    form = AvisosForm(request.POST or None, instance=aviso)
-    if form.is_valid():
-        form.save()
-        return redirect('aviIndex')
+    if request.method == 'POST':
+        form = AvisosForm(request.POST or None, request.FILES, instance=aviso)
+        if form.is_valid():
+            form.save()
+            return redirect('aviIndex')
+    else:
+        form = AvisosForm(instance=aviso)
 
     return render(request, 'avisos/atualizarAviso.html', {
         'aviso': aviso,

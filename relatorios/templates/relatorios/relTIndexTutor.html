@@ -89,6 +89,7 @@
                             <thead style="background-color: #4A6FDC;">
                               <tr class="text-white">
                                 <th scope="col">Título</th>
+                                <th scope="col">Tutoria</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Arquivo</th>
@@ -99,6 +100,7 @@
                               {% for relatorioT in relatoriosT %}
                                 <tr>
                                   <td>{{ relatorioT.relT_titulo }}</td>
+                                  <td>{{ relatorioT.relT_tutoria }}</td>
                                   <td>{{ relatorioT.relT_data|date:'d/m/Y H:i:s' }}</td>
                                   <td>
                                       {% if relatorioT.relT_verificado == True %}
@@ -116,10 +118,9 @@
                                   </td>
                                   <td>
                                     {% if relatorioT.relT_verificado == True %}
-                                      Indisponível
                                       <a class="btn btn-primary text-white " href="{% url 'ajudaVerificadoT' %}" role="button">Ajuda</a>
                                     {% else %}
-                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioT' relatorioT.relT_id %}" role="button">Editar</a>
+                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioTutor' relatorioT.relT_id %}" role="button">Editar</a>
                                         <!-- Button trigger modal -->
                                         <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ relatorioT.relT_id }}" role="button">
                                           Excluir
@@ -179,7 +180,7 @@
         </div>
         {% else %}
             <div class="alert alert-primary" role="alert">
-                Não há tutorias ativas ou não há relatórios postados atualmente.
+                Não há monitorias ativas ou não há relatórios postados atualmente.
             </div>
         {% endif %}
     </body>

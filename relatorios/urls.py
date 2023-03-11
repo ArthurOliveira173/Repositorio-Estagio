@@ -4,6 +4,10 @@ from . import views
 urlpatterns = [
     path('baixarFileRelatorio/<str:filename>', views.baixarFileRelatorio, name='baixarFileRelatorio'),
     #ADMIN
+    path('ativaVerificadoM/<int:relM_id>', views.ativaVerificadoM, name='ativaVerificadoM'),
+    path('desativaVerificadoM/<int:relM_id>', views.desativaVerificadoM, name='desativaVerificadoM'),
+    path('ativaVerificadoT/<int:relT_id>', views.ativaVerificadoT, name='ativaVerificadoT'),
+    path('desativaVerificadoT/<int:relT_id>', views.desativaVerificadoT, name='desativaVerificadoT'),
     path('relMIndex', views.relMIndex, name='relMIndex'),
     path('relTIndex', views.relTIndex, name='relTIndex'),
     path('relatorioM/<int:relatorioM_id>', views.relatorioM, name='relatorioM'),
@@ -22,8 +26,8 @@ urlpatterns = [
     path('adicionarRelatorioTutor', views.adicionarRelatorioTutor, name='adicionarRelatorioTutor'),
     path('buscarRelatorioMonitor/<int:user_id>', views.buscarRelatorioMonitor, name='buscarRelatorioMonitor'),
     path('buscarRelatorioTutor/<int:user_id>', views.buscarRelatorioTutor, name='buscarRelatorioTutor'),
-    path('atualizarRelatorioM/<int:relatorioM_id>', views.atualizarRelatorioM, name='atualizarRelatorioM'),
-    path('atualizarRelatorioT/<int:relatorioT_id>', views.atualizarRelatorioT, name='atualizarRelatorioT'),
+    path('atualizarRelatorioMonitor/<int:relatorioM_id>', views.atualizarRelatorioMonitor, name='atualizarRelatorioMonitor'),
+    path('atualizarRelatorioTutor/<int:relatorioT_id>', views.atualizarRelatorioTutor, name='atualizarRelatorioTutor'),
     path('deletarRelatorioMonitor/<int:relM_id>', views.deletarRelatorioMonitor, name='deletarRelatorioMonitor'),
     path('deletarRelatorioTutor/<int:relT_id>', views.deletarRelatorioTutor, name='deletarRelatorioTutor'),
 ]

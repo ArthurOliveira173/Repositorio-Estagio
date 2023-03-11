@@ -89,6 +89,7 @@
                             <thead style="background-color: #4A6FDC;">
                               <tr class="text-white">
                                 <th scope="col">Título</th>
+                                <th scope="col">Monitoria</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Arquivo</th>
@@ -99,6 +100,7 @@
                               {% for relatorioM in relatoriosM %}
                                 <tr>
                                   <td>{{ relatorioM.relM_titulo }}</td>
+                                  <td>{{ relatorioM.relM_monitoria }}</td>
                                   <td>{{ relatorioM.relM_data|date:'d/m/Y H:i:s' }}</td>
                                   <td>
                                       {% if relatorioM.relM_verificado == True %}
@@ -116,10 +118,9 @@
                                   </td>
                                   <td>
                                     {% if relatorioM.relM_verificado == True %}
-                                      Indisponível
                                       <a class="btn btn-primary text-white " href="{% url 'ajudaVerificadoM' %}" role="button">Ajuda</a>
                                     {% else %}
-                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioM' relatorioM.relM_id %}" role="button">Editar</a>
+                                        <a class="btn btn-secondary text-white " href="{% url 'atualizarRelatorioMonitor' relatorioM.relM_id %}" role="button">Editar</a>
                                         <!-- Button trigger modal -->
                                         <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ relatorioM.relM_id }}" role="button">
                                           Excluir
