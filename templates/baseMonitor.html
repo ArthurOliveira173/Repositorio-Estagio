@@ -69,8 +69,8 @@
                         <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Opções:</h6>
-                                <a class="collapse-item" href="/acompanhamentos">Alunos</a>
-                                <a class="collapse-item" href="/acompanhamentos/disciplinas">Disciplinas</a>
+                                <a class="collapse-item" href="/acompanhamentos/acoIndexMonitor">Alunos</a>
+                                <a class="collapse-item" href="/acompanhamentos/disciplinasMonitor">Disciplinas</a>
                             </div>
                         </div>
                     </li>
@@ -82,7 +82,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/relatorios/relMIndex">
+                        <a class="nav-link" href="{% url 'relMIndexMonitor' user.id %}">
                             <i class="fas fa-fw fa-envelope-open-text"></i>
                             <span>Relatórios</span></a>
                     </li>

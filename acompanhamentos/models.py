@@ -23,7 +23,7 @@ class Acompanhamentos(models.Model):
     aco_monitores = models.ManyToManyField(Monitor, through='AcompanhamentoMonitores')
     aco_tutores = models.ManyToManyField(Tutor, through='AcompanhamentoTutores')
     def __str__(self):
-        return "{0}: {1}:".format(self.aco_aluno_pcd, self.aco_semestre)
+        return "{0}: {1}".format(self.aco_aluno_pcd, self.aco_semestre)
 
     class Meta:
         managed = False
@@ -49,7 +49,7 @@ class AcompanhamentoInterpretes(models.Model):
     AsInt_acompanhamento = models.ForeignKey(Acompanhamentos, on_delete=models.SET_NULL, db_column='AsInt_acompanhamento', blank=True, null=True)
 
     def __str__(self):
-        return self.AsInt_interprete.__str__()
+        return "{0}: {1}".format(self.AsInt_interprete, self.AsInt_acompanhamento)
 
     class Meta:
         managed = False
@@ -63,7 +63,7 @@ class AcompanhamentoMonitores(models.Model):
     AsMon_acompanhamento = models.ForeignKey(Acompanhamentos, on_delete=models.SET_NULL, db_column='AsMon_acompanhamento', blank=True, null=True)
 
     def __str__(self):
-        return self.AsMon_monitor.__str__()
+        return "{0}: {1}".format(self.AsMon_monitor, self.AsMon_acompanhamento)
 
     class Meta:
         managed = False
@@ -77,7 +77,7 @@ class AcompanhamentoTutores(models.Model):
     AsTut_acompanhamento = models.ForeignKey(Acompanhamentos, on_delete=models.SET_NULL, db_column='AsTut_acompanhamento', blank=True, null=True)
 
     def __str__(self):
-        return self.AsTut_tutor.__str__()
+        return "{0}: {1}".format(self.AsTut_tutor, self.AsTut_acompanhamento)
 
     class Meta:
         managed = False

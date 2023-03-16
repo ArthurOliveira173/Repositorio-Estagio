@@ -705,51 +705,51 @@ def adicionarTutor(request):
 
             if not nome or not usuario or not genero or not email_pessoal or not email_instituicao or not telefone or not cep or not endereco_des or not cidade or not curso or not periodo or not matricula or not senha or not senha2:
                 messages.error(request, 'Todos os campos devem ser preenchidos!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             try:
                 valida_string(nome)
             except:
                 messages.error(request, 'Por favor digite somente letras e espaços')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             try:
                 validate_email(email_pessoal)
             except:
                 messages.error(request, 'Email pessoal invalido!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             try:
                 validate_email(email_instituicao)
             except:
                 messages.error(request, 'Email institucional invalido!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             try:
                 valida_cpf(usuario)
             except:
                 messages.error(request, 'O Cpf informado não é valido, tente novamente!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             if CustomUser.objects.filter(username=usuario).exists():
                 messages.error(request, 'Cpf já cadastrado, verifique e tente novamente!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             if CustomUser.objects.filter(email=email_pessoal).exists():
                 messages.error(request, 'Email pessoal já cadastrado, tente novamente!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             if CustomUser.objects.filter(email=email_instituicao).exists():
                 messages.error(request, 'Email institucional já cadastrado, tente novamente!')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             if len(senha) < 6:
                 messages.error(request, 'Senha precisa ter 7 caracteres ou mais.')
-                return render(request, 'authenticate/authRegisterTutor.html', {'form': form})
+                return render(request, 'administrador/adicionarTutor.html', {'form': form})
 
             if senha != senha2:
                 messages.error(request, 'Senhas diferentes, tente novamente!')
-                return render(request, 'authenticate/authRegisterTutor.html')
+                return render(request, 'administrador/adicionarTutor.html')
 
             user = CustomUser.objects.create_user(username=usuario, email=email_instituicao,
                                                   password=senha, user_type=permissao)
@@ -762,17 +762,17 @@ def adicionarTutor(request):
                 messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
 
                 por favor, aguarde 24 horas para logar no sistema.''')
-                return redirect("authLogin")
+                return redirect("tutores")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
-                return redirect("authLogin")
+                return redirect("tutores")
         else:
             messages.error(request, 'Informações invalidas, tente novamente!')
             form = TutoresForm(request.POST)
     else:
         form = TutoresForm()
 
-    return render(request, 'authenticate/authRegisterTutor.html', {
+    return render(request, 'administrador/adicionarTutor.html', {
         'form': form,
     })
 

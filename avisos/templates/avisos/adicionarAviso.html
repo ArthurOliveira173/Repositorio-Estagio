@@ -28,24 +28,15 @@
     <div style="margin-left: 250px; margin-right: 250px">
         <h1 style="text-align: center;">Crie um novo aviso</h1>
         <br>
-        {% if submitted %}
-            <div class="alert alert-info" role="alert">
-                Aviso enviado com sucesso!
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% else %}
-            <form action="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
-                {{ form.as_p }}
-                <div style=" float: left; position: relative; left: 50%;">
-                    <input style="margin-bottom: 50px; float: left; position: relative; left: -50%;"
-                           class="btn btn-primary" type="submit" value="Enviar">
-                </div>
-            </form>
-        {% endif %}
+            {{ form.as_p }}
+            <div style=" float: left; position: relative; left: 50%;">
+                <input style="margin-bottom: 50px; float: left; position: relative; left: -50%;"
+                       class="btn btn-primary" type="submit" value="Enviar">
+            </div>
+        </form>
     </div>
 
 </body>

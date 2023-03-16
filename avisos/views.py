@@ -11,11 +11,6 @@ from membros.models import AlunoPcd, Administrador
 import mimetypes
 import pickle
 
-# def handle_uploaded_file(f):
-#     with open('avisos/uploads/'+f.name, 'wb+') as destination:
-#         for chunk in f.chunks():
-#             destination.write(chunk)
-
 def baixarFileAviso(request, filename):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filename = str(filename)
@@ -39,28 +34,23 @@ def aviIndex(request):
     })
 
 def adicionarAviso(request):
-    submitted = False
 
     context = {}
     if request.POST:
         form = AvisosForm(request.POST, request.FILES)
         if form.is_valid():
-            # handle_uploaded_file(request.FILES["avi_arquivos"])
             avisoForm = form.save(commit=False)
             administrador = get_object_or_404(Administrador, adm_cpf=request.user.username)
             avisoForm.avi_administrador = administrador
             avisoForm.save()
-            return HttpResponseRedirect('adicionarAviso?submitted=True')
+            messages.success(request, "Aviso enviado com sucesso!")
+            return redirect('aviIndex')
         else:
-            form = AvisosForm()
-
-            messages.error("As informações inseridas são inválidas! Tente novamente.")
+            form = AvisosForm(request.POST)
+            messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AvisosForm()
-        if 'submitted' in request.GET:
-            submitted = True
     context['form'] = form
-    context['submitted'] = submitted
     return render(request, 'avisos/adicionarAviso.html', context)
 
 def buscarAviso(request):
@@ -94,10 +84,13 @@ def atualizarAviso(request, aviso_id):
     if not aviso.avi_mostrar:
         raise Http404()
 
-    form = AvisosForm(request.POST or None, instance=aviso)
-    if form.is_valid():
-        form.save()
-        return redirect('aviIndex')
+    if request.method == 'POST':
+        form = AvisosForm(request.POST or None, request.FILES, instance=aviso)
+        if form.is_valid():
+            form.save()
+            return redirect('aviIndex')
+    else:
+        form = AvisosForm(instance=aviso)
 
     return render(request, 'avisos/atualizarAviso.html', {
         'aviso': aviso,
@@ -110,7 +103,10 @@ def deletarAviso(request, aviso_id):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filepath = BASE_DIR + '\\uploads\\' + str(arquivo_nome)
     aviso.delete()
-    os.remove(filepath)
+    try:
+        os.remove(filepath)
+    except:
+        pass
     return redirect('aviIndex')
 
 
