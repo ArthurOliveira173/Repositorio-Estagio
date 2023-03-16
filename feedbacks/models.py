@@ -16,6 +16,8 @@ class Feedbacks(models.Model):
     fee_data = models.DateTimeField(db_column='fee_data', default = timezone.now)
     fee_arquivo = models.FileField(db_column='fee_arquivo', blank=True, null=True)
     fee_acompanhamento = models.ForeignKey(Acompanhamentos, on_delete=models.SET_NULL, db_column='fee_acompanhamento', blank=True, null=True)
+    fee_anterior = models.IntegerField(db_column='fee_anterior', blank=True)
+    fee_proximo = models.IntegerField(db_column='fee_proximo', blank=True)
     def __str__(self):
         return self.fee_titulo
 

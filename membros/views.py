@@ -1009,58 +1009,6 @@ def alunoAtualizar(request, aluno_id):
         'aluno': aluno,
         'form': form
     })
-def alunoFeedback(request):
-    submitted = False
-    context = {}
-
-    if request.POST:
-        form = FeedbacksForm(request.POST, request.FILES)
-        if form.is_valid():
-            # handle_uploaded_file(request.FILES["avi_arquivos"])
-            form.save()
-            return HttpResponseRedirect('alunoFeedback?submitted=True')
-        else:
-            form = FeedbacksForm()
-            form.save()
-            return HttpResponseRedirect('alunoFeedback?submitted=True')
-    else:
-        form = FeedbacksForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    context['form'] = form
-    context['submitted'] = submitted
-
-    return render (request, 'alunos/alunoFeedback.html', context)
-
-def alunoFeedbackAll(request, aluno_id):
-
-    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
-    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno_id)
-    feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
-
-    paginator = Paginator(feedback, 7)
-    page = request.GET.get('p')
-    feedback = paginator.get_page(page)
-
-    return render(request, 'alunos/alunofeedbackAll.html', {
-        'feedback': feedback,
-        'aluno': aluno,
-        'acompanhamento': acompanhamento,
-    })
-
-def alunoOpenfeedback(request, feedback_id, aluno_id):
-
-    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
-    feedbacks = get_object_or_404(Feedbacks, fee_id=feedback_id)
-    acompanhamento = get_object_or_404(Acompanhamentos, aco_id=feedbacks.fee_acompanhamento.aco_id)
-
-    print(acompanhamento)
-
-    return render(request, 'alunos/alunoOpenfeedback.html', {
-        'feedbacks': feedbacks,
-        'aluno': aluno,
-        'acompanhamento': acompanhamento,
-    })
 
 #MONITOR_TUTOR========================================================================================
 def index_mon(request):
