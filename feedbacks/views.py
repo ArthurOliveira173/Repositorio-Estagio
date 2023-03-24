@@ -14,11 +14,15 @@ from acompanhamentos.models import Acompanhamentos
 #         for chunk in f.chunks():
 #             destination.write(chunk)
 def feeIndex(request):
-    feedbacks = Feedbacks.objects.order_by('-fee_id')
-    paginator = Paginator(feedbacks, 10)
+    feedbacks = Feedbacks.objects.filter(fee_anterior=None)
+
+
+    paginator = Paginator(feedbacks, 5)
 
     page = request.GET.get('p')
     feedbacks = paginator.get_page(page)
+
+    feedbacks = reversed(feedbacks)
     return render(request, 'feedbacks/feeIndex.html', {
         'feedbacks': feedbacks
     })

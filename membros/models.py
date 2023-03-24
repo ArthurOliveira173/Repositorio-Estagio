@@ -6,6 +6,7 @@ from sistema.models import Cursos
 generos = (
     ('M', 'Masculino'),
     ('F', 'Feminino'),
+    ('O', 'Outros')
 )
 cidades = (
     ('RB', 'Rio Branco'),

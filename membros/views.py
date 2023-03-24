@@ -13,6 +13,7 @@ from authentication.views import valida_cpf, valida_string
 from acompanhamentos.models import Acompanhamentos
 from feedbacks.forms import FeedbacksForm
 from feedbacks.models import Feedbacks
+from PIL import Image
 
 # Create your views here.
 #ADMIN================================================================================================
@@ -997,17 +998,31 @@ def aluno(request, user_id):
         'aluno' : aluno
     })
 
-def alunoAtualizar(request, aluno_id):
-    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+def alunoAtualizar(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
 
     form = AlunosForm(request.POST or None, instance=aluno)
     if form.is_valid():
         form.save()
-        return redirect('aluno')
+        return redirect('aluno', user_id)
 
     return render(request, 'alunos/alunoAtualizar.html', {
         'aluno': aluno,
         'form': form
+    })
+
+def alunoHorario(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
+
+
+
+
+
+    return render(request, 'alunos/alunoHorario.html', {
+        'aluno': aluno
+
     })
 
 #MONITOR_TUTOR========================================================================================

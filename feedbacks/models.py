@@ -18,6 +18,7 @@ class Feedbacks(models.Model):
     fee_acompanhamento = models.ForeignKey(Acompanhamentos, on_delete=models.SET_NULL, db_column='fee_acompanhamento', blank=True, null=True)
     fee_anterior = models.IntegerField(db_column='fee_anterior', blank=True)
     fee_proximo = models.IntegerField(db_column='fee_proximo', blank=True)
+    fee_new = models.BooleanField(db_column='fee_new', default=True)
     def __str__(self):
         return self.fee_titulo
 
