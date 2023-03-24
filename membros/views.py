@@ -456,6 +456,7 @@ def adicionarAluno(request):
                 userForm = form.save(commit=False)
                 userForm.alu_usuario = user
                 userForm.save()
+                user.is_active = True
                 user.save()
                 messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.''')
                 return redirect("alunos")
@@ -477,7 +478,12 @@ def buscarAluno(request):
         searched = request.POST.get('searched')
         if searched:
             try:
-                alunos = AlunoPcd.objects.order_by('alu_nome').filter(Q(alu_nome__icontains=searched) | Q(alu_curso__icontains=searched))
+                alunos = AlunoPcd.objects.order_by('alu_nome').filter(
+                    Q(alu_nome__icontains=searched) |
+                    Q(alu_curso__icontains=searched) |
+                    Q(alu_email_institucional__icontains=searched) |
+                    Q(alu_email_pessoal__icontains=searched)
+                )
             except:
                 alunos = AlunoPcd.objects.order_by('alu_nome').filter(Q(alu_nome__icontains=searched))
         else:
@@ -605,6 +611,7 @@ def adicionarMonitor(request):
                 userForm = form.save(commit=False)
                 userForm.mon_usuario = user
                 userForm.save()
+                user.is_active = True
                 user.save()
                 messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.''')
                 return redirect("monitores")
@@ -628,7 +635,11 @@ def buscarMonitor(request):
         if searched:
             try:
                 monitores = Monitor.objects.order_by('mon_nome').filter(
-                    Q(mon_nome__icontains=searched) | Q(mon_curso__icontains=searched))
+                    Q(mon_nome__icontains=searched) |
+                    Q(mon_curso__icontains=searched) |
+                    Q(mon_email_institucional__icontains=searched) |
+                    Q(mon_email_pessoal__icontains=searched)
+                )
             except:
                 monitores = Monitor.objects.order_by('mon_nome').filter(Q(mon_nome__icontains=searched))
         else:
@@ -758,6 +769,7 @@ def adicionarTutor(request):
                 userForm = form.save(commit=False)
                 userForm.tut_usuario = user
                 userForm.save()
+                user.is_active = True
                 user.save()
                 messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
 
@@ -783,7 +795,11 @@ def buscarTutor(request):
         if searched:
             try:
                 tutores = Tutor.objects.order_by('tut_nome').filter(
-                    Q(tut_nome__icontains=searched) | Q(tut_curso__icontains=searched))
+                    Q(tut_nome__icontains=searched) |
+                    Q(tut_curso__icontains=searched) |
+                    Q(tut_email_institucional__icontains=searched) |
+                    Q(tut_email_pessoal__icontains=searched)
+                )
             except:
                 tutores = Tutor.objects.order_by('tut_nome').filter(Q(tut_nome__icontains=searched))
         else:
@@ -931,7 +947,10 @@ def buscarInterprete(request):
         if searched:
             try:
                 interpretes = Interprete.objects.order_by('int_nome').filter(
-                    Q(int_nome__icontains=searched) | Q(int_curso__icontains=searched))
+                    Q(int_nome__icontains=searched) |
+                    Q(int_email_institucional__icontains=searched) |
+                    Q(int_email_pessoal__icontains=searched)
+                )
             except:
                 interpretes = Interprete.objects.order_by('int_nome').filter(Q(int_nome__icontains=searched))
         else:
@@ -997,79 +1016,88 @@ def aluno(request, user_id):
         'aluno' : aluno
     })
 
-def alunoAtualizar(request, aluno_id):
-    aluno = get_object_or_404(AlunoPcd, alu_id=aluno_id)
+def atualizarAlunoPerfil(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
 
-    form = AlunosForm(request.POST or None, instance=aluno)
+    form = AtualizarAlunosForm(request.POST or None, instance=aluno)
     if form.is_valid():
         form.save()
-        return redirect('aluno')
+        messages.success(request, 'Perfil alterado com sucesso!')
+        return redirect('aluno', user.id)
 
-    return render(request, 'alunos/alunoAtualizar.html', {
+    return render(request, 'alunos/atualizarAlunoPerfil.html', {
         'aluno': aluno,
         'form': form
     })
 
 #MONITOR_TUTOR========================================================================================
-def index_mon(request):
-    monitores = Monitor.objects.all()
-    paginator = Paginator(monitores, 10)
-
-    page = request.GET.get('p')
-    monitores = paginator.get_page(page)
-    return render(request, 'monitor_tutor/index_mon.html', {
-        'monitores' : monitores
-    })
-
-def monAluno(request):
-    return render(request, 'monitor_tutor/monAluno.html')
 
 def monitor(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    monitor = get_object_or_404(Monitor, mon_usuario=user)
+    monitor = get_object_or_404(Monitor, mon_cpf=user.username)
     return render(request, 'monitor_tutor/monitor.html', {
         'monitor': monitor
     })
 
-def index_tut(request):
-    tutores = Tutor.objects.all()
-    paginator = Paginator(tutores, 10)
+def atualizarMonitorPerfil(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    monitor = get_object_or_404(Monitor, mon_cpf=user.username)
 
-    page = request.GET.get('p')
-    tutores = paginator.get_page(page)
-    return render(request, 'monitor_tutor/index_tut.html', {
-        'tutores' : tutores
+    form = AtualizarMonitoresForm(request.POST or None, instance=monitor)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Perfil alterado com sucesso!')
+        return redirect('monitor', user.id)
+
+    return render(request, 'monitor_tutor/atualizarMonitorPerfil.html', {
+        'monitor': monitor,
+        'form': form
     })
-
-def tutAluno(request):
-    return render(request, 'monitor_tutor/tutAluno.html')
 
 def tutor(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    tutor = get_object_or_404(Tutor, tut_usuario=user)
+    tutor = get_object_or_404(Tutor, tut_cpf=user.username)
     return render(request, 'monitor_tutor/tutor.html', {
         'tutor' : tutor
     })
 
-#INTERPRETE============================================================================================
+def atualizarTutorPerfil(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    tutor = get_object_or_404(Tutor, tut_cpf=user.username)
 
-def intIndex(request):
-    interpretes = Interprete.objects.all()
-    paginator = Paginator(interpretes, 10)
+    form = AtualizarTutoresForm(request.POST or None, instance=tutor)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Perfil alterado com sucesso!')
+        return redirect('tutor', user.id)
 
-    page = request.GET.get('p')
-    interpretes = paginator.get_page(page)
-    return render(request, 'interpretes/intIndex.html', {
-        'interpretes' : interpretes
+    return render(request, 'monitor_tutor/atualizarTutorPerfil.html', {
+        'tutor': tutor,
+        'form': form
     })
 
-def intAluno(request):
-    return render(request, 'interpretes/intAluno.html')
+#INTERPRETE============================================================================================
 
 def interprete(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    interprete = get_object_or_404(Interprete, int_usuario=user)
+    interprete = get_object_or_404(Interprete, int_cpf=user.username)
     return render(request, 'interpretes/interprete.html', {
         'interprete' : interprete
+    })
+
+def atualizarInterpretePerfil(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    interprete = get_object_or_404(Interprete, int_cpf=user.username)
+
+    form = AtualizarInterpretesForm(request.POST or None, instance=interprete)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Perfil alterado com sucesso!')
+        return redirect('interprete', user.id)
+
+    return render(request, 'interpretes/atualizarInterpretePerfil.html', {
+        'interprete': interprete,
+        'form': form
     })
 

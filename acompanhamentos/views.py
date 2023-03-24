@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-from .models import Acompanhamentos, AcompanhamentoMonitores, AcompanhamentoTutores, AcompanhamentoInterpretes, AcompanhamentoDisciplinas
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.contrib import messages
+from .models import Acompanhamentos, AcompanhamentoMonitores, AcompanhamentoTutores, AcompanhamentoInterpretes, AcompanhamentoDisciplinas
 from .forms import AcompanhamentosForm, AcoMonitoriasForm, AcoTutoriasForm, AcoInterpretacoesForm, AcoDisciplinasForm
+from membros.models import CustomUser, Interprete, Monitor, Tutor, AlunoPcd
 
 # def handle_uploaded_file(f):
 #     with open('avisos/uploads/'+f.name, 'wb+') as destination:
@@ -24,7 +26,6 @@ def acoIndex(request):
     })
 
 def adicionarAcompanhamento(request):
-    submitted = False
 
     context = {}
     if request.POST:
@@ -32,27 +33,24 @@ def adicionarAcompanhamento(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
-            return HttpResponseRedirect('adicionarAcompanhamento?submitted=True')
+            messages.success(request, "Acompanhamento iniciado com sucesso!")
+            return redirect('acoIndex')
         else:
-            form = AcompanhamentosForm()
-            form.save()
-            return HttpResponseRedirect('adicionarAcompanhamento?submitted=True')
+            form = AcompanhamentosForm(request.POST)
+            messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AcompanhamentosForm()
-        if 'submitted' in request.GET:
-            submitted = True
     context['form'] = form
-    context['submitted'] = submitted
     return render(request, 'acompanhamentos/adicionarAcompanhamento.html', context)
 
 def acompanhamento(request, acompanhamento_id):
     acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
     try:
-        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+        monitoria = AcompanhamentoMonitores.objects.filter(AsMon_acompanhamento=acompanhamento).last()
     except:
         monitoria = None
     try:
-        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+        tutoria = AcompanhamentoTutores.objects.filter(AsTut_acompanhamento=acompanhamento).last()
     except:
         tutoria = None
     try:
@@ -120,7 +118,6 @@ def acoDisIndex(request):
     })
 
 def adicionarDisciplina(request):
-    submitted = False
 
     context = {}
     if request.POST:
@@ -128,17 +125,14 @@ def adicionarDisciplina(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
-            return HttpResponseRedirect('adicionarDisciplina?submitted=True')
+            messages.success(request, "Disciplina vinculada com sucesso!")
+            return redirect('acoDisIndex')
         else:
-            form = AcoDisciplinasForm()
-            form.save()
-            return HttpResponseRedirect('adicionarDisciplina?submitted=True')
+            form = AcoDisciplinasForm(request.POST)
+            messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AcoDisciplinasForm()
-        if 'submitted' in request.GET:
-            submitted = True
     context['form'] = form
-    context['submitted'] = submitted
     return render(request, 'acompanhamentos/adicionarDisciplina.html', context)
 
 def atualizarDisciplina(request, disciplina_id):
@@ -161,7 +155,8 @@ def buscarDisciplina(request):
             disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
                 Q(AsDis_disciplina__dis_nome__icontains=searched) |
                 Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
-                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched) |
+                Q(AsDis_disciplina__dis_curso__cur_nome__icontains=searched)
             )
         else:
             disciplinas = None
@@ -191,7 +186,6 @@ def acoIntIndex(request):
     })
 
 def adicionarInterpretacao(request):
-    submitted = False
 
     context = {}
     if request.POST:
@@ -199,17 +193,14 @@ def adicionarInterpretacao(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
-            return HttpResponseRedirect('adicionarInterpretacao?submitted=True')
+            messages.success(request, "Interpretação iniciada com sucesso!")
+            return redirect('acoIntIndex')
         else:
-            form = AcoInterpretacoesForm()
-            form.save()
-            return HttpResponseRedirect('adicionarInterpretacao?submitted=True')
+            form = AcoInterpretacoesForm(request.POST)
+            messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AcoInterpretacoesForm()
-        if 'submitted' in request.GET:
-            submitted = True
     context['form'] = form
-    context['submitted'] = submitted
     return render(request, 'acompanhamentos/adicionarInterpretacao.html', context)
 
 def atualizarInterpretacao(request, interpretacao_id):
@@ -262,7 +253,6 @@ def acoMonIndex(request):
     })
 
 def adicionarMonitoria(request):
-    submitted = False
 
     context = {}
     if request.POST:
@@ -270,17 +260,14 @@ def adicionarMonitoria(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
-            return HttpResponseRedirect('adicionarMonitoria?submitted=True')
+            messages.success(request, "Monitoria iniciada com sucesso!")
+            return redirect('acoMonIndex')
         else:
-            form = AcoMonitoriasForm()
-            form.save()
-            return HttpResponseRedirect('adicionarMonitoria?submitted=True')
+            form = AcoMonitoriasForm(request.POST)
+            messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AcoMonitoriasForm()
-        if 'submitted' in request.GET:
-            submitted = True
     context['form'] = form
-    context['submitted'] = submitted
     return render(request, 'acompanhamentos/adicionarMonitoria.html', context)
 
 def atualizarMonitoria(request, monitoria_id):
@@ -333,7 +320,6 @@ def acoTutIndex(request):
     })
 
 def adicionarTutoria(request):
-    submitted = False
 
     context = {}
     if request.POST:
@@ -341,17 +327,14 @@ def adicionarTutoria(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["avi_arquivos"])
             form.save()
-            return HttpResponseRedirect('adicionarTutoria?submitted=True')
+            messages.success(request, "Tutoria iniciada com sucesso!")
+            return redirect('acoTutIndex')
         else:
-            form = AcoTutoriasForm()
-            form.save()
-            return HttpResponseRedirect('adicionarTutoria?submitted=True')
+            form = AcoTutoriasForm(request.POST)
+            messages.error(request, "As informações inseridas são inválidas! Tente novamente.")
     else:
         form = AcoTutoriasForm()
-        if 'submitted' in request.GET:
-            submitted = True
     context['form'] = form
-    context['submitted'] = submitted
     return render(request, 'acompanhamentos/adicionarTutoria.html', context)
 
 def atualizarTutoria(request, tutoria_id):
@@ -393,9 +376,79 @@ def deletarTutoria(request, tutoria_id):
     tutoria.delete()
     return redirect('acoTutIndex')
 
+#ALUNOS========================================================================================
+def acoDisIndexAluno(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
+    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd=aluno).last()
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+        AsDis_acompanhamento=acompanhamento
+    )
+    paginator = Paginator(disciplinas, 10)
+
+    page = request.GET.get('p')
+    disciplinas = paginator.get_page(page)
+    return render(request, 'acompanhamentos/acoDisIndexAluno.html', {
+        'disciplinas': disciplinas
+    })
+
+def acompanhamentoAluno(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
+    acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd=aluno).last()
+    try:
+        monitoria = AcompanhamentoMonitores.objects.filter(AsMon_acompanhamento=acompanhamento).last()
+    except:
+        monitoria = None
+    try:
+        tutoria = AcompanhamentoTutores.objects.filter(AsTut_acompanhamento=acompanhamento).last()
+    except:
+        tutoria = None
+    try:
+        interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_acompanhamento=acompanhamento)
+    except:
+        interpretacoes = None
+
+    return render(request, 'acompanhamentos/acompanhamentoAluno.html', {
+        'acompanhamento': acompanhamento,
+        'monitoria': monitoria,
+        'tutoria': tutoria,
+        'interpretacoes': interpretacoes,
+    })
+
+def buscarDisciplinaAluno(request, user_id):
+    if request.POST:
+        searched = request.POST.get('searched')
+        if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
+            acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd=aluno).last()
+            disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+                Q(AsDis_disciplina__dis_nome__icontains=searched) |
+                Q(AsDis_disciplina__dis_curso__cur_nome__icontains=searched)
+            ).filter(
+                AsDis_acompanhamento=acompanhamento
+            )
+        else:
+            disciplinas = None
+
+        return render(request, 'acompanhamentos/buscarDisciplinaAluno.html', {
+            'searched': searched,
+            'disciplinas': disciplinas
+        })
+    else:
+        return render(request, 'acompanhamentos/buscarDisciplinaAluno.html', {
+
+        })
+
 #MONITORES=====================================================================================
-def acoIndexMonitor(request):
-    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
+def acoIndexMonitor(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    monitor = get_object_or_404(Monitor, mon_cpf=user.username)
+    monitorias = AcompanhamentoMonitores.objects.filter(AsMon_monitor=monitor)
+    acompanhamentos = Acompanhamentos.objects.filter(
+        aco_id__in=[m.AsMon_acompanhamento.aco_id for m in monitorias.all()]
+    )
     paginator = Paginator(acompanhamentos, 10)
 
     page = request.GET.get('p')
@@ -404,8 +457,16 @@ def acoIndexMonitor(request):
         'acompanhamentos': acompanhamentos
     })
 
-def acoDisIndexMonitor(request):
-    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
+def acoDisIndexMonitor(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    monitor = get_object_or_404(Monitor, mon_cpf=user.username)
+    monitorias = AcompanhamentoMonitores.objects.filter(AsMon_monitor=monitor)
+    acompanhamentos = Acompanhamentos.objects.filter(
+        aco_id__in=[m.AsMon_acompanhamento.aco_id for m in monitorias.all()]
+    )
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+        AsDis_acompanhamento__in=[a for a in acompanhamentos.all()]
+    )
     paginator = Paginator(disciplinas, 10)
 
     page = request.GET.get('p')
@@ -417,11 +478,11 @@ def acoDisIndexMonitor(request):
 def acompanhamentoMonitor(request, acompanhamento_id):
     acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
     try:
-        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+        monitoria = AcompanhamentoMonitores.objects.filter(AsMon_acompanhamento=acompanhamento).last()
     except:
         monitoria = None
     try:
-        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+        tutoria = AcompanhamentoTutores.objects.filter(AsTut_acompanhamento=acompanhamento).last()
     except:
         tutoria = None
     try:
@@ -441,12 +502,17 @@ def acompanhamentoMonitor(request, acompanhamento_id):
         'disciplinas': disciplinas
     })
 
-def buscarAcompanhamentoMonitor(request):
+def buscarAcompanhamentoMonitor(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            monitor = get_object_or_404(Monitor, mon_cpf=user.username)
+            monitorias = AcompanhamentoMonitores.objects.filter(AsMon_monitor=monitor)
             acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
                 Q(aco_semestre__icontains=searched) | Q(aco_aluno_pcd__alu_nome__icontains=searched)
+            ).filter(
+                aco_id__in=[m.AsMon_acompanhamento.aco_id for m in monitorias.all()]
             )
         else:
             acompanhamentos = None
@@ -460,14 +526,23 @@ def buscarAcompanhamentoMonitor(request):
 
         })
 
-def buscarDisciplinaMonitor(request):
+def buscarDisciplinaMonitor(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            monitor = get_object_or_404(Monitor, mon_cpf=user.username)
+            monitorias = AcompanhamentoMonitores.objects.filter(AsMon_monitor=monitor)
+            acompanhamentos = Acompanhamentos.objects.filter(
+                aco_id__in=[m.AsMon_acompanhamento.aco_id for m in monitorias.all()]
+            )
             disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
                 Q(AsDis_disciplina__dis_nome__icontains=searched) |
-                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
-                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched) |
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched) |
+                Q(AsDis_disciplina__dis_curso__cur_nome__icontains=searched)
+            ).filter(
+                AsDis_acompanhamento__in=[a for a in acompanhamentos.all()]
             )
         else:
             disciplinas = None
@@ -482,8 +557,13 @@ def buscarDisciplinaMonitor(request):
         })
 
 #TUTORES=======================================================================================
-def acoIndexTutor(request):
-    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
+def acoIndexTutor(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    tutor = get_object_or_404(Tutor, tut_cpf=user.username)
+    tutorias = AcompanhamentoTutores.objects.filter(AsTut_tutor=tutor)
+    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
+        aco_id__in=[t.AsTut_acompanhamento.aco_id for t in tutorias.all()]
+    )
     paginator = Paginator(acompanhamentos, 10)
 
     page = request.GET.get('p')
@@ -492,8 +572,16 @@ def acoIndexTutor(request):
         'acompanhamentos': acompanhamentos
     })
 
-def acoDisIndexTutor(request):
-    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
+def acoDisIndexTutor(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    tutor = get_object_or_404(Tutor, tut_cpf=user.username)
+    tutorias = AcompanhamentoTutores.objects.filter(AsTut_tutor=tutor)
+    acompanhamentos = Acompanhamentos.objects.filter(
+        aco_id__in=[t.AsTut_acompanhamento.aco_id for t in tutorias.all()]
+    )
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+        AsDis_acompanhamento__in=[a for a in acompanhamentos.all()]
+    )
     paginator = Paginator(disciplinas, 10)
 
     page = request.GET.get('p')
@@ -505,11 +593,11 @@ def acoDisIndexTutor(request):
 def acompanhamentoTutor(request, acompanhamento_id):
     acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
     try:
-        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+        monitoria = AcompanhamentoMonitores.objects.filter(AsMon_acompanhamento=acompanhamento).last()
     except:
         monitoria = None
     try:
-        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+        tutoria = AcompanhamentoTutores.objects.filter(AsTut_acompanhamento=acompanhamento).last()
     except:
         tutoria = None
     try:
@@ -529,12 +617,17 @@ def acompanhamentoTutor(request, acompanhamento_id):
         'disciplinas': disciplinas
     })
 
-def buscarAcompanhamentoTutor(request):
+def buscarAcompanhamentoTutor(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            tutor = get_object_or_404(Tutor, tut_cpf=user.username)
+            tutorias = AcompanhamentoTutores.objects.filter(AsTut_tutor=tutor)
             acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
                 Q(aco_semestre__icontains=searched) | Q(aco_aluno_pcd__alu_nome__icontains=searched)
+            ).filter(
+                aco_id__in=[t.AsTut_acompanhamento.aco_id for t in tutorias.all()]
             )
         else:
             acompanhamentos = None
@@ -548,14 +641,23 @@ def buscarAcompanhamentoTutor(request):
 
         })
 
-def buscarDisciplinaTutor(request):
+def buscarDisciplinaTutor(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            tutor = get_object_or_404(Tutor, tut_cpf=user.username)
+            tutorias = AcompanhamentoTutores.objects.filter(AsTut_tutor=tutor)
+            acompanhamentos = Acompanhamentos.objects.filter(
+                aco_id__in=[t.AsTut_acompanhamento.aco_id for t in tutorias.all()]
+            )
             disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
                 Q(AsDis_disciplina__dis_nome__icontains=searched) |
-                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
-                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+                Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched) |
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched) |
+                Q(AsDis_disciplina__dis_curso__cur_nome__icontains=searched)
+            ).filter(
+                AsDis_acompanhamento__in=[a for a in acompanhamentos.all()]
             )
         else:
             disciplinas = None
@@ -570,8 +672,13 @@ def buscarDisciplinaTutor(request):
         })
 
 #INTERPRETES===================================================================================
-def acoIndexInterprete(request):
-    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
+def acoIndexInterprete(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    interprete = get_object_or_404(Interprete, int_cpf=user.username)
+    interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_interprete=interprete)
+    acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
+            aco_id__in=[i.AsInt_acompanhamento.aco_id for i in interpretacoes.all()]
+        )
     paginator = Paginator(acompanhamentos, 10)
 
     page = request.GET.get('p')
@@ -580,8 +687,16 @@ def acoIndexInterprete(request):
         'acompanhamentos': acompanhamentos
     })
 
-def acoDisIndexInterprete(request):
-    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id')
+def acoDisIndexInterprete(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    interprete = get_object_or_404(Interprete, int_cpf=user.username)
+    interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_interprete=interprete)
+    acompanhamentos = Acompanhamentos.objects.filter(
+        aco_id__in=[i.AsInt_acompanhamento.aco_id for i in interpretacoes.all()]
+    )
+    disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
+        AsDis_acompanhamento__in=[a for a in acompanhamentos.all()]
+    )
     paginator = Paginator(disciplinas, 10)
 
     page = request.GET.get('p')
@@ -593,11 +708,11 @@ def acoDisIndexInterprete(request):
 def acompanhamentoInterprete(request, acompanhamento_id):
     acompanhamento = get_object_or_404(Acompanhamentos, aco_id=acompanhamento_id)
     try:
-        monitoria = get_object_or_404(AcompanhamentoMonitores, AsMon_acompanhamento=acompanhamento)
+        monitoria = AcompanhamentoMonitores.objects.filter(AsMon_acompanhamento=acompanhamento).last()
     except:
         monitoria = None
     try:
-        tutoria = get_object_or_404(AcompanhamentoTutores, AsTut_acompanhamento=acompanhamento)
+        tutoria = AcompanhamentoTutores.objects.filter(AsTut_acompanhamento=acompanhamento).last()
     except:
         tutoria = None
     try:
@@ -617,12 +732,17 @@ def acompanhamentoInterprete(request, acompanhamento_id):
         'disciplinas': disciplinas
     })
 
-def buscarAcompanhamentoInterprete(request):
+def buscarAcompanhamentoInterprete(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            interprete = get_object_or_404(Interprete, int_cpf=user.username)
+            interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_interprete=interprete)
             acompanhamentos = Acompanhamentos.objects.order_by('-aco_id').filter(
                 Q(aco_semestre__icontains=searched) | Q(aco_aluno_pcd__alu_nome__icontains=searched)
+            ).filter(
+                aco_id__in=[i.AsInt_acompanhamento.aco_id for i in interpretacoes.all()]
             )
         else:
             acompanhamentos = None
@@ -636,14 +756,23 @@ def buscarAcompanhamentoInterprete(request):
 
         })
 
-def buscarDisciplinaInterprete(request):
+def buscarDisciplinaInterprete(request, user_id):
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
+            user = get_object_or_404(CustomUser, id=user_id)
+            interprete = get_object_or_404(Interprete, int_cpf=user.username)
+            interpretacoes = AcompanhamentoInterpretes.objects.filter(AsInt_interprete=interprete)
+            acompanhamentos = Acompanhamentos.objects.filter(
+                aco_id__in=[i.AsInt_acompanhamento.aco_id for i in interpretacoes.all()]
+            )
             disciplinas = AcompanhamentoDisciplinas.objects.order_by('-AsDis_id').filter(
                 Q(AsDis_disciplina__dis_nome__icontains=searched) |
                 Q(AsDis_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched ) |
-                Q(AsDis_acompanhamento__aco_semestre__icontains=searched)
+                Q(AsDis_acompanhamento__aco_semestre__icontains=searched) |
+                Q(AsDis_disciplina__dis_curso__cur_nome__icontains=searched)
+            ).filter(
+                AsDis_acompanhamento__in=[a for a in acompanhamentos.all()]
             )
         else:
             disciplinas = None

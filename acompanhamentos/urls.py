@@ -30,25 +30,30 @@ urlpatterns = [
     path('deletarTutoria/<int:tutoria_id>', views.deletarTutoria, name='deletarTutoria'),
     path('deletarInterpretacao/<int:interpretacao_id>', views.deletarInterpretacao, name='deletarInterpretacao'),
 
+    #Aluno
+    path('acoDisIndexAluno/<int:user_id>', views.acoDisIndexAluno, name='acoDisIndexAluno'),
+    path('acompanhamentoAluno/<int:user_id>', views.acompanhamentoAluno, name='acompanhamentoAluno'),
+    path('buscarDisciplinaAluno/<int:user_id>', views.buscarDisciplinaAluno, name='buscarDisciplinaAluno'),
+
     #Monitor
-    path('acoIndexMonitor', views.acoIndexMonitor, name='acoIndexMonitor'),
-    path('disciplinasMonitor', views.acoDisIndexMonitor, name='acoDisIndexMonitor'),
+    path('acoIndexMonitor/<int:user_id>', views.acoIndexMonitor, name='acoIndexMonitor'),
+    path('disciplinasMonitor/<int:user_id>', views.acoDisIndexMonitor, name='acoDisIndexMonitor'),
     path('acompanhamentoMonitor/<int:acompanhamento_id>', views.acompanhamentoMonitor, name='acompanhamentoMonitor'),
-    path('buscarAcompanhamentoMonitor', views.buscarAcompanhamentoMonitor, name='buscarAcompanhamentoMonitor'),
-    path('buscarDisciplinaMonitor', views.buscarDisciplinaMonitor, name='buscarDisciplinaMonitor'),
+    path('buscarAcompanhamentoMonitor/<int:user_id>', views.buscarAcompanhamentoMonitor, name='buscarAcompanhamentoMonitor'),
+    path('buscarDisciplinaMonitor/<int:user_id>', views.buscarDisciplinaMonitor, name='buscarDisciplinaMonitor'),
 
     #Tutor
-    path('acoIndexTutor', views.acoIndexTutor, name='acoIndexTutor'),
-    path('disciplinasTutor', views.acoDisIndexTutor, name='acoDisIndexTutor'),
+    path('acoIndexTutor/<int:user_id>', views.acoIndexTutor, name='acoIndexTutor'),
+    path('disciplinasTutor/<int:user_id>', views.acoDisIndexTutor, name='acoDisIndexTutor'),
     path('acompanhamentoTutor/<int:acompanhamento_id>', views.acompanhamentoTutor, name='acompanhamentoTutor'),
-    path('buscarAcompanhamentoTutor', views.buscarAcompanhamentoTutor, name='buscarAcompanhamentoTutor'),
-    path('buscarDisciplinaTutor', views.buscarDisciplinaTutor, name='buscarDisciplinaTutor'),
+    path('buscarAcompanhamentoTutor/<int:user_id>', views.buscarAcompanhamentoTutor, name='buscarAcompanhamentoTutor'),
+    path('buscarDisciplinaTutor/<int:user_id>', views.buscarDisciplinaTutor, name='buscarDisciplinaTutor'),
 
     #Interprete
-    path('acoIndexInterprete', views.acoIndexInterprete, name='acoIndexInterprete'),
-    path('disciplinasInterprete', views.acoDisIndexInterprete, name='acoDisIndexInterprete'),
+    path('acoIndexInterprete/<int:user_id>', views.acoIndexInterprete, name='acoIndexInterprete'),
+    path('disciplinasInterprete/<int:user_id>', views.acoDisIndexInterprete, name='acoDisIndexInterprete'),
     path('acompanhamentoInterprete/<int:acompanhamento_id>', views.acompanhamentoInterprete, name='acompanhamentoInterprete'),
-    path('buscarAcompanhamentoInterprete', views.buscarAcompanhamentoInterprete, name='buscarAcompanhamentoInterprete'),
-    path('buscarDisciplinaInterprete', views.buscarDisciplinaInterprete, name='buscarDisciplinaInterprete'),
+    path('buscarAcompanhamentoInterprete/<int:user_id>', views.buscarAcompanhamentoInterprete, name='buscarAcompanhamentoInterprete'),
+    path('buscarDisciplinaInterprete/<int:user_id>', views.buscarDisciplinaInterprete, name='buscarDisciplinaInterprete'),
 
 ]

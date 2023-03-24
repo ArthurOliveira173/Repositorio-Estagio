@@ -61,6 +61,21 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-cog"></i>
+                            <span>Meu acompanhamento</span>
+                        </a>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Opções:</h6>
+                                <a class="collapse-item" href="{% url 'acompanhamentoAluno' user.id %}">Acompanhamento</a>
+                                <a class="collapse-item" href="{% url 'acoDisIndexAluno' user.id %}">Disciplinas</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'alunoFeedbackAll' user.id %}">
                             <i class="fas fa-fw fa-envelope-open-text"></i>
                             <span>Feedbacks</span></a>

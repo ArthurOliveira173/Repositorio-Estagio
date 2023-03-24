@@ -1,7 +1,5 @@
 {% extends 'baseLogin.html' %}
 
-
-
 {% block conteudo %}
   <style>
     .disabled-link {
@@ -40,7 +38,7 @@
         <a type="button" class="btn btn-primary" href="{% url 'authRegisterGeral' %}">Cadastrar</a>
 
         <p>
-          <a style="color:black;center;" type="button" class="btn btn-link" href="">Esqueci Minha Senha</a>
+          <a style="center; margin-top: 5px" type="button" class="btn btn-secondary" href="{% url 'password_reset' %}">Esqueci Minha Senha</a>
         </p>
       </form>
     {% endif %}

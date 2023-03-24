@@ -64,18 +64,15 @@ urlpatterns = [
     path('alunos', views.aluIndex, name='aluIndex'),
     path('alunos/acompanhantes', views.acompanhantes, name='acompanhantes'),
     path('alunos/<int:user_id>', views.aluno, name='aluno'),
-    path('alunoAtualizar/<int:aluno_id>', views.alunoAtualizar, name='alunoAtualizar'),
+    path('alunos/atualizarAlunoPerfil/<int:user_id>', views.atualizarAlunoPerfil, name='atualizarAlunoPerfil'),
 
 
     #Monitor_tutor
-    path('monitores', views.index_mon, name='index_mon'),
-    path('monitores/monAluno', views.monAluno, name='monAluno'),
     path('monitores/<int:user_id>', views.monitor, name='monitor'),
-    path('tutores', views.index_tut, name='index_tut'),
-    path('tutores/tutAluno', views.tutAluno, name='tutAluno'),
+    path('monitores/atualizarMonitorPerfil/<int:user_id>', views.atualizarMonitorPerfil, name='atualizarMonitorPerfil'),
     path('tutores/<int:user_id>', views.tutor, name='tutor'),
+    path('tutores/atualizarTutorPerfil/<int:user_id>', views.atualizarTutorPerfil, name='atualizarTutorPerfil'),
     #Interpretes
-    path('interpretes', views.intIndex, name='intIndex'),
-    path('interpretes/intAluno', views.intAluno, name='intAluno'),
-    path('interpretes/<int:user_id>', views.interprete, name='interprete')
+    path('interpretes/<int:user_id>', views.interprete, name='interprete'),
+    path('interpretes/atualizarInterpretePerfil/<int:user_id>', views.atualizarInterpretePerfil, name='atualizarInterpretePerfil'),
 ]

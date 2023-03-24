@@ -32,5 +32,4 @@ urlpatterns = [
     path('404', TemplateView.as_view(template_name="404.html")),
     path('index', TemplateView.as_view(template_name="index.html")),
     path('auth/', include('authentication.urls')),
-    path('auth/', include('django.contrib.auth.urls')),
 ]

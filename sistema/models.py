@@ -37,7 +37,7 @@ class Disciplinas(models.Model):
         managed = False
         db_table = 'disciplinas'
     def __str__(self):
-        return self.dis_nome
+        return "{0} ({1})".format(self.dis_nome, self.dis_curso)
 
 class Laudos(models.Model):
 

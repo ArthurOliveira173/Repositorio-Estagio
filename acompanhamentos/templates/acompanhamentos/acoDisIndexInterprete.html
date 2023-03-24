@@ -2,7 +2,7 @@
 
 {%block opcoes%}
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-          method="POST" action="{% url 'buscarDisciplinaInterprete' %}">
+          method="POST" action="{% url 'buscarDisciplinaInterprete' user.id %}">
         <div class="input-group">
             {% csrf_token %}
             <input type="search" class="form-control bg-light border-0 small" placeholder="Busque disciplinas aqui..."
@@ -87,6 +87,7 @@
                         <thead style="background-color: #4A6FDC;">
                           <tr class="text-white">
                             <th scope="col">Disciplina</th>
+                            <th scope="col">Curso</th>
                             <th scope="col">Acompanhamento</th>
                             <th scope="col">Carga Horária</th>
                           </tr>
@@ -94,7 +95,8 @@
                         <tbody>
                           {% for disciplina in disciplinas %}
                             <tr>
-                              <td>{{ disciplina.AsDis_disciplina }}</td>
+                              <td>{{ disciplina.AsDis_disciplina.dis_nome }}</td>
+                              <td>{{ disciplina.AsDis_disciplina.dis_curso }}</td>
                               <td>{{ disciplina.AsDis_acompanhamento }}</td>
                               <td>{{ disciplina.AsDis_disciplina.dis_carga_horaria }} Horas</td>
                             </tr>

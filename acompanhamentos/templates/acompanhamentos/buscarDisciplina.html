@@ -75,6 +75,7 @@
                                 <thead style="background-color: #4A6FDC;">
                                   <tr class="text-white">
                                     <th scope="col">Disciplina</th>
+                                    <th scope="col">Curso</th>
                                     <th scope="col">Acompanhamento</th>
                                     <th scope="col">Carga Horária</th>
                                     <th scope="col">Operações</th>
@@ -83,7 +84,8 @@
                                 <tbody>
                                   {% for disciplina in disciplinas %}
                                     <tr>
-                                      <td>{{ disciplina.AsDis_disciplina }}</td>
+                                      <td>{{ disciplina.AsDis_disciplina.dis_nome }}</td>
+                                      <td>{{ disciplina.AsDis_disciplina.dis_curso }}</td>
                                       <td>{{ disciplina.AsDis_acompanhamento }}</td>
                                       <td>{{ disciplina.AsDis_disciplina.dis_carga_horaria }} Horas</td>
                                       <td>
@@ -133,7 +135,7 @@
 
             </section>
         {% else %}
-            <h4>Nenhuma busca realizada! Primeiramente digite alguma parte do semestre, nome da disciplina ou aluno acompanhado</h4>
+            <h4>Nenhuma busca realizada! Primeiramente digite alguma parte do semestre, nome do aluno, nome da disciplina ou do curso vinculado à disciplina.</h4>
         {% endif %}
     </div>
 </body>
