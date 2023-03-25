@@ -12,7 +12,7 @@
 
 {%block opcoes%}
     <a class="btn btn-secondary" style="margin-right: 30px"href="{% url 'alunoFeedbackAll' user.id %}" role="button">Voltar</a>
-    <a style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar nova mensagem</a>
+    <a style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar Resposta</a>
 
 {%endblock%}
 
@@ -22,7 +22,7 @@
     <section>
         <div class="row">
             <div class="col-12 mt-3 mb-1">
-                <h5 class="text-uppercase" align="center">FEEDBACK DE NÚMERO: {{feedback.fee_id}}</h5>
+                <h5 class="text-uppercase" align="center">Lista de Conversa do Feedback: {{feedback.fee_id}}</h5>
             </div>
         </div>
 
@@ -30,28 +30,35 @@
             <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
                 <div class="card mb-3">
                     <div class="card-header bg-success text-white">
-                        <div class="row">
-                            <div class="me-auto p-2 bd-highlight">
-                                Data: {{ feedback.fee_data|date:'d/m/Y H:i:s' }}
-                                Data: {{ feedback.fee_data|date:'d/m/Y H:i:s' }}
+                        <div class="d-flex justify-content-between">
+                            <div class="me-auto p-2 bd-highlight d-flex justify-content-between">
+                                <H3 class="">{{ feedback.fee_acompanhamento }}</H3>
+                            </div>
+                            <div class="me-auto p-2 bd-highlight d-flex justify-content-between">
+                                <H3 class="">Data: {{ feedback.fee_data|date:'d/m/Y H:i:s' }}</H3>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Tipo de Feedback: {{ feedback.fee_titulo }}</h5>
+                        <h4 class="card-title">Tipo de Feedback: {{ feedback.fee_titulo }}</h4>
                         <textarea class="form-control " rows="5" disabled>{{feedback.fee_descricao}}</textarea>
-                        <div class="row">
-                            <h5 class="col-12">Esse feedback foi gerado durante:</h5>
-                            <div class="ms-auto p-2 bd-highlight flex-row-reverse col-6">
-                                <p class="flex-row-reverse">Acompanhamento de Número: {{ acompanhamento.aco_id}}</p>
-                                <p class="flex-row-reverse">Inicio do acompanhamento: {{ acompanhamento.aco_inicio|date:'d/m/Y' }}</p>
-                                <p class="flex-row-reverse">Fim do acompanhamento: {{ acompanhamento.aco_fim|date:'d/m/Y' }}</p>
+                        <div class="">
+                            {% if feedback.fee_proximo %}
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Próximo feedback:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ feedback.fee_proximo }}</p>
                             </div>
-                            <div class="ms-auto p-2 bd-highlight flex-row-reverse">
-                                <p class="flex-row-reverse">ID: {{ feedback.fee_id }}</p>
-                                <p class="flex-row-reverse">anterior: {{ feedback.fee_anterior }}</p>
-                                <p class="flex-row-reverse">proximos: {{ feedback.fee_proximo }}</p>
+                            {% endif %}
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Código do feedback:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ feedback.fee_id }}</p>
                             </div>
+                            {% if feedback.fee_anterior %}
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Feedback anterior:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ feedback.fee_anterior }}</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@
 {%block opcoes%}
     <a class="btn btn-secondary" style="margin-right: 30px" href="{% url 'alunoFeedbackAll' user.id %}" role="button">Voltar</a>
 
-    <a  style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar nova mensagem</a>
+    <a  style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar Resposta</a>
 
 {%endblock%}
 
@@ -23,7 +23,7 @@
     <section>
         <div class="row">
             <div class="col-12 mt-3 mb-1">
-                <h5 class="text-uppercase" align="center">TODAS MENSAGENS DO FEEDBACK</h5>
+                <h5 class="text-uppercase" align="center">Lista de Conversa do Feedback: {{feedbackInicial.fee_id}}</h5>
             </div>
         </div>
 
@@ -32,27 +32,35 @@
             <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
                 <div class="card mb-3">
                     <div class="card-header bg-success text-white">
-                        <div class="row">
-                            <div class="me-auto p-2 bd-highlight">
-                                Data: {{ f.fee_data|date:'d/m/Y H:i:s' }}
+                        <div class="d-flex justify-content-between">
+                            <div class="me-auto p-2 bd-highlight d-flex justify-content-between">
+                                <H3 class="">{{ f.fee_acompanhamento }}</H3>
+                            </div>
+                            <div class="me-auto p-2 bd-highlight d-flex justify-content-between">
+                                <H3 class="">Data: {{ f.fee_data|date:'d/m/Y H:i:s' }}</H3>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Tipo de Feedback: {{ f.fee_titulo }}</h5>
+                        <h4 class="card-title">Tipo de Feedback: {{ f.fee_titulo }}</h4>
                         <textarea class="form-control " rows="5" disabled>{{f.fee_descricao}}</textarea>
-                        <div class="row">
-                            <h5 class="col-12">Informações do Feedback:</h5>
-                            <div class="ms-auto p-2 bd-highlight flex-row-reverse col-6">
-                                <p class="flex-row-reverse">Durante o acompanhamento de número: {{ f.fee_acompanhamento.aco_id}}</p>
-                                <p class="flex-row-reverse">Data inicio do acompanhamento: {{ f.fee_acompanhamento.aco_inicio|date:'d/m/Y' }}</p>
-                                <p class="flex-row-reverse">Data final do acompanhamento: {{ f.fee_acompanhamento.aco_fim|date:'d/m/Y' }}</p>
+                        <div class="">
+                            {% if f.fee_proximo %}
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Próximo feedback:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ f.fee_proximo }}</p>
                             </div>
-                            <div class="ms-auto p-2 bd-highlight flex-row-reverse">
-                                <p class="flex-row-reverse">Número do Feedback: {{ f.fee_id }}</p>
-                                <p class="flex-row-reverse">Feedback anterior: {{ f.fee_anterior }}</p>
-                                <p class="flex-row-reverse">Proximo Feedback: {{ f.fee_proximo }}</p>
+                            {% endif %}
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Código do feedback:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ f.fee_id }}</p>
                             </div>
+                            {% if f.fee_anterior %}
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Feedback anterior:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ f.fee_anterior }}</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -66,7 +66,6 @@ urlpatterns = [
     path('alunos/<int:user_id>', views.aluno, name='aluno'),
     path('alunos/atualizarAlunoPerfil/<int:user_id>', views.atualizarAlunoPerfil, name='atualizarAlunoPerfil'),
 
-
     #Monitor_tutor
     path('monitores/<int:user_id>', views.monitor, name='monitor'),
     path('monitores/atualizarMonitorPerfil/<int:user_id>', views.atualizarMonitorPerfil, name='atualizarMonitorPerfil'),

@@ -2,7 +2,7 @@
 <html lang="pt">
 
 {%block opcoes%}
-    <a class="btn btn-success" style="margin-right: 30px"href="{% url 'alunoFeedback' user.id %}" role="button">Novo Feedback</a>
+    <a class="btn btn-success" style="margin-right: 30px"href="{% url 'alunoFeedback' user.id %}" role="button">Iniciar Feedback</a>
 {%endblock%}
 
 {%block conteudo%}
@@ -11,26 +11,38 @@
     <section>
         <div class="row">
             <div class="col-12 mt-3 mb-1">
-                <h5 class="text-uppercase" align="center">TODOS FEEDBACKS</h5>
+                <h5 class="text-uppercase" align="center">Feedbacks Postados</h5>
             </div>
         </div>
         {% if feedback %}
         {% for feedbacks in feedback %}
         <div class="row" style="">
             <div class="col-xl-8 col-md-12" style="margin: 0 auto; margin-top: 10px">
-                <div class="card mb-3 col-12">
-                    <div class="card-header bg-success fw-bold text-white">
-                        <label class="col-6">Data: {{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</label>
-                        <label class="">Número do Feedback: {{ feedbacks.fee_id }}</label>
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        <div class="d-flex justify-content-between">
+                            <div class="me-auto p-2 bd-highlight d-flex justify-content-between">
+                                <H3 class="">{{ feedbacks.fee_acompanhamento }}</H3>
+                            </div>
+                            <div class="me-auto p-2 bd-highlight d-flex justify-content-between">
+                                <H3 class="">Data: {{ feedbacks.fee_data|date:'d/m/Y H:i:s' }}</H3>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Tipo de Feedback: {{ feedbacks.fee_titulo }}</h5>
+                        <h4 class="card-title">Tipo de Feedback: {{ feedbacks.fee_titulo }}</h4>
                         <textarea class="form-control " rows="5" disabled>{{feedbacks.fee_descricao}}</textarea>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a url="/alunos/alunoOpenfeedback"
-                               href="{% url 'alunoOpenfeedback' user.id feedbacks.fee_id %}"
-                               class="btn btn-primary mt-3">Abrir</a>
+                        <div class="d-flex justify-content-between">
+                            <div class="row">
+                                <h4 style="margin-left: 15px; padding-top: 10px">Código do feedback:</h4>
+                                <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ feedbacks.fee_id }}</p>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a url="/alunos/alunoOpenfeedback"
+                                   href="{% url 'alunoOpenfeedback' user.id feedbacks.fee_id %}"
+                                   class="btn btn-primary mt-3">Abrir</a>
+                            </div>
                         </div>
                     </div>
                 </div>

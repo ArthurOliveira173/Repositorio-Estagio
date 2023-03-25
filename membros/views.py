@@ -13,6 +13,7 @@ from authentication.views import valida_cpf, valida_string
 from acompanhamentos.models import Acompanhamentos
 from feedbacks.forms import FeedbacksForm
 from feedbacks.models import Feedbacks
+from PIL import Image
 
 # Create your views here.
 #ADMIN================================================================================================
@@ -455,10 +456,11 @@ def adicionarAluno(request):
             if user is not None:
                 userForm = form.save(commit=False)
                 userForm.alu_usuario = user
+                userForm.alu_ativo = True
                 userForm.save()
                 user.is_active = True
                 user.save()
-                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.''')
+                messages.success(request, '''Cadastro de usuário aluno realizado com sucesso!''')
                 return redirect("alunos")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
@@ -610,10 +612,11 @@ def adicionarMonitor(request):
             if user is not None:
                 userForm = form.save(commit=False)
                 userForm.mon_usuario = user
+                userForm.mon_ativo = True
                 userForm.save()
                 user.is_active = True
                 user.save()
-                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.''')
+                messages.success(request, '''Cadastro de usuário monitor realizado com sucesso!''')
                 return redirect("monitores")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")
@@ -768,12 +771,11 @@ def adicionarTutor(request):
             if user is not None:
                 userForm = form.save(commit=False)
                 userForm.tut_usuario = user
+                userForm.tut_ativo = True
                 userForm.save()
                 user.is_active = True
                 user.save()
-                messages.success(request, '''Cadastro submetido com sucesso para homologação por parte da administração do NAI.
-
-                por favor, aguarde 24 horas para logar no sistema.''')
+                messages.success(request, '''Cadastro de usuário tutor realizado com sucesso!''')
                 return redirect("tutores")
             else:
                 messages.error("ocorreu um erro na tentativa de cadastro! Usuário não foi criado.")

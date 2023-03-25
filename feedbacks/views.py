@@ -14,11 +14,15 @@ from acompanhamentos.models import Acompanhamentos
 #         for chunk in f.chunks():
 #             destination.write(chunk)
 def feeIndex(request):
-    feedbacks = Feedbacks.objects.order_by('-fee_id')
-    paginator = Paginator(feedbacks, 10)
+    feedbacks = Feedbacks.objects.filter(fee_anterior=None)
+
+
+    paginator = Paginator(feedbacks, 5)
 
     page = request.GET.get('p')
     feedbacks = paginator.get_page(page)
+
+    feedbacks = reversed(feedbacks)
     return render(request, 'feedbacks/feeIndex.html', {
         'feedbacks': feedbacks
     })
@@ -119,7 +123,7 @@ def alunoFeedbackAll(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
     acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno)
-    feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()], fee_anterior=None )
+    feedback = Feedbacks.objects.order_by('-fee_id').filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()], fee_anterior=None )
 
     paginator = Paginator(feedback, 7)
     page = request.GET.get('p')
@@ -135,11 +139,12 @@ def alunoOpenAllfeedback(request, user_id, feedback_id):
 
     user = get_object_or_404(CustomUser, id=user_id)
     aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
+    feedbackInicial = get_object_or_404(Feedbacks, fee_id=feedback_id)
     acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno.alu_id)
     list_feedback = Feedbacks.objects.filter(fee_acompanhamento__in=[a.aco_id for a in acompanhamento.all()])
 
     feedback = []
-    f0 = list_feedback[feedback_id - 1]
+    f0 = feedbackInicial
     feedback.append(f0)
     ultimo_feedback = None
     for f1 in list_feedback:
@@ -154,6 +159,7 @@ def alunoOpenAllfeedback(request, user_id, feedback_id):
         'aluno': aluno,
         'acompanhamento': acompanhamento,
         'ultimo_feedback': ultimo_feedback,
+        'feedbackInicial': feedbackInicial
     })
 def alunoOpenfeedback(request, user_id, feedback_id ):
     user = get_object_or_404(CustomUser, id=user_id)
@@ -186,6 +192,7 @@ def alunoRespostaFeedback(request, user_id, feedback_id):
             Feedbackform = form.save(commit=False)
             ultimo_feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
 
+            Feedbackform.fee_titulo = ultimo_feedback.fee_titulo
             Feedbackform.fee_anterior = ultimo_feedback.fee_id
             Feedbackform.fee_acompanhamento = ultimo_feedback.fee_acompanhamento
 
