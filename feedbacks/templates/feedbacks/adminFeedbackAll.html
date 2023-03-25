@@ -1,12 +1,7 @@
-{% extends 'baseAluno.html' %}
+{% extends 'baseAdmin.html' %}
 <html lang="pt">
 
 {%block opcoes%}
-    {% if acompanhamentos %}
-        <a class="btn btn-success" style="margin-right: 30px"href="{% url 'alunoFeedback' user.id %}" role="button">Iniciar Feedback</a>
-    {% else %}
-        <a class="btn btn-secondary disabled" style="margin-right: 30px"href="{% url 'alunoFeedback' user.id %}" role="button">Iniciar Feedback</a>
-    {% endif %}
 {%endblock%}
 
 {%block conteudo%}
@@ -18,14 +13,6 @@
                 <h5 class="text-uppercase" align="center">Feedbacks Postados</h5>
             </div>
         </div>
-        {% if not acompanhamentos %}
-            <div class="alert alert-warning" role="alert">
-              Feedbacks não podem ser iniciados enquanto não houver um acompanhamento ativo.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-        {% endif %}
         {% if feedback %}
         {% for feedbacks in feedback %}
         <div class="row" style="">
@@ -60,10 +47,42 @@
                                 <h4 style="margin-left: 15px; padding-top: 10px">Código do feedback:</h4>
                                 <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ feedbacks.fee_id }}</p>
                             </div>
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a url="/alunos/alunoOpenfeedback"
-                                   href="{% url 'alunoOpenfeedback' user.id feedbacks.fee_id %}"
+                            <div class="d-grid gap-2">
+                                <a url="/admins/adminOpenfeedback"
+                                   href="{% url 'adminOpenfeedback' feedbacks.fee_id %}"
                                    class="btn btn-primary mt-3">Abrir</a>
+                                <a class="btn btn-danger mt-3" data-toggle="modal" data-target="#deleteModal{{ feedbacks.fee_id }}" role="button">
+                                   <div class="d-flex align-items-center">Excluir</div>
+                                </a>
+
+                                  <!-- Modal -->
+                                <div class="modal fade" id="deleteModal{{ feedbacks.fee_id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content" align="left">
+                                        <div class="modal-header text-white" style="background-color: #4A6FDC; margin-right: -0.5px">
+                                          <h5 class="modal-title" id="deleteModalLabel">Excluindo lista de feedback</h5>
+                                          <button style="color: #ffffff" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Ao confirmar essa opção, o feedback selecionado e todas as suas respostas vão ser deletadas!
+                                        </div>
+                                        <div class="modal-body">
+                                            Tem certeza que deseja excluir a lista do feedback {{ feedbacks.fee_id }}?
+                                        </div>
+                                        <div class="modal-body" style="color: red;">
+                                            Esta ação é permanente.
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                          <a class="btn btn-danger text-white" href="{% url 'adminDeletarFeedback' feedbacks.fee_id %}" role="button">
+                                              Excluir
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

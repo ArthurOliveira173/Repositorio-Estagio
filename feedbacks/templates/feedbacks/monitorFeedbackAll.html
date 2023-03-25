@@ -1,11 +1,11 @@
-{% extends 'baseAluno.html' %}
+{% extends 'baseMonitor.html' %}
 <html lang="pt">
 
 {%block opcoes%}
     {% if acompanhamentos %}
-        <a class="btn btn-success" style="margin-right: 30px"href="{% url 'alunoFeedback' user.id %}" role="button">Iniciar Feedback</a>
+        <a class="btn btn-success" style="margin-right: 30px"href="{% url 'monitorFeedback' user.id %}" role="button">Iniciar Feedback</a>
     {% else %}
-        <a class="btn btn-secondary disabled" style="margin-right: 30px"href="{% url 'alunoFeedback' user.id %}" role="button">Iniciar Feedback</a>
+        <a class="btn btn-secondary disabled" style="margin-right: 30px"href="{% url 'monitorFeedback' user.id %}" role="button">Iniciar Feedback</a>
     {% endif %}
 {%endblock%}
 
@@ -61,8 +61,8 @@
                                 <p class="mb-0" style="margin-left: 5px; padding-top: 15px">{{ feedbacks.fee_id }}</p>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a url="/alunos/alunoOpenfeedback"
-                                   href="{% url 'alunoOpenfeedback' user.id feedbacks.fee_id %}"
+                                <a url="/monitores/monitorOpenfeedback"
+                                   href="{% url 'monitorOpenfeedback' user.id feedbacks.fee_id %}"
                                    class="btn btn-primary mt-3">Abrir</a>
                             </div>
                         </div>

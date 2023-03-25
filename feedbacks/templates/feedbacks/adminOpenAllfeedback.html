@@ -1,10 +1,10 @@
-{% extends 'baseAluno.html' %}
+{% extends 'baseAdmin.html' %}
 <html lang="pt">
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px" href="{% url 'alunoFeedbackAll' user.id %}" role="button">Voltar</a>
+    <a class="btn btn-secondary" style="margin-right: 30px" href="{% url 'adminFeedbackAll' %}" role="button">Voltar</a>
 
-    <a  style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar Resposta</a>
+    <a  style="margin-right: 10px" href="{% url 'adminRespostaFeedback' ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar Resposta</a>
 
 {%endblock%}
 

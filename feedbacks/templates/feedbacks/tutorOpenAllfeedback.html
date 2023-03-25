@@ -1,10 +1,9 @@
-{% extends 'baseAluno.html' %}
+{% extends 'baseTutor.html' %}
 <html lang="pt">
 
 {%block opcoes%}
-    <a class="btn btn-secondary" style="margin-right: 30px" href="{% url 'alunoFeedbackAll' user.id %}" role="button">Voltar</a>
-
-    <a  style="margin-right: 10px" href="{% url 'alunoRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar Resposta</a>
+    <a class="btn btn-secondary" style="margin-right: 30px" href="{% url 'tutorFeedbackAll' user.id %}" role="button">Voltar</a>
+    <a  style="margin-right: 10px" href="{% url 'tutorRespostaFeedback' user.id ultimo_feedback.fee_id %}" methods="GET" class="btn btn-success">Enviar Resposta</a>
 
 {%endblock%}
 

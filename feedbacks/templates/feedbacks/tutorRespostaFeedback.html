@@ -1,9 +1,13 @@
-{% extends 'baseAluno.html' %}
+{% extends 'baseTutor.html' %}
 <html lang="pt">
+
+{%block opcoes%}
+    <a class="btn btn-secondary" style="margin-right: 30px"href="{% url 'tutorFeedbackAll' user.id %}" role="button">Voltar</a>
+{%endblock%}
 
 {%block conteudo%}
 <div style=" margin-right: 150px; margin-left: 150px; margin-top: 50px">
-    <h1 style="text-align: center;">Iniciar Feedback</h1>
+    <h1 style="text-align: center;">Formulário de resposta do Feedback</h1>
     {% if submitted %}
     Feedback enviado com sucesso!
     {% else %}
