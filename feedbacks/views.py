@@ -101,7 +101,7 @@ def baixarFileFeedback(request, filename):
 
 #ADMIN-FEEDBACK
 def adminFeedbackAll(request):
-    feedback = Feedbacks.objects.order_by('-fee_id').filter(fee_anterior=None )
+    feedback = Feedbacks.objects.order_by('-fee_id').filter(fee_anterior=None)
 
     paginator = Paginator(feedback, 7)
     page = request.GET.get('p')
@@ -154,9 +154,14 @@ def adminRespostaFeedback(request, feedback_id):
             ultimo_feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
 
             Feedbackform.fee_titulo = ultimo_feedback.fee_titulo
+            Feedbackform.fee_emissor = request.user
             Feedbackform.fee_anterior = ultimo_feedback.fee_id
             Feedbackform.fee_acompanhamento = ultimo_feedback.fee_acompanhamento
-
+            if ultimo_feedback.fee_inicial:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_inicial
+            else:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_id
+            Feedbackform.fee_new = True
 
             Feedbackform.save()
             print(Feedbackform.fee_id)
@@ -167,7 +172,6 @@ def adminRespostaFeedback(request, feedback_id):
 
         else:
             form = FeedbacksRespostaForm()
-            form.save()
             return HttpResponseRedirect('adminRespostaFeedback?submitted=True')
     else:
         form = FeedbacksRespostaForm()
@@ -204,6 +208,13 @@ def adminDeletarFeedback(request, feedback_id):
             pass
     return redirect('adminFeedbackAll')
 
+def adminMarcarComoLido(request, feedback_id):
+    feedback = Feedbacks.objects.filter(fee_id=feedback_id)
+    feedback.fee_new = False
+    feedback.save()
+    messages.success(request, "Feedback marcado como lido!.")
+    return redirect('adminFeedbackAll')
+
 #ALUNO-FEEDBACK
 def alunoFeedback(request, user_id):
     submitted = False
@@ -212,20 +223,19 @@ def alunoFeedback(request, user_id):
     if request.POST:
         form = FeedbacksForm(request.POST, request.FILES)
         user = get_object_or_404(CustomUser, id=user_id)
-        aluno = get_object_or_404(AlunoPcd, alu_cpf= user.username)
+        aluno = get_object_or_404(AlunoPcd, alu_cpf=user.username)
         acompanhamento = Acompanhamentos.objects.filter(aco_aluno_pcd = aluno).last()
 
         if form.is_valid():
             Feedbackform = form.save(commit=False)
-            # handle_uploaded_file(request.FILES["avi_arquivos"])
             Feedbackform.fee_acompanhamento = acompanhamento
+            Feedbackform.fee_emissor = user
+            Feedbackform.fee_new = True
             Feedbackform.save()
             messages.success(request, "Feedback iniciado com sucesso!")
             return redirect('alunoFeedbackAll', user_id)
         else:
             form = FeedbacksForm()
-            form.save()
-            return HttpResponseRedirect('alunoFeedback?submitted=True')
     else:
         form = FeedbacksForm()
         if 'submitted' in request.GET:
@@ -298,9 +308,14 @@ def alunoRespostaFeedback(request, user_id, feedback_id):
             ultimo_feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
 
             Feedbackform.fee_titulo = ultimo_feedback.fee_titulo
+            Feedbackform.fee_emissor = request.user
             Feedbackform.fee_anterior = ultimo_feedback.fee_id
             Feedbackform.fee_acompanhamento = ultimo_feedback.fee_acompanhamento
-
+            if ultimo_feedback.fee_inicial:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_inicial
+            else:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_id
+            Feedbackform.fee_new = True
 
             Feedbackform.save()
             print(Feedbackform.fee_id)
@@ -311,7 +326,6 @@ def alunoRespostaFeedback(request, user_id, feedback_id):
 
         else:
             form = FeedbacksRespostaForm()
-            form.save()
             return HttpResponseRedirect('alunoRespostaFeedback?submitted=True')
     else:
         form = FeedbacksRespostaForm()
@@ -323,6 +337,14 @@ def alunoRespostaFeedback(request, user_id, feedback_id):
 
     return render(request, 'feedbacks/alunoRespostaFeedback.html', context)
 
+def alunoMarcarComoLido(request, feedback_id):
+    feedback = Feedbacks.objects.filter(fee_id=feedback_id)
+    feedback.fee_new = False
+    feedback.save()
+    user = get_object_or_404(CustomUser, id=request.user.id)
+    messages.success(request, "Feedback marcado como lido!.")
+    return redirect('alunoFeedbackAll', user.id)
+
 #MONITOR-FEEDBACK
 def monitorFeedback(request, user_id):
     submitted = False
@@ -333,12 +355,14 @@ def monitorFeedback(request, user_id):
         form = FeedbacksMonitorForm(user, request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            Feedbackform = form.save(commit=False)
+            Feedbackform.fee_emissor = user
+            Feedbackform.fee_new = True
+            Feedbackform.save()
             messages.success(request, "Feedback iniciado com sucesso!")
             return redirect('monitorFeedbackAll', user_id)
         else:
             form = FeedbacksMonitorForm(user)
-            form.save()
             return HttpResponseRedirect('monitorFeedback?submitted=True')
     else:
         form = FeedbacksMonitorForm(user)
@@ -413,9 +437,14 @@ def monitorRespostaFeedback(request, user_id, feedback_id):
             ultimo_feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
 
             Feedbackform.fee_titulo = ultimo_feedback.fee_titulo
+            Feedbackform.fee_emissor = request.user
             Feedbackform.fee_anterior = ultimo_feedback.fee_id
             Feedbackform.fee_acompanhamento = ultimo_feedback.fee_acompanhamento
-
+            if ultimo_feedback.fee_inicial:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_inicial
+            else:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_id
+            Feedbackform.fee_new = True
 
             Feedbackform.save()
             print(Feedbackform.fee_id)
@@ -426,7 +455,6 @@ def monitorRespostaFeedback(request, user_id, feedback_id):
 
         else:
             form = FeedbacksRespostaForm()
-            form.save()
             return HttpResponseRedirect('monitorRespostaFeedback?submitted=True')
     else:
         form = FeedbacksRespostaForm()
@@ -438,6 +466,14 @@ def monitorRespostaFeedback(request, user_id, feedback_id):
 
     return render(request, 'feedbacks/monitorRespostaFeedback.html', context)
 
+def monitorMarcarComoLido(request, feedback_id):
+    feedback = Feedbacks.objects.filter(fee_id=feedback_id)
+    feedback.fee_new = False
+    feedback.save()
+    user = get_object_or_404(CustomUser, id=request.user.id)
+    messages.success(request, "Feedback marcado como lido!.")
+    return redirect('monitorFeedbackAll', user.id)
+
 #TUTOR-FEEDBACK
 def tutorFeedback(request, user_id):
     submitted = False
@@ -448,12 +484,14 @@ def tutorFeedback(request, user_id):
         form = FeedbacksTutorForm(user, request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            Feedbackform = form.save(commit=False)
+            Feedbackform.fee_emissor = user
+            Feedbackform.fee_new = True
+            Feedbackform.save()
             messages.success(request, "Feedback iniciado com sucesso!")
             return redirect('tutorFeedbackAll', user_id)
         else:
             form = FeedbacksTutorForm(user)
-            form.save()
             return HttpResponseRedirect('tutorFeedback?submitted=True')
     else:
         form = FeedbacksTutorForm(user)
@@ -528,9 +566,14 @@ def tutorRespostaFeedback(request, user_id, feedback_id):
             ultimo_feedback = get_object_or_404(Feedbacks, fee_id=feedback_id)
 
             Feedbackform.fee_titulo = ultimo_feedback.fee_titulo
+            Feedbackform.fee_emissor = request.user
             Feedbackform.fee_anterior = ultimo_feedback.fee_id
             Feedbackform.fee_acompanhamento = ultimo_feedback.fee_acompanhamento
-
+            if ultimo_feedback.fee_inicial:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_inicial
+            else:
+                Feedbackform.fee_inicial = ultimo_feedback.fee_id
+            Feedbackform.fee_new = True
 
             Feedbackform.save()
             print(Feedbackform.fee_id)
@@ -541,7 +584,6 @@ def tutorRespostaFeedback(request, user_id, feedback_id):
 
         else:
             form = FeedbacksRespostaForm()
-            form.save()
             return HttpResponseRedirect('tutorRespostaFeedback?submitted=True')
     else:
         form = FeedbacksRespostaForm()
@@ -552,3 +594,11 @@ def tutorRespostaFeedback(request, user_id, feedback_id):
     context['submitted'] = submitted
 
     return render(request, 'feedbacks/tutorRespostaFeedback.html', context)
+
+def tutorMarcarComoLido(request, feedback_id):
+    feedback = Feedbacks.objects.filter(fee_id=feedback_id)
+    feedback.fee_new = False
+    feedback.save()
+    user = get_object_or_404(CustomUser, id=request.user.id)
+    messages.success(request, "Feedback marcado como lido!.")
+    return redirect('tutorFeedbackAll', user.id)

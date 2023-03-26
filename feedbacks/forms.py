@@ -9,7 +9,7 @@ class FeedbacksForm(ModelForm):
 
     class Meta:
         model = Feedbacks
-        fields = ('fee_titulo', 'fee_descricao', 'fee_arquivo', 'fee_acompanhamento')
+        fields = ('fee_titulo', 'fee_descricao', 'fee_arquivo')
         labels = {
             'fee_titulo': 'Escolha o tipo de Feedback',
             'fee_descricao': 'Digite a mensagem de feedback.',
@@ -20,7 +20,6 @@ class FeedbacksForm(ModelForm):
             'fee_titulo': forms.Select(attrs={'class':'form-control', 'placeholder': 'Titulo'}),
             'fee_descricao': forms.Textarea(attrs={'class':'form-control', 'rows':5, 'placeholder': 'Descricao'}),
             'fee_arquivo': forms.FileInput(attrs={'class':'form-control'}),
-            'fee_acompanhamento': forms.TextInput(attrs={'type': 'hidden'}),
         }
 class FeedbacksRespostaForm(ModelForm):
 

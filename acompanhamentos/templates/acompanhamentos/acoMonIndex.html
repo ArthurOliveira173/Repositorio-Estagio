@@ -1,7 +1,11 @@
 {% extends 'baseAdmin.html' %}
 
 {%block opcoes%}
-    <a class="btn btn-primary" style="margin-right: 30px" href="/acompanhamentos/adicionarMonitoria" role="button">Iniciar monitoria</a>
+    {% if monitores %}
+        <a class="btn btn-primary" style="margin-right: 30px" href="/acompanhamentos/adicionarMonitoria" role="button">Iniciar monitoria</a>
+    {% else %}
+        <a class="btn btn-secondary disabled" style="margin-right: 30px" href="/acompanhamentos/adicionarMonitoria" role="button">Iniciar monitoria</a>
+    {% endif %}
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
           method="POST" action="{% url 'buscarMonitoria' %}">
         <div class="input-group">

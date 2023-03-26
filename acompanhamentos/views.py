@@ -16,13 +16,17 @@ from membros.models import CustomUser, Interprete, Monitor, Tutor, AlunoPcd
 #ADMIN=========================================================================================
 
 def acoIndex(request):
+    alunos = AlunoPcd.objects.all()
     acompanhamentos = Acompanhamentos.objects.order_by('-aco_id')
     paginator = Paginator(acompanhamentos, 10)
 
     page = request.GET.get('p')
     acompanhamentos = paginator.get_page(page)
+    if not alunos:
+        messages.warning(request,'Acompanhamentos não podem ser iniciados enquanto não existir alunos cadastrados nos sistema.')
     return render(request, 'acompanhamentos/acoIndex.html', {
-        'acompanhamentos': acompanhamentos
+        'acompanhamentos': acompanhamentos,
+        'alunos': alunos
     })
 
 def adicionarAcompanhamento(request):
@@ -84,6 +88,7 @@ def atualizarAcompanhamento(request, acompanhamento_id):
     })
 
 def buscarAcompanhamento(request):
+    alunos = AlunoPcd.objects.all()
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
@@ -93,13 +98,18 @@ def buscarAcompanhamento(request):
         else:
             acompanhamentos = None
 
+        if not alunos:
+            messages.warning(request,'Acompanhamentos não podem ser iniciados enquanto não existir alunos cadastrados nos sistema.')
         return render(request, 'acompanhamentos/buscarAcompanhamento.html', {
             'searched': searched,
-            'acompanhamentos': acompanhamentos
+            'acompanhamentos': acompanhamentos,
+            'alunos': alunos
         })
     else:
+        if not alunos:
+            messages.warning(request,'Acompanhamentos não podem ser iniciados enquanto não existir alunos cadastrados nos sistema.')
         return render(request, 'acompanhamentos/buscarAcompanhamento.html', {
-
+            'alunos': alunos
         })
 
 def deletarAcompanhamento(request, acompanhamento_id):
@@ -176,13 +186,17 @@ def deletarDisciplina(request, disciplina_id):
     return redirect('acoDisIndex')
 
 def acoIntIndex(request):
+    interpretes = Interprete.objects.all()
     interpretacoes = AcompanhamentoInterpretes.objects.order_by('-AsInt_id')
     paginator = Paginator(interpretacoes, 10)
 
     page = request.GET.get('p')
     interpretacoes = paginator.get_page(page)
+    if not interpretes:
+        messages.warning(request,'Interpretações não podem ser iniciadas enquanto não existir intérpretes cadastrados no sistema.')
     return render(request, 'acompanhamentos/acoIntIndex.html', {
-        'interpretacoes': interpretacoes
+        'interpretacoes': interpretacoes,
+        'interpretes': interpretes
     })
 
 def adicionarInterpretacao(request):
@@ -217,6 +231,7 @@ def atualizarInterpretacao(request, interpretacao_id):
     })
 
 def buscarInterpretacao(request):
+    interpretes = Interprete.objects.all()
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
@@ -228,13 +243,18 @@ def buscarInterpretacao(request):
         else:
             interpretacoes = None
 
+        if not interpretes:
+            messages.warning(request,'Interpretações não podem ser iniciadas enquanto não existir intérpretes cadastrados no sistema.')
         return render(request, 'acompanhamentos/buscarInterpretacao.html', {
             'searched': searched,
-            'interpretacoes': interpretacoes
+            'interpretacoes': interpretacoes,
+            'interpretes': interpretes
         })
     else:
+        if not interpretes:
+            messages.warning(request,'Interpretações não podem ser iniciadas enquanto não existir intérpretes cadastrados no sistema.')
         return render(request, 'acompanhamentos/buscarInterpretacao.html', {
-
+            'interpretes': interpretes
         })
 
 def deletarInterpretacao(request, interpretacao_id):
@@ -243,13 +263,17 @@ def deletarInterpretacao(request, interpretacao_id):
     return redirect('acoIntIndex')
 
 def acoMonIndex(request):
+    monitores = Monitor.objects.all()
     monitorias = AcompanhamentoMonitores.objects.order_by('-AsMon_id')
     paginator = Paginator(monitorias, 10)
 
     page = request.GET.get('p')
     monitorias = paginator.get_page(page)
+    if not monitores:
+        messages.warning(request, 'Monitorias não podem ser iniciadas enquanto não existir monitores cadastrados no sistema.')
     return render(request, 'acompanhamentos/acoMonIndex.html', {
-        'monitorias': monitorias
+        'monitorias': monitorias,
+        'monitores': monitores
     })
 
 def adicionarMonitoria(request):
@@ -284,6 +308,7 @@ def atualizarMonitoria(request, monitoria_id):
     })
 
 def buscarMonitoria(request):
+    monitores = Monitor.objects.all()
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
@@ -295,13 +320,18 @@ def buscarMonitoria(request):
         else:
             monitorias = None
 
+        if not monitores:
+            messages.warning(request, 'Monitorias não podem ser iniciadas enquanto não existir monitores cadastrados no sistema.')
         return render(request, 'acompanhamentos/buscarMonitoria.html', {
             'searched': searched,
-            'monitorias': monitorias
+            'monitorias': monitorias,
+            'monitores': monitores
         })
     else:
+        if not monitores:
+            messages.warning(request, 'Monitorias não podem ser iniciadas enquanto não existir monitores cadastrados no sistema.')
         return render(request, 'acompanhamentos/buscarMonitoria.html', {
-
+            'monitores': monitores
         })
 
 def deletarMonitoria(request, monitoria_id):
@@ -310,11 +340,14 @@ def deletarMonitoria(request, monitoria_id):
     return redirect('acoMonIndex')
 
 def acoTutIndex(request):
+    tutores = Tutor.objects.all()
     tutorias = AcompanhamentoTutores.objects.order_by('-AsTut_id')
     paginator = Paginator(tutorias, 10)
 
     page = request.GET.get('p')
     tutorias = paginator.get_page(page)
+    if not tutores:
+        messages.warning(request, 'Tutorias não podem ser iniciadas enquanto não existir tutores cadastrados no sistema.')
     return render(request, 'acompanhamentos/acoTutIndex.html', {
         'tutorias': tutorias
     })
@@ -351,6 +384,7 @@ def atualizarTutoria(request, tutoria_id):
     })
 
 def buscarTutoria(request):
+    tutores = Tutor.objects.all()
     if request.POST:
         searched = request.POST.get('searched')
         if searched:
@@ -362,13 +396,18 @@ def buscarTutoria(request):
         else:
             tutorias = None
 
+        if not tutores:
+            messages.warning(request, 'Tutorias não podem ser iniciadas enquanto não existir tutores cadastrados no sistema.')
         return render(request, 'acompanhamentos/buscarTutoria.html', {
             'searched': searched,
-            'tutorias': tutorias
+            'tutorias': tutorias,
+            'tutores': tutores
         })
     else:
+        if not tutores:
+            messages.warning(request, 'Tutorias não podem ser iniciadas enquanto não existir tutores cadastrados no sistema.')
         return render(request, 'acompanhamentos/buscarTutoria.html', {
-
+            'tutores': tutores
         })
 
 def deletarTutoria(request, tutoria_id):
