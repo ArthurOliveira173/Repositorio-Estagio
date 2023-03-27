@@ -22,6 +22,10 @@
       <br>
       <p>Para deslogar, <a style="color:black;" type="button" class="btn-link" href="{% url 'authLogout' %}">clique aqui!</a></p>
     {% else %}
+      <div align="center">
+        <a class="btn btn-secondary" href="{% url 'authLogin' %}" role="button">Retornar à tela de login</a>
+      </div>
+      <br>
       <H3 align="center">Selecione como deseja se cadastrar</H3>
       <div style="margin-left: 150px; margin-right: 150px">
         <div class="d-flex p-2 justify-content-evenly">

@@ -349,7 +349,8 @@ def acoTutIndex(request):
     if not tutores:
         messages.warning(request, 'Tutorias não podem ser iniciadas enquanto não existir tutores cadastrados no sistema.')
     return render(request, 'acompanhamentos/acoTutIndex.html', {
-        'tutorias': tutorias
+        'tutorias': tutorias,
+        'tutores': tutores
     })
 
 def adicionarTutoria(request):
@@ -389,7 +390,7 @@ def buscarTutoria(request):
         searched = request.POST.get('searched')
         if searched:
             tutorias = AcompanhamentoTutores.objects.order_by('-AsTut_id').filter(
-                Q(AsTut_tutor__icontains=searched) |
+                Q(AsTut_tutor__tut_nome__icontains=searched) |
                 Q(AsTut_acompanhamento__aco_aluno_pcd__alu_nome__icontains=searched) |
                 Q(AsTut_acompanhamento__aco_semestre__icontains=searched)
             )
